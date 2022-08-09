@@ -13,7 +13,7 @@ std::string read_file(const std::string &f_path)
     std::ifstream fin(f_path, std::ifstream::in | std::ifstream::binary);
 
     if (!fin) {
-        throw io_ex("Couldn't read shader source from: " + f_path);
+        throw io_ex("Couldn't read file: " + f_path);
     }
 
     fin.seekg(0, std::ifstream::end);

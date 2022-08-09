@@ -20,6 +20,11 @@ ref<T> new_ref(Args &&... args)
     return std::make_shared<T>(args ...);
 }
 
+/*
+* Read the contents of 'f_path' as a string.
+*/
+std::string read_file(const std::string &f_path);
+
 }
 
 #endif //MB2DC_UTIL_HPP

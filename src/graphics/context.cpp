@@ -1,0 +1,27 @@
+//
+// Created by Garrett on 10/30/2021.
+//
+
+#include <graphics/context.hpp>
+
+#include <GLFW/glfw3.h>
+
+namespace mb2dc {
+
+gl_context::gl_context(void *w)
+{
+    this->native_window_ = new_ref<GLFWwindow *>(reinterpret_cast<GLFWwindow *>(w));
+
+    if (this->native_window_ && this->native_window_.get()) {
+        glfwMakeContextCurrent(*this->native_window_);
+    }
+}
+
+void gl_context::swap_buffers()
+{
+    if (this->native_window_ && this->native_window_.get()) {
+        glfwSwapBuffers(*this->native_window_);
+    }
+}
+
+}

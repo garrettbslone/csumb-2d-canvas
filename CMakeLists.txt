@@ -17,13 +17,20 @@ if (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-set(CORE_SRCS src/core/window.cpp src/core/canvas.cpp src/core/input.cpp)
+set(CORE_SRCS src/core/window.cpp src/core/canvas.cpp src/core/input.cpp src/core/util.cpp)
+set(GRAPHICS_SRCS src/graphics/buffer.cpp
+        src/graphics/framebuffer.cpp
+        src/graphics/context.cpp
+        src/graphics/shader.cpp
+        src/graphics/texture.cpp
+        src/graphics/vertex_array.cpp
+        src/graphics/gl_util.cpp)
 
 add_subdirectory(ext/glfw)
 
-add_library(mb2dc SHARED ${CORE_SRCS})
+add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS})
 
-target_include_directories(mb2dc PUBLIC inc ext ext/glfw/include ext/glm)
+target_include_directories(mb2dc PUBLIC inc ext ext/glfw/include ext/stb_image ext/glm)
 target_link_directories(mb2dc PRIVATE ${CMAKE_SOURCE_DIR}/ext/glfw/src)
 target_link_libraries(mb2dc PRIVATE glfw)
 
