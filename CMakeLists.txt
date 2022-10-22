@@ -1,7 +1,10 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.16)
 project(mb2dc)
 
+set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 set(CMAKE_CXX_STANDARD 14)
+add_compile_definitions(RES_PATH="${CMAKE_SOURCE_DIR}/res/")
 
 find_package(Git QUIET)
 if (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
@@ -25,13 +28,14 @@ set(GRAPHICS_SRCS src/graphics/buffer.cpp
         src/graphics/texture.cpp
         src/graphics/vertex_array.cpp
         src/graphics/gl_util.cpp)
+set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/quad.cpp samples/main.cpp)
 
 add_subdirectory(ext/glfw)
 
-add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS})
+add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS} ${DRAWABLE_SRCS})
 
 target_include_directories(mb2dc PUBLIC inc ext ext/glfw/include ext/stb_image ext/glm)
-target_link_directories(mb2dc PRIVATE ${CMAKE_SOURCE_DIR}/ext/glfw/src)
-target_link_libraries(mb2dc PRIVATE glfw)
+target_link_directories(mb2dc PUBLIC ${CMAKE_SOURCE_DIR}/ext/glfw/src)
+target_link_libraries(mb2dc glfw)
 
 add_subdirectory(samples)
