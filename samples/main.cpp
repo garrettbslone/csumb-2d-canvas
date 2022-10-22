@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
 {
     try {
         auto canvas = new_ref<canvas_t>(window_spec{.maximized_ = true});
-        auto quad = new_ref<quad_t>("red quad", vec4{1.f, .2f, .2f, 1.f});
-        canvas->draw_shape(quad);
+        auto rect = new_ref<rect_t>("red quad", vec4{1.f, .2f, .2f, 1.f});
+        canvas->draw_shape(rect);
         auto circle = new_ref<circle_t>(64);
         circle->translate({0.5f, 0.5f});
         canvas->draw_shape(circle);

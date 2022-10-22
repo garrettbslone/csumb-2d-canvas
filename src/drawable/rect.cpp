@@ -2,50 +2,50 @@
 // Created by Garrett on 12/6/2021.
 //
 
-#include <drawable/quad.hpp>
+#include <drawable/rect.hpp>
 #include <graphics/gl_util.hpp>
 
 namespace mb2dc {
 
-int quad_t::created_ = 0;
-int quad_t::alive_ = 0;
+int rect_t::created_ = 0;
+int rect_t::alive_ = 0;
 
-quad_t::quad_t()
+rect_t::rect_t()
 {
-    this->create("quad_t " + std::to_string(created_), std::vector<glm::vec4>(4, {0.f, 0.f, 0.f, 1.f}));
+    this->create("rect " + std::to_string(created_), std::vector<glm::vec4>(4, {0.f, 0.f, 0.f, 1.f}));
 }
 
-quad_t::quad_t(const std::string &name)
+rect_t::rect_t(const std::string &name)
 {
     this->create(name, std::vector<glm::vec4>(4, {0.f, 0.f, 0.f, 1.f}));
 }
 
-quad_t::quad_t(const glm::vec4 &color)
+rect_t::rect_t(const glm::vec4 &color)
 {
-    this->create("quad_t " + std::to_string(created_), {color, color, color, color});
+    this->create("rect " + std::to_string(created_), {color, color, color, color});
 }
 
-quad_t::quad_t(const std::string &name, const glm::vec4 &color)
+rect_t::rect_t(const std::string &name, const glm::vec4 &color)
 {
     this->create(name, {color, color, color, color});
 }
 
-quad_t::quad_t(const std::vector<glm::vec4> &colors)
+rect_t::rect_t(const std::vector<glm::vec4> &colors)
 {
-    this->create("quad_t " + std::to_string(created_), colors);
+    this->create("rect " + std::to_string(created_), colors);
 }
 
-quad_t::quad_t(const std::string &name, const std::vector<glm::vec4> &colors)
+rect_t::rect_t(const std::string &name, const std::vector<glm::vec4> &colors)
 {
     this->create(name, colors);
 }
 
-quad_t::~quad_t()
+rect_t::~rect_t()
 {
     alive_--;
 }
 
-void quad_t::create(const std::string &name, const std::vector<glm::vec4> &colors)
+void rect_t::create(const std::string &name, const std::vector<glm::vec4> &colors)
 {
     if (colors.size() < 4) {
         throw drawable_ex("There must be one color for each vertex (4). Only "
