@@ -11,37 +11,37 @@
 
 namespace mb2dc {
 
-struct vertex {
+struct vertex_t {
   glm::vec2 position_{};
   glm::vec4 color_{};
   glm::vec2 uv_{};
 
-  vertex(const glm::vec2 &position = glm::vec2(0.f),
-         const glm::vec4 &color = glm::vec4(0.f),
-         const glm::vec2 &uv = glm::vec2(0.f))
+  vertex_t(const glm::vec2 &position = glm::vec2(0.f),
+           const glm::vec4 &color = glm::vec4(0.f),
+           const glm::vec2 &uv = glm::vec2(0.f))
           : position_(position), color_(color), uv_(uv)
   {
   }
 
-  inline bool operator==(const vertex &other) const
+  inline bool operator==(const vertex_t &other) const
   {
       return this->position_ == other.position_ &&
              this->color_ == other.color_ &&
              this->uv_ == other.uv_;
   }
 
-  inline bool operator!=(const vertex &other)
+  inline bool operator!=(const vertex_t &other)
   {
       return this->position_ != other.position_ ||
               this->color_ != other.color_ ||
               this->uv_ != other.uv_;
   }
 
-  static inline std::vector<vertex> from_floats(const std::vector<float> &data)
+  static inline std::vector<vertex_t> from_floats(const std::vector<float> &data)
   {
       assert(data.size() % 8 == 0 && "Data must contain position, color, normal, and uv values for each vertex!");
 
-      std::vector<vertex> vertices;
+      std::vector<vertex_t> vertices;
       vertices.reserve(data.size() / 8);
 
       for (auto i = 0; i <= data.size() - 8; i += 8) {
@@ -55,7 +55,7 @@ struct vertex {
       return vertices;
   }
 
-  static inline std::vector<vertex> from_floats(
+  static inline std::vector<vertex_t> from_floats(
           const std::vector<float> &positions,
           const std::vector<float> &colors,
           const std::vector<float> &uvs
@@ -64,7 +64,7 @@ struct vertex {
       assert(positions.size() / 2 == colors.size() / 4 == uvs.size() / 2
             && "There must be the same number of vertices for each type of data!");
 
-      std::vector<vertex> vertices;
+      std::vector<vertex_t> vertices;
       vertices.reserve(uvs.size() / 2);
 
       for (auto i = 0; i <= positions.size() - 2; i += 2) {
@@ -78,7 +78,7 @@ struct vertex {
       return vertices;
   }
 
-  static inline std::vector<float> to_floats(const std::vector<vertex> &vertices)
+  static inline std::vector<float> to_floats(const std::vector<vertex_t> &vertices)
   {
       std::vector<float> data;
       data.reserve(vertices.size() * 8);

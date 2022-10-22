@@ -7,21 +7,21 @@
 
 namespace mb2dc {
 
-ref<input> input::instance_ = nullptr;
+ref<input_t> input_t::instance_ = nullptr;
 
 static GLFWwindow *g_native_win;
 
-double input::get_mouse_x()
+double input_t::get_mouse_x()
 {
     return get_mouse_pos().second;
 }
 
-double input::get_mouse_y()
+double input_t::get_mouse_y()
 {
     return get_mouse_pos().first;
 }
 
-std::pair<double, double> input::get_mouse_pos()
+std::pair<double, double> input_t::get_mouse_pos()
 {
     double x = 0., y = 0.;
 
@@ -32,17 +32,17 @@ std::pair<double, double> input::get_mouse_pos()
     return {x, y};
 }
 
-ref<input> input::get(void *w)
+ref<input_t> input_t::get(void *w)
 {
     if (w) {
-        input i(w);
-        input::instance_ = new_ref<input>(i);
+        input_t i(w);
+        input_t::instance_ = new_ref<input_t>(i);
     }
 
     return instance_;
 }
 
-input::input(void *w)
+input_t::input_t(void *w)
 {
     if (w) {
         g_native_win = reinterpret_cast<GLFWwindow *>(w);

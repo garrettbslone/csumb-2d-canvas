@@ -9,17 +9,17 @@
 
 namespace mb2dc {
 
-class circle : public drawable {
+class circle_t : public drawable_t {
 public:
-    explicit circle(int vertex_count, int r = 100);
+    explicit circle_t(int vertex_count, int r = 100);
 
-    circle(const std::string &name, int vertex_count, int r = 100);
-    circle(const glm::vec4 &color, int vertex_count, int r = 100);
-    circle(const std::vector<glm::vec4> &colors, int vertex_count, int r = 100);
-    circle(const std::string &name, const glm::vec4 &color, int vertex_count, int r = 100);
-    circle(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r = 100);
+    circle_t(const std::string &name, int vertex_count, int r = 100);
+    circle_t(const glm::vec4 &color, int vertex_count, int r = 100);
+    circle_t(const std::vector<glm::vec4> &colors, int vertex_count, int r = 100);
+    circle_t(const std::string &name, const glm::vec4 &color, int vertex_count, int r = 100);
+    circle_t(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r = 100);
 
-    ~circle();
+    ~circle_t();
 
 private:
     void create(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r);

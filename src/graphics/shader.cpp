@@ -11,92 +11,92 @@
 
 namespace mb2dc {
 
-const std::string gl_shader::DEFAULT_NAME = "default",
-                  gl_shader::DEFAULT_VERT_PATH = std::string() + RES_PATH + "shaders/basic.vs.glsl",
-                  gl_shader::DEFAULT_FRAG_PATH = std::string() + RES_PATH + "shaders/basic.fs.glsl";
+const std::string gl_shader_t::DEFAULT_NAME = "default",
+                  gl_shader_t::DEFAULT_VERT_PATH = std::string() + RES_PATH + "shaders/basic.vs.glsl",
+                  gl_shader_t::DEFAULT_FRAG_PATH = std::string() + RES_PATH + "shaders/basic.fs.glsl";
 
-const std::string gl_shader::defaults[] = {
+const std::string gl_shader_t::defaults[] = {
     DEFAULT_NAME,
     DEFAULT_VERT_PATH,
     DEFAULT_FRAG_PATH
 };
 
-gl_shader::gl_shader(const std::string &name, const std::string &vertex_src, const std::string &fragment_src)
+gl_shader_t::gl_shader_t(const std::string &name, const std::string &vertex_src, const std::string &fragment_src)
 {
     this->name_ = name;
     this->read_glsl_files(vertex_src, fragment_src);
 }
 
-gl_shader::~gl_shader()
+gl_shader_t::~gl_shader_t()
 {
     glDeleteProgram(this->gl_id_);
 }
 
-void gl_shader::bind() const
+void gl_shader_t::bind() const
 {
     glUseProgram(this->gl_id_);
 }
 
-void gl_shader::unbind() const
+void gl_shader_t::unbind() const
 {
     glUseProgram(0);
 }
 
-void gl_shader::set_uniform_int(const std::string &name, int val)
+void gl_shader_t::set_uniform_int(const std::string &name, int val)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform1i(loc, val);
 }
 
-void gl_shader::set_uniform_int_arr(const std::string &name, int *vals, uint32_t cnt)
+void gl_shader_t::set_uniform_int_arr(const std::string &name, int *vals, uint32_t cnt)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform1iv(loc, cnt, vals);
 }
 
-void gl_shader::set_uniform_float(const std::string &name, float val)
+void gl_shader_t::set_uniform_float(const std::string &name, float val)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform1f(loc, val);
 }
 
-void gl_shader::set_uniform_float_arr(const std::string &name, float *vals, uint32_t cnt)
+void gl_shader_t::set_uniform_float_arr(const std::string &name, float *vals, uint32_t cnt)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform1fv(loc, cnt, vals);
 }
 
-void gl_shader::set_uniform_float2(const std::string &name, const glm::vec2 &v)
+void gl_shader_t::set_uniform_float2(const std::string &name, const glm::vec2 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform2f(loc, v.x, v.y);
 }
 
-void gl_shader::set_uniform_float3(const std::string &name, const glm::vec3 &v)
+void gl_shader_t::set_uniform_float3(const std::string &name, const glm::vec3 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform3f(loc, v.x, v.y, v.z);
 }
 
-void gl_shader::set_uniform_float4(const std::string &name, const glm::vec4 &v)
+void gl_shader_t::set_uniform_float4(const std::string &name, const glm::vec4 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniform4f(loc, v.x, v.y, v.z, v.w);
 }
 
-void gl_shader::set_uniform_mat3(const std::string &name, const glm::mat3 &m)
+void gl_shader_t::set_uniform_mat3(const std::string &name, const glm::mat3 &m)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void gl_shader::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
+void gl_shader_t::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
 {
     GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
     glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void gl_shader::read_glsl_files(const std::string &vertex_src_path, const std::string &fragment_src_path)
+void gl_shader_t::read_glsl_files(const std::string &vertex_src_path, const std::string &fragment_src_path)
 {
     auto vertex_src = read_file(vertex_src_path);
     auto fragment_src = read_file(fragment_src_path);
@@ -134,7 +134,7 @@ void gl_shader::read_glsl_files(const std::string &vertex_src_path, const std::s
     glDeleteShader(fragment_shader);
 }
 
-uint32_t gl_shader::compile(uint32_t type, const std::string &src)
+uint32_t gl_shader_t::compile(uint32_t type, const std::string &src)
 {
     GLuint shader = glCreateShader(type);
 

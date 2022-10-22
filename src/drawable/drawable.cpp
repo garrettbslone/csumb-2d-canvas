@@ -8,7 +8,7 @@
 
 namespace mb2dc {
 
-void drawable::draw() const
+void drawable_t::draw() const
 {
     this->va_->bind();
     auto ib = this->va_->get_index_buffer();
@@ -27,22 +27,22 @@ void drawable::draw() const
     }
 }
 
-void drawable::set_z_index(float z)
+void drawable_t::set_z_index(float z)
 {
     this->shader_->set_uniform_float("zIndex", z);
 }
 
-void drawable::translate(const glm::vec2 &v)
+void drawable_t::translate(const glm::vec2 &v)
 {
     this->model_ = glm::translate(this->model_, glm::vec3(v.x, v.y, 0));
 }
 
-void drawable::rotate(float deg, const glm::vec3 &axis)
+void drawable_t::rotate(float deg, const glm::vec3 &axis)
 {
     this->model_ = glm::rotate(this->model_, deg, axis);
 }
 
-void drawable::scale(const glm::vec2 &v)
+void drawable_t::scale(const glm::vec2 &v)
 {
     this->model_ = glm::scale(this->model_, glm::vec3{v.x, v.y, 1.f});
 }

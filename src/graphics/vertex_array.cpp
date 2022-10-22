@@ -8,27 +8,27 @@
 
 namespace mb2dc {
 
-gl_vertex_array::gl_vertex_array()
+gl_vertex_array_t::gl_vertex_array_t()
 {
     glGenVertexArrays(1, &this->gl_id_);
 }
 
-gl_vertex_array::~gl_vertex_array()
+gl_vertex_array_t::~gl_vertex_array_t()
 {
     glDeleteVertexArrays(1, &this->gl_id_);
 }
 
-void gl_vertex_array::bind() const
+void gl_vertex_array_t::bind() const
 {
     glBindVertexArray(this->gl_id_);
 }
 
-void gl_vertex_array::unbind() const
+void gl_vertex_array_t::unbind() const
 {
     glBindVertexArray(0);
 }
 
-void gl_vertex_array::set_vertex_buffer(ref<gl_vertex_buffer> buff)
+void gl_vertex_array_t::set_vertex_buffer(ref<gl_vertex_buffer_t> buff)
 {
     glBindVertexArray(this->gl_id_);
 
@@ -56,7 +56,7 @@ void gl_vertex_array::set_vertex_buffer(ref<gl_vertex_buffer> buff)
     this->vb_ = buff;
 }
 
-void gl_vertex_array::set_index_buffer(ref<gl_index_buffer> buff)
+void gl_vertex_array_t::set_index_buffer(ref<gl_index_buffer_t> buff)
 {
     glBindVertexArray(this->gl_id_);
 

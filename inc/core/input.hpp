@@ -21,10 +21,10 @@ using mouse_move_fn = std::function<void(double, double)>;
 /*
  * A class that handles mouse & keyboard io.
  */
-class input {
+class input_t {
 public:
-    input() = default;
-    virtual ~input() = default;
+    input_t() = default;
+    virtual ~input_t() = default;
 
     static double get_mouse_x();
     static double get_mouse_y();
@@ -36,12 +36,12 @@ public:
     mouse_button_up_fn mouse_btn_up_;
     mouse_move_fn mouse_move_;
 
-    static ref<input> get(void *w);
+    static ref<input_t> get(void *w);
 
 protected:
-    explicit input(void *w);
+    explicit input_t(void *w);
 
-    static ref<input> instance_;
+    static ref<input_t> instance_;
 };
 
 }

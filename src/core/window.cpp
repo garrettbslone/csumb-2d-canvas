@@ -12,10 +12,10 @@
 
 namespace mb2dc {
 
-window::window(const window_spec &spec)
-    : window(spec, {nullptr, nullptr}) {}
+window_t::window_t(const window_spec &spec)
+    : window_t(spec, {nullptr, nullptr}) {}
 
-window::window(const window_spec &spec, const window_data &data)
+window_t::window_t(const window_spec &spec, const window_data &data)
 {
     if (!glfwInit())
         throw viewport_ex("Failed to create window. GLFW init failed");
@@ -41,7 +41,7 @@ window::window(const window_spec &spec, const window_data &data)
     this->create();
 }
 
-window::~window()
+window_t::~window_t()
 {
     glfwDestroyWindow(reinterpret_cast<GLFWwindow *>(*this->native_window_));
     glfwTerminate();
@@ -54,13 +54,13 @@ static void _close_cb()
     glfwSetWindowShouldClose(glfwGetCurrentContext(), GLFW_TRUE);
 }
 
-void window::clear() const
+void window_t::clear() const
 {
     glClearColor(this->clear_clr_.r, this->clear_clr_.g, this->clear_clr_.b, this->clear_clr_.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void window::force_fullscreen()
+void window_t::force_fullscreen()
 {
     this->spec_.fullscreen_ = true;
     this->spec_.maximized_ = false;
@@ -92,7 +92,7 @@ void window::force_fullscreen()
     this->resize_framebuffer();
 }
 
-void window::resize(uint32_t width, uint32_t height)
+void window_t::resize(uint32_t width, uint32_t height)
 {
     this->spec_.width_ = width;
     this->spec_.height_ = height;
@@ -107,17 +107,17 @@ void window::resize(uint32_t width, uint32_t height)
     this->resize_framebuffer();
 }
 
-void window::set_close_cb(close_fn cb)
+void window_t::set_close_cb(close_fn cb)
 {
     this->data_.close_ = std::move(cb);
 }
 
-void window::set_resize_cb(resize_fn cb)
+void window_t::set_resize_cb(resize_fn cb)
 {
     this->data_.resize_ = std::move(cb);
 }
 
-void window::set_title(const std::string& title)
+void window_t::set_title(const std::string& title)
 {
     this->spec_.title_ = title;
 
@@ -125,21 +125,21 @@ void window::set_title(const std::string& title)
             title.c_str());
 }
 
-bool window::update()
+bool window_t::update()
 {
     glfwMakeContextCurrent(*this->native_window_);
     glfwPollEvents();
     return static_cast<bool>(glfwWindowShouldClose(*this->native_window_));
 }
 
-void *window::get_native_window()
+void *window_t::get_native_window()
 {
     return static_cast<void *>(*this->native_window_);
 }
 
 
 
-void window::resize_framebuffer()
+void window_t::resize_framebuffer()
 {
     int w, h;
 
@@ -150,18 +150,18 @@ void window::resize_framebuffer()
 //    this->fb_->resize(w, h);
 }
 
-void window::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height)
+void window_t::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height)
 {
 //    this->fb_->resize(width, height);
 }
 
-void window::window_set_close(GLFWwindow *w) const
+void window_t::window_set_close(GLFWwindow *w) const
 {
     if (this->data_.close_)
         this->data_.close_();
 }
 
-void window::create()
+void window_t::create()
 {
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
@@ -188,9 +188,9 @@ void window::create()
         this->data_.close_ = _close_cb;
     }
 
-    this->data_.input_ = input::get(this->get_native_window());
+    this->data_.input_ = input_t::get(this->get_native_window());
     this->data_.resize_ = nullptr;
-    this->data_.window_ = new_ref<window *>(this);
+    this->data_.window_ = new_ref<window_t *>(this);
 
     auto native_win = reinterpret_cast<GLFWwindow *>(*this->native_window_);
 

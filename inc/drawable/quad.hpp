@@ -9,18 +9,18 @@
 
 namespace mb2dc {
 
-class quad : public drawable {
+class quad_t : public drawable_t {
 public:
-    quad();
+    quad_t();
 
-    explicit quad(const std::string &name);
-    explicit quad(const glm::vec4 &color);
-    explicit quad(const std::vector<glm::vec4> &colors);
+    explicit quad_t(const std::string &name);
+    explicit quad_t(const glm::vec4 &color);
+    explicit quad_t(const std::vector<glm::vec4> &colors);
 
-    quad(const std::string &name, const glm::vec4 &color);
-    quad(const std::string &name, const std::vector<glm::vec4> &colors);
+    quad_t(const std::string &name, const glm::vec4 &color);
+    quad_t(const std::string &name, const std::vector<glm::vec4> &colors);
 
-    ~quad();
+    ~quad_t();
 
 private:
     void create(const std::string &name, const std::vector<glm::vec4> &colors);

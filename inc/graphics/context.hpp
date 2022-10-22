@@ -15,18 +15,17 @@ namespace mb2dc {
 /*
  * An OpenGL defined renderer.
  */
-class gl_context {
+class gl_context_t {
 public:
-    explicit gl_context(void *w);
-    ~gl_context() = default;
+    explicit gl_context_t(void *w);
+    ~gl_context_t() = default;
 
-    gl_context(const gl_context &) = delete;
-    gl_context &operator=(const gl_context &) = delete;
+    gl_context_t(const gl_context_t &) = delete;
+    gl_context_t &operator=(const gl_context_t &) = delete;
 
     void swap_buffers();
 
 private:
-    ::GLFWwindow * w_;
     ref<::GLFWwindow *> native_window_;
 };
 
