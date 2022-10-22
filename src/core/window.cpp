@@ -107,6 +107,11 @@ void window_t::resize(uint32_t width, uint32_t height)
     this->resize_framebuffer();
 }
 
+void window_t::on_resize(resize_fn cb)
+{
+    this->data_.resize_ = cb;
+}
+
 void window_t::set_close_cb(close_fn cb)
 {
     this->data_.close_ = std::move(cb);
@@ -147,12 +152,12 @@ void window_t::resize_framebuffer()
             reinterpret_cast<GLFWwindow *>(*this->native_window_),
             &w,
             &h);
-//    this->fb_->resize(w, h);
+    this->fb_->resize(w, h);
 }
 
 void window_t::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height)
 {
-//    this->fb_->resize(width, height);
+    this->fb_->resize(width, height);
 }
 
 void window_t::window_set_close(GLFWwindow *w) const
@@ -238,10 +243,11 @@ void window_t::create()
 
         auto _input = data.input_.get();
 
-        if ((action == GLFW_PRESS || action == GLFW_REPEAT) && _input->mouse_btn_down_)
+        if ((action == GLFW_PRESS || action == GLFW_REPEAT) && _input->mouse_btn_down_) {
             _input->mouse_btn_down_(btn);
-        else if (action == GLFW_RELEASE && _input->mouse_btn_up_)
+        } else if (action == GLFW_RELEASE && _input->mouse_btn_up_) {
             _input->mouse_btn_up_(btn);
+        }
     });
 
     glfwSetCursorPosCallback(native_win, [](GLFWwindow *w, double x, double y)
@@ -261,7 +267,11 @@ void window_t::create()
 
     glfwSetFramebufferSizeCallback(native_win, [](GLFWwindow *w, int width, int height)
     {
-        glViewport(0, 0, width, height);
+        auto data = (window_data *) glfwGetWindowUserPointer(w);
+
+        if (data && data->window_ && (*data->window_)->fb_) {
+            (*data->window_)->fb_->resize(width, height);
+        }
     });
 
     glfwSetWindowSizeCallback(native_win, [](GLFWwindow *w, int width, int height)
@@ -271,14 +281,13 @@ void window_t::create()
         if (data.resize_) {
             data.resize_(width, height);
         } else if (data.window_) {
-            (*data.window_.get())->resize(width, height);
+            (*data.window_)->resize(width, height);
         }
     });
 
-//    this->fb_ = framebuffer::create(nullptr);
-//    this->fb_->set_clear_color({.66f, .23f, .54f, 1.f});
-//    this->resize_framebuffer();
-
+    this->fb_ = new_ref<gl_framebuffer_t>();
+    this->fb_->clear_clr_ = {1.f, 1.f, 1.f, 1.f};
+    this->resize_framebuffer();
 
     this->clear_clr_ = glm::vec4(0.8f, 0.5f, 0.2f, 1.0f);
 }

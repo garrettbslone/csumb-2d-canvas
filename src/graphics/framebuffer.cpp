@@ -24,12 +24,6 @@ gl_framebuffer_t::~gl_framebuffer_t()
     glDeleteFramebuffers(1, &this->gl_id_);
 }
 
-void gl_framebuffer_t::init()
-{
-    this->reset();
-    this->resize_cb_ = &_framebuffer_resize_cb;
-}
-
 void gl_framebuffer_t::clear()
 {
     glClearColor(this->clear_clr_.r, this->clear_clr_.g, this->clear_clr_.b, this->clear_clr_.a);
@@ -63,7 +57,7 @@ void gl_framebuffer_t::unbind() const
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void gl_framebuffer_t::resize(uint32_t width, uint32_t height)
+void gl_framebuffer_t::resize(uint32_t width, uint32_t height) const
 {
     this->resize_cb_(width, height);
 }
