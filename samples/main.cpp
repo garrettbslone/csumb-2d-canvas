@@ -9,10 +9,10 @@ using namespace mb2dc;
 int main(int argc, char *argv[])
 {
     try {
-        auto can = new_ref<canvas>(window_spec{.maximized_ = true});
-        auto q = new_ref<quad>("red quad", vec4{1.f, .2f, .2f, 1.f});
+        auto can = new_ref<canvas_t>(window_spec{.maximized_ = true});
+        auto q = new_ref<quad_t>("red quad_t", vec4{1.f, .2f, .2f, 1.f});
         can->draw_shape(q);
-        auto cir = new_ref<circle>(64);
+        auto cir = new_ref<circle_t>(64);
         cir->translate({0.5f, 0.5f});
         can->draw_shape(cir);
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
         view_proj = ortho(-w / 2, w / 2, -h / 2, h / 2, -100.f, 100.f);
 
-        can->on_update([&, view_proj](const vector<mb2dc::ref<drawable>> &nodes) {
+        can->on_update([&, view_proj](const vector<mb2dc::ref<drawable_t>> &nodes) {
             for (const auto& n: nodes) {
                 n->shader_->bind();
                 n->shader_->set_uniform_mat4("MVP", n->get_model_mat() * view_proj);

@@ -11,7 +11,7 @@
 
 namespace mb2dc {
 
-gl_texture::gl_texture(uint32_t width, uint32_t height)
+gl_texture_t::gl_texture_t(uint32_t width, uint32_t height)
 {
     this->width_ = width;
     this->height_ = height;
@@ -29,7 +29,7 @@ gl_texture::gl_texture(uint32_t width, uint32_t height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 }
 
-gl_texture::gl_texture(const std::string &path)
+gl_texture_t::gl_texture_t(const std::string &path)
 {
     this->width_ = -1;
     this->height_ = -1;
@@ -75,12 +75,12 @@ gl_texture::gl_texture(const std::string &path)
     stbi_image_free(data);
 }
 
-gl_texture::~gl_texture()
+gl_texture_t::~gl_texture_t()
 {
     glDeleteTextures(1, &this->gl_id_);
 }
 
-void gl_texture::set_data(void *data, uint32_t size)
+void gl_texture_t::set_data(void *data, uint32_t size)
 {
     glTexImage2D(GL_TEXTURE_2D,
                  0,
@@ -93,29 +93,29 @@ void gl_texture::set_data(void *data, uint32_t size)
                  data);
 }
 
-void gl_texture::bind(uint32_t slot) const
+void gl_texture_t::bind(uint32_t slot) const
 {
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, this->gl_id_);
 }
 
-void gl_texture::unbind(uint32_t slot) const
+void gl_texture_t::unbind(uint32_t slot) const
 {
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void gl_texture::bind() const
+void gl_texture_t::bind() const
 {
 
 }
 
-void gl_texture::unbind() const
+void gl_texture_t::unbind() const
 {
 
 }
 
-bool gl_texture::is_slot_active(uint32_t slot)
+bool gl_texture_t::is_slot_active(uint32_t slot)
 {
     // there are only 32 possible texture slots [0, 31]
     if (slot > 31) {
@@ -125,7 +125,7 @@ bool gl_texture::is_slot_active(uint32_t slot)
     return ((this->active_slots_ >> slot) & 1) == 1;
 }
 
-bool gl_texture::set_slot_active(uint32_t slot)
+bool gl_texture_t::set_slot_active(uint32_t slot)
 {
     // slot is already in use
     if (((this->active_slots_ >> slot) & 1) == 1) {
@@ -136,9 +136,9 @@ bool gl_texture::set_slot_active(uint32_t slot)
     return true;
 }
 
-bool gl_texture::operator==(const gl_texture &other) const
+bool gl_texture_t::operator==(const gl_texture_t &other) const
 {
-    return this->gl_id_ == ((gl_texture &) other).gl_id_;
+    return this->gl_id_ == ((gl_texture_t &) other).gl_id_;
 }
 
 }

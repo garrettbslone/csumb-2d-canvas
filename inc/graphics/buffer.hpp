@@ -13,30 +13,30 @@ namespace mb2dc {
 /*
  * An OpenGL defined vertex_buffer.
  */
-class gl_vertex_buffer : public gl_object {
+class gl_vertex_buffer_t : public gl_object_t {
 public:
-    explicit gl_vertex_buffer(const std::vector<vertex> &vertices);
-    ~gl_vertex_buffer() override;
+    explicit gl_vertex_buffer_t(const std::vector<vertex_t> &vertices);
+    ~gl_vertex_buffer_t() override;
 
     void bind() const override;
     void unbind() const override;
 
-    inline std::vector<vertex> &get_data() { return this->vertices_; }
+    inline std::vector<vertex_t> &get_data() { return this->vertices_; }
     inline unsigned int get_data_size() const { return this->vertices_.size(); }
 
     void write_data(void *vertices, uint64_t size, uint64_t offset);
 
 private:
-    std::vector<vertex> vertices_;
+    std::vector<vertex_t> vertices_;
 };
 
 /*
  * An OpenGL defined index_buffer.
  */
-class gl_index_buffer : public gl_object {
+class gl_index_buffer_t : public gl_object_t {
 public:
-    explicit gl_index_buffer(const std::vector<uint32_t> &indices);
-    ~gl_index_buffer() override;
+    explicit gl_index_buffer_t(const std::vector<uint32_t> &indices);
+    ~gl_index_buffer_t() override;
 
     void bind() const override;
     void unbind() const override;

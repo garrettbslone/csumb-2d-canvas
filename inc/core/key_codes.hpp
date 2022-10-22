@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-namespace glw {
+namespace mb2dc {
 
 typedef enum class key_code : uint16_t {
   // From glfw3.h

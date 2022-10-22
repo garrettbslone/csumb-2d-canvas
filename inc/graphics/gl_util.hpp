@@ -9,9 +9,9 @@
 
 namespace mb2dc {
 
-class gl_object {
+class gl_object_t {
 public:
-    virtual ~gl_object() = default;
+    virtual ~gl_object_t() = default;
 
     virtual void bind() const = 0;
     virtual void unbind() const = 0;

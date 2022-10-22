@@ -8,7 +8,7 @@
 
 namespace mb2dc {
 
-gl_context::gl_context(void *w)
+gl_context_t::gl_context_t(void *w)
 {
     this->native_window_ = new_ref<GLFWwindow *>(reinterpret_cast<GLFWwindow *>(w));
 
@@ -17,7 +17,7 @@ gl_context::gl_context(void *w)
     }
 }
 
-void gl_context::swap_buffers()
+void gl_context_t::swap_buffers()
 {
     if (this->native_window_ && this->native_window_.get()) {
         glfwSwapBuffers(*this->native_window_);

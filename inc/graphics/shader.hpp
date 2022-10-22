@@ -14,10 +14,10 @@
 
 namespace mb2dc {
 
-class gl_shader : public gl_object {
+class gl_shader_t : public gl_object_t {
 public:
-    gl_shader(const std::string &name, const std::string &vertex_src, const std::string &fragment_src);
-    ~gl_shader() override;
+    gl_shader_t(const std::string &name, const std::string &vertex_src, const std::string &fragment_src);
+    ~gl_shader_t() override;
 
     void bind() const override;
     void unbind() const override;

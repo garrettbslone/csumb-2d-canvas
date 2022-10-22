@@ -8,10 +8,10 @@
 
 namespace mb2dc {
 
-gl_vertex_buffer::gl_vertex_buffer(const std::vector<vertex> &vertices)
+gl_vertex_buffer_t::gl_vertex_buffer_t(const std::vector<vertex_t> &vertices)
 {
 
-    auto data = vertex::to_floats(vertices);
+    auto data = vertex_t::to_floats(vertices);
 
     glGenBuffers(1, &this->gl_id_);
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id_);
@@ -25,22 +25,22 @@ gl_vertex_buffer::gl_vertex_buffer(const std::vector<vertex> &vertices)
     this->vertices_ = vertices;
 }
 
-gl_vertex_buffer::~gl_vertex_buffer()
+gl_vertex_buffer_t::~gl_vertex_buffer_t()
 {
     glDeleteBuffers(GL_ARRAY_BUFFER, &this->gl_id_);
 }
 
-void gl_vertex_buffer::bind() const
+void gl_vertex_buffer_t::bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id_);
 }
 
-void gl_vertex_buffer::unbind() const
+void gl_vertex_buffer_t::unbind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void gl_vertex_buffer::write_data(void *vertices, uint64_t size, uint64_t offset)
+void gl_vertex_buffer_t::write_data(void *vertices, uint64_t size, uint64_t offset)
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id_);
     glBufferData(
@@ -53,14 +53,14 @@ void gl_vertex_buffer::write_data(void *vertices, uint64_t size, uint64_t offset
     this->vertices_.clear();
     this->vertices_.reserve(size);
 
-    auto v = static_cast<vertex *>(vertices);
+    auto v = static_cast<vertex_t *>(vertices);
 
     for (auto i = 0; i < size; i++) {
         this->vertices_.push_back(v[i]);
     }
 }
 
-gl_index_buffer::gl_index_buffer(const std::vector<uint32_t> &indices)
+gl_index_buffer_t::gl_index_buffer_t(const std::vector<uint32_t> &indices)
 {
     glGenBuffers(1, &this->gl_id_);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->gl_id_);
@@ -74,23 +74,23 @@ gl_index_buffer::gl_index_buffer(const std::vector<uint32_t> &indices)
     this->indices_ = indices;
 }
 
-gl_index_buffer::~gl_index_buffer()
+gl_index_buffer_t::~gl_index_buffer_t()
 {
     glDeleteBuffers(1, &this->gl_id_);
 }
 
-void gl_index_buffer::bind() const
+void gl_index_buffer_t::bind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->gl_id_);
 }
 
-void gl_index_buffer::unbind() const
+void gl_index_buffer_t::unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
-void gl_index_buffer::write_data(void *indices, uint64_t size, uint64_t offset)
+void gl_index_buffer_t::write_data(void *indices, uint64_t size, uint64_t offset)
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->gl_id_);
     glBufferData(

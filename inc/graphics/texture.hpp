@@ -11,11 +11,11 @@
 
 namespace mb2dc {
 
-class gl_texture : public gl_object {
+class gl_texture_t : public gl_object_t {
 public:
-    gl_texture(uint32_t width, uint32_t height);
-    explicit gl_texture(const std::string &path);
-    ~gl_texture() override;
+    gl_texture_t(uint32_t width, uint32_t height);
+    explicit gl_texture_t(const std::string &path);
+    ~gl_texture_t() override;
 
     void set_data(void *data, uint32_t size);
 
@@ -34,7 +34,7 @@ public:
     bool set_slot_active(uint32_t slot);
     inline uint32_t get_active_slots() const { return this->active_slots_; }
 
-    bool operator==(const gl_texture &other) const;
+    bool operator==(const gl_texture_t &other) const;
 
 private:
     /*

@@ -12,9 +12,9 @@
 
 namespace mb2dc {
 
-class drawable {
+class drawable_t {
 public:
-    virtual ~drawable() = default;
+    virtual ~drawable_t() = default;
 
     void draw() const;
     void translate(const glm::vec2 &v);
@@ -26,11 +26,11 @@ public:
     inline glm::mat4 get_model_mat() { return this->model_; }
 
     topology topo_;
-    ref<gl_shader> shader_;
-    ref<gl_texture> texture_;
-    ref<gl_index_buffer> ib_;
-    ref<gl_vertex_buffer> vb_;
-    ref<gl_vertex_array> va_;
+    ref<gl_shader_t> shader_;
+    ref<gl_texture_t> texture_;
+    ref<gl_index_buffer_t> ib_;
+    ref<gl_vertex_buffer_t> vb_;
+    ref<gl_vertex_array_t> va_;
     std::string name_;
 
 protected:

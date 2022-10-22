@@ -11,39 +11,39 @@
 
 namespace mb2dc {
 
-using update_fn = std::function<void(const std::vector<ref<drawable>> &)>;
+using update_fn = std::function<void(const std::vector<ref<drawable_t>> &)>;
 
-class canvas {
+class canvas_t {
 public:
-    explicit canvas(const window_spec &spec);
-    ~canvas();
+    explicit canvas_t(const window_spec &spec);
+    ~canvas_t();
 
     /*
      * Avoid dangling pointer's by making apps non copyable.
      */
-    canvas(const canvas &) = delete;
-    canvas &operator=(const canvas &) = delete;
+    canvas_t(const canvas_t &) = delete;
+    canvas_t &operator=(const canvas_t &) = delete;
 
     void run();
     void close();
     void on_update(update_fn cb);
 
-    void draw_shape(ref<drawable> shape);
-    void draw_shape_at(ref<drawable> shape, int x, int y);
+    void draw_shape(ref<drawable_t> shape);
+    void draw_shape_at(ref<drawable_t> shape, int x, int y);
 
-    inline static canvas &get() { return *canvas::instance_; }
+    inline static canvas_t &get() { return *canvas_t::instance_; }
 
-    ref<window> window_;
+    ref<window_t> window_;
     glm::mat4 proj_, view_;
 
 private:
     update_fn update_;
-    ref<input> input_;
-    ref<gl_context> gl_ctx_;
+    ref<input_t> input_;
+    ref<gl_context_t> gl_ctx_;
     bool running_, minimized_;
-    std::vector<ref<drawable>> nodes_;
+    std::vector<ref<drawable_t>> nodes_;
 
-    static canvas *instance_;
+    static canvas_t *instance_;
 };
 
 }

@@ -13,27 +13,27 @@ namespace mb2dc {
 /*
  * An OpenGL defined vertex_array.
  */
-class gl_vertex_array : public gl_object {
+class gl_vertex_array_t : public gl_object_t {
 public:
-    explicit gl_vertex_array();
-    ~gl_vertex_array() override;
+    explicit gl_vertex_array_t();
+    ~gl_vertex_array_t() override;
 
     void bind() const override;
     void unbind() const override;
 
-    void set_vertex_buffer(ref<gl_vertex_buffer> buff);
-    void set_index_buffer(ref<gl_index_buffer> buff);
+    void set_vertex_buffer(ref<gl_vertex_buffer_t> buff);
+    void set_index_buffer(ref<gl_index_buffer_t> buff);
 
-    inline ref<gl_vertex_buffer> get_vertex_buffers() const { return this->vb_; }
-    inline ref<gl_index_buffer> get_index_buffer() const { return this->ib_; }
+    inline ref<gl_vertex_buffer_t> get_vertex_buffers() const { return this->vb_; }
+    inline ref<gl_index_buffer_t> get_index_buffer() const { return this->ib_; }
 
 private:
     /*
      * v_buff_index_: the index of the next attribute to be bound.
      */
     uint32_t v_buff_index_ = 0, offset_ = 0;
-    ref<gl_vertex_buffer> vb_{};
-    ref<gl_index_buffer> ib_{};
+    ref<gl_vertex_buffer_t> vb_{};
+    ref<gl_index_buffer_t> ib_{};
 };
 
 }

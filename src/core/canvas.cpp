@@ -10,22 +10,22 @@
 
 namespace mb2dc {
 
-canvas *canvas::instance_ = nullptr;
+canvas_t *canvas_t::instance_ = nullptr;
 
-canvas::canvas(const window_spec &spec)
+canvas_t::canvas_t(const window_spec &spec)
 {
     if (instance_)
         throw canvas_ex("app already exists!");
 
     instance_ = this;
 
-    this->window_ = new_ref<window>(spec, window_data {
+    this->window_ = new_ref<window_t>(spec, window_data {
             nullptr, nullptr, nullptr
     });
     this->running_ = true;
     this->minimized_ = false;
 
-    this->gl_ctx_ = new_ref<gl_context>(this->window_->get_native_window());
+    this->gl_ctx_ = new_ref<gl_context_t>(this->window_->get_native_window());
 
 //    double w = this->spec_.width_ / 2, h  = this->spec_.height_ / 2;
 //    this->proj_ = glm::ortho(-w, w, -h, h, 0.1, 1000.);
@@ -33,9 +33,9 @@ canvas::canvas(const window_spec &spec)
     this->view_ = glm::mat4(1.f);
 }
 
-canvas::~canvas() = default;
+canvas_t::~canvas_t() = default;
 
-void canvas::run()
+void canvas_t::run()
 {
     while (this->running_) {
         this->window_->clear();
@@ -54,22 +54,22 @@ void canvas::run()
     }
 }
 
-void canvas::on_update(update_fn cb)
+void canvas_t::on_update(update_fn cb)
 {
     this->update_ = cb;
 }
 
-void canvas::close()
+void canvas_t::close()
 {
     this->running_ = false;
 }
 
-void canvas::draw_shape(ref<drawable> shape)
+void canvas_t::draw_shape(ref<drawable_t> shape)
 {
     this->nodes_.push_back(shape);
 }
 
-void canvas::draw_shape_at(ref<drawable> shape, int x, int y)
+void canvas_t::draw_shape_at(ref<drawable_t> shape, int x, int y)
 {
     this->nodes_.push_back(shape);
 }

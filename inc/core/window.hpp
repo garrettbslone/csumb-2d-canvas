@@ -15,8 +15,8 @@
 
 namespace mb2dc {
 
-class window;
-class input;
+class window_t;
+class input_t;
 
 struct window_spec {
     std::string title_{"glw app"};
@@ -32,8 +32,8 @@ using close_fn = std::function<void(void)>;
 using resize_fn = std::function<void(int, int)>;
 
 struct window_data {
-    ref<window *> window_;
-    ref<input> input_;
+    ref<window_t *> window_;
+    ref<input_t> input_;
     close_fn close_;
     resize_fn resize_;
 };
@@ -42,17 +42,17 @@ struct window_data {
  * An object that encapsulates a window to be displayed on the screen as well
  * as a graphics api context to render to.
  */
-class window {
+class window_t {
 public:
-    explicit window(const window_spec &spec);
-    window(const window_spec &spec, const window_data &data);
-    ~window();
+    explicit window_t(const window_spec &spec);
+    window_t(const window_spec &spec, const window_data &data);
+    ~window_t();
 
     /*
      * Avoid dangling pointer's by making windows non copyable.
      */
-    window(const window &) = delete;
-    window &operator=(const window &) = delete;
+    window_t(const window_t &) = delete;
+    window_t &operator=(const window_t &) = delete;
 
     /*
      * Clear the screen through the rendering context.

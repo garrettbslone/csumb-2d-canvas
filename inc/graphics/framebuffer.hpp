@@ -16,10 +16,10 @@ namespace mb2dc {
 
 using framebuffer_resize_fn = std::function<void(int, int)>;
 
-class gl_framebuffer : public gl_object {
+class gl_framebuffer_t : public gl_object_t {
 public:
-    gl_framebuffer();
-    ~gl_framebuffer() override;
+    gl_framebuffer_t();
+    ~gl_framebuffer_t() override;
 
     void init();
     void clear();
