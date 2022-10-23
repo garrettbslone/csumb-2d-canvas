@@ -20,7 +20,7 @@ if (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-set(CORE_SRCS src/core/window.cpp src/core/canvas.cpp src/core/input.cpp src/core/util.cpp)
+set(CORE_SRCS src/core/window.cpp src/core/canvas.cpp src/core/input.cpp src/core/util.cpp src/core/draw_queue.cpp inc/core/draw_queue.h)
 set(GRAPHICS_SRCS src/graphics/buffer.cpp
         src/graphics/framebuffer.cpp
         src/graphics/context.cpp

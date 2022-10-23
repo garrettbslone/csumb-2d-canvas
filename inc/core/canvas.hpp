@@ -5,7 +5,7 @@
 #ifndef MB2DC_CANVAS_HPP
 #define MB2DC_CANVAS_HPP
 
-#include "drawable/drawable.hpp"
+#include "draw_queue.h"
 #include "graphics/context.hpp"
 #include "window.hpp"
 
@@ -41,7 +41,7 @@ private:
     ref<input_t> input_;
     ref<gl_context_t> gl_ctx_;
     bool running_, minimized_;
-    std::vector<ref<drawable_t>> nodes_;
+    draw_queue_t queue_;
 
     static canvas_t *instance_;
 };

@@ -45,7 +45,7 @@ void canvas_t::run()
         }
 
         if (this->update_) {
-            this->update_(this->nodes_);
+            this->update_(this->queue_.get());
         }
 
         if (this->gl_ctx_) {
@@ -66,12 +66,12 @@ void canvas_t::close()
 
 void canvas_t::draw_shape(ref<drawable_t> shape)
 {
-    this->nodes_.push_back(shape);
+    this->queue_.enqueue(shape);
 }
 
 void canvas_t::draw_shape_at(ref<drawable_t> shape, int x, int y)
 {
-    this->nodes_.push_back(shape);
+    this->queue_.enqueue(shape);
 }
 
 }
