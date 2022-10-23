@@ -157,6 +157,7 @@ int gl_texture_t::find_next_slot()
 {
     for (int i = 0; i < MAX_TEXTURE_SLOTS; i++) {
         if (!is_slot_active(i)) {
+            set_slot_active(i);
             return i;
         }
     }

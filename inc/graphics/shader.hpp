@@ -41,6 +41,8 @@ public:
 
     static const std::string defaults[3];
 
+    static ref<gl_shader_t> get_default();
+
 private:
     /*
      * Reads two glsl shaders and compiles them into a shader program.
@@ -57,6 +59,8 @@ private:
      * name_: a name for the shader program.
      */
     std::string name_;
+
+    static ref<gl_shader_t> default_instance_;
 };
 
 }

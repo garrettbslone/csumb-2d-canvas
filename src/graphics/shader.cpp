@@ -21,6 +21,17 @@ const std::string gl_shader_t::defaults[] = {
     DEFAULT_FRAG_PATH
 };
 
+ref<gl_shader_t> gl_shader_t::default_instance_ = nullptr;
+
+ref<gl_shader_t> gl_shader_t::get_default()
+{
+    if (!default_instance_) {
+        default_instance_ = new_ref<gl_shader_t>(defaults[0], defaults[1], defaults[2]);
+    }
+
+    return default_instance_;
+}
+
 gl_shader_t::gl_shader_t(const std::string &name, const std::string &vertex_src, const std::string &fragment_src)
 {
     this->name_ = name;

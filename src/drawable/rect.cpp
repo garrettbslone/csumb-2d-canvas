@@ -91,9 +91,8 @@ void rect_t::create(const std::string &name, const std::vector<glm::vec4> &color
 
     this->topo_ = TRIANGLES;
     this->model_ = glm::mat4(1.f);
+    this->shader_ = gl_shader_t::get_default();
 
-    auto &defs = gl_shader_t::defaults;
-    this->shader_ = new_ref<gl_shader_t>(defs[0], defs[1], defs[2]);
     this->name_ = name;
 }
 

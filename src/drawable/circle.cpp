@@ -97,9 +97,7 @@ void circle_t::create(const std::string &name, const std::vector<glm::vec4> &col
 
     this->topo_ = TRIANGLE_FAN;
     this->model_ = glm::mat4(1.f);
-
-    auto &defs = gl_shader_t::defaults;
-    this->shader_ = new_ref<gl_shader_t>(defs[0], defs[1], defs[2]);
+    this->shader_ = gl_shader_t::get_default();
 
     this->name_ = name;
 }
