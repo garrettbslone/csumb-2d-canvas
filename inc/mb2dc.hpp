@@ -14,7 +14,7 @@
 
 #include "drawable/circle.hpp"
 #include "drawable/drawable.hpp"
-#include "drawable/quad.hpp"
+#include "drawable/rect.hpp"
 #include "drawable/vertex.hpp"
 
 #include "graphics/buffer.hpp"

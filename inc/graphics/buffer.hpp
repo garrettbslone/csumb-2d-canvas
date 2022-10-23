@@ -18,7 +18,7 @@ public:
     explicit gl_vertex_buffer_t(const std::vector<vertex_t> &vertices);
     ~gl_vertex_buffer_t() override;
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
     inline std::vector<vertex_t> &get_data() { return this->vertices_; }
@@ -38,7 +38,7 @@ public:
     explicit gl_index_buffer_t(const std::vector<uint32_t> &indices);
     ~gl_index_buffer_t() override;
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
     void write_data(void *indices, uint64_t size, uint64_t offset);

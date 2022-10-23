@@ -19,7 +19,7 @@ public:
     gl_shader_t(const std::string &name, const std::string &vertex_src, const std::string &fragment_src);
     ~gl_shader_t() override;
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
     /*
@@ -40,7 +40,6 @@ public:
                              DEFAULT_FRAG_PATH;
 
     static const std::string defaults[3];
-
 
 private:
     /*

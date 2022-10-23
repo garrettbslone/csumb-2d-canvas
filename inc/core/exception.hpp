@@ -25,21 +25,15 @@ public:
             : mb2dc_runtime_ex(msg) {}
 };
 
-class div_by_zero_ex : public mb2dc_runtime_ex {
-public:
-    explicit div_by_zero_ex(const std::string &msg)
-            : mb2dc_runtime_ex(msg) {}
-};
-
 class io_ex : public mb2dc_runtime_ex {
 public:
     explicit io_ex(const std::string &msg)
             : mb2dc_runtime_ex(msg) {}
 };
 
-class component_ex : public mb2dc_runtime_ex {
+class texture_ex : public mb2dc_runtime_ex {
 public:
-    explicit component_ex(const std::string &msg)
+    explicit texture_ex(const std::string &msg)
             : mb2dc_runtime_ex(msg) {}
 };
 

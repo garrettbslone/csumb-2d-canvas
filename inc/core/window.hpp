@@ -7,9 +7,10 @@
 
 #include "input.hpp"
 
+#include <graphics/framebuffer.hpp>
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 
 #include <string>
 
@@ -68,6 +69,8 @@ public:
      * effect.
      */
     void resize(uint32_t width, uint32_t height);
+    void on_resize(resize_fn cb);
+
     void set_close_cb(close_fn cb);
     void set_resize_cb(resize_fn cb);
     /*
@@ -117,6 +120,7 @@ private:
 
     ref<GLFWwindow *> native_window_;
     ref<GLFWmonitor *> monitor_;
+    ref<gl_framebuffer_t> fb_;
 };
 
 }

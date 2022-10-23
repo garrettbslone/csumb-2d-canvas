@@ -12,8 +12,8 @@
 namespace mb2dc {
 
 const std::string gl_shader_t::DEFAULT_NAME = "default",
-                  gl_shader_t::DEFAULT_VERT_PATH = std::string() + RES_PATH + "shaders/basic.vs.glsl",
-                  gl_shader_t::DEFAULT_FRAG_PATH = std::string() + RES_PATH + "shaders/basic.fs.glsl";
+                  gl_shader_t::DEFAULT_VERT_PATH = std::string() + RES_PATH + "shaders/flat.vs.glsl",
+                  gl_shader_t::DEFAULT_FRAG_PATH = std::string() + RES_PATH + "shaders/flat.fs.glsl";
 
 const std::string gl_shader_t::defaults[] = {
     DEFAULT_NAME,
@@ -32,7 +32,7 @@ gl_shader_t::~gl_shader_t()
     glDeleteProgram(this->gl_id_);
 }
 
-void gl_shader_t::bind() const
+void gl_shader_t::bind()
 {
     glUseProgram(this->gl_id_);
 }

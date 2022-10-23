@@ -12,7 +12,7 @@ int circle_t::alive_ = 0;
 
 circle_t::circle_t(int vertex_count, int r)
 {
-    this->create("circle_t " + std::to_string(created_),
+    this->create("circle " + std::to_string(created_),
                  std::vector<glm::vec4>(vertex_count, {1.f, 1.f, 1.f, 1.f}),
                  vertex_count,
                  r);
@@ -28,7 +28,7 @@ circle_t::circle_t(const std::string &name, int vertex_count, int r)
 
 circle_t::circle_t(const glm::vec4 &color, int vertex_count, int r)
 {
-    this->create("circle_t " + std::to_string(created_),
+    this->create("circle " + std::to_string(created_),
                  std::vector<glm::vec4>(vertex_count, color),
                  vertex_count,
                  r);
@@ -36,7 +36,7 @@ circle_t::circle_t(const glm::vec4 &color, int vertex_count, int r)
 
 circle_t::circle_t(const std::vector<glm::vec4> &colors, int vertex_count, int r)
 {
-    this->create("circle_t " + std::to_string(created_),
+    this->create("circle " + std::to_string(created_),
                  colors,
                  vertex_count,
                  r);
@@ -79,10 +79,12 @@ void circle_t::create(const std::string &name, const std::vector<glm::vec4> &col
 
     for (auto i = 0; i < vertex_count; i++) {
         double rads = i * slice;
+
+        double x = r * glm::cos(rads), y = r * glm::sin(rads);
         vertex_t v = {
-                glm::vec2(r * glm::cos(rads), r * glm::sin(rads)),
+                glm::vec2(x, y),
                 glm::vec4(1.f, 1.f, 1.f, 1.f),
-                glm::vec2(0.f, 0.f)
+                glm::vec2((x / r + 1) * 0.5, (y / r + 1) * 0.5)
         };
         verts.push_back(v);
     }

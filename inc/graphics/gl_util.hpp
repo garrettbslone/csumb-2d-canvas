@@ -13,7 +13,7 @@ class gl_object_t {
 public:
     virtual ~gl_object_t() = default;
 
-    virtual void bind() const = 0;
+    virtual void bind() = 0;
     virtual void unbind() const = 0;
 
     virtual uint32_t id() const final { return this->gl_id_; }

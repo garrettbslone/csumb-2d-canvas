@@ -28,7 +28,7 @@ set(GRAPHICS_SRCS src/graphics/buffer.cpp
         src/graphics/texture.cpp
         src/graphics/vertex_array.cpp
         src/graphics/gl_util.cpp)
-set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/quad.cpp samples/main.cpp)
+set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/rect.cpp samples/main.cpp)
 
 add_subdirectory(ext/glfw)
 

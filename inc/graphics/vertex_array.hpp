@@ -18,7 +18,7 @@ public:
     explicit gl_vertex_array_t();
     ~gl_vertex_array_t() override;
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
     void set_vertex_buffer(ref<gl_vertex_buffer_t> buff);

@@ -21,15 +21,14 @@ public:
     gl_framebuffer_t();
     ~gl_framebuffer_t() override;
 
-    void init();
     void clear();
     void destroy();
     void reset();
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
-    void resize(uint32_t width, uint32_t height);
+    void resize(uint32_t width, uint32_t height) const;
 
     inline uint32_t get_width() const { return this->width_; }
     inline uint32_t get_height() const { return this->height_; }
