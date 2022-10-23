@@ -25,6 +25,7 @@ public:
     inline void reset_transformations() { this->model_ = glm::mat4(1.f); }
     inline glm::mat4 get_model_mat() { return this->model_; }
 
+    float z_index_{0};
     topology topo_;
     ref<gl_shader_t> shader_;
     ref<gl_texture_t> texture_;
