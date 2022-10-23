@@ -30,7 +30,7 @@ gl_vertex_buffer_t::~gl_vertex_buffer_t()
     glDeleteBuffers(GL_ARRAY_BUFFER, &this->gl_id_);
 }
 
-void gl_vertex_buffer_t::bind() const
+void gl_vertex_buffer_t::bind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id_);
 }
@@ -79,7 +79,7 @@ gl_index_buffer_t::~gl_index_buffer_t()
     glDeleteBuffers(1, &this->gl_id_);
 }
 
-void gl_index_buffer_t::bind() const
+void gl_index_buffer_t::bind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->gl_id_);
 }

@@ -46,7 +46,7 @@ void gl_framebuffer_t::reset()
     glGenFramebuffers(1, &this->gl_id_);
 }
 
-void gl_framebuffer_t::bind() const
+void gl_framebuffer_t::bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, this->gl_id_);
     this->resize_cb_(this->width_, this->height_);

@@ -18,7 +18,7 @@ gl_vertex_array_t::~gl_vertex_array_t()
     glDeleteVertexArrays(1, &this->gl_id_);
 }
 
-void gl_vertex_array_t::bind() const
+void gl_vertex_array_t::bind()
 {
     glBindVertexArray(this->gl_id_);
 }

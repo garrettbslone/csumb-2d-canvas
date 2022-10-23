@@ -25,7 +25,7 @@ public:
     void destroy();
     void reset();
 
-    void bind() const override;
+    void bind() override;
     void unbind() const override;
 
     void resize(uint32_t width, uint32_t height) const;

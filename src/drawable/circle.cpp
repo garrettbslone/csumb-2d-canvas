@@ -79,10 +79,12 @@ void circle_t::create(const std::string &name, const std::vector<glm::vec4> &col
 
     for (auto i = 0; i < vertex_count; i++) {
         double rads = i * slice;
+
+        double x = r * glm::cos(rads), y = r * glm::sin(rads);
         vertex_t v = {
-                glm::vec2(r * glm::cos(rads), r * glm::sin(rads)),
+                glm::vec2(x, y),
                 glm::vec4(1.f, 1.f, 1.f, 1.f),
-                glm::vec2(0.f, 0.f)
+                glm::vec2((x / r + 1) * 0.5, (y / r + 1) * 0.5)
         };
         verts.push_back(v);
     }

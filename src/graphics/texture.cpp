@@ -11,6 +11,8 @@
 
 namespace mb2dc {
 
+uint32_t gl_texture_t::active_slots_ = 0;
+
 gl_texture_t::gl_texture_t(uint32_t width, uint32_t height)
 {
     this->width_ = width;
@@ -105,35 +107,61 @@ void gl_texture_t::unbind(uint32_t slot) const
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void gl_texture_t::bind() const
+void gl_texture_t::bind()
 {
+    if (this->slot_ >= MAX_TEXTURE_SLOTS) {
+        int slot = find_next_slot();
 
+        if (slot < 0) {
+            throw texture_ex("Cannot bind to slot " + std::to_string(slot) +
+                            "! Must be between 0 and " + std::to_string(MAX_TEXTURE_SLOTS));
+        }
+
+        this->slot_ = slot;
+    }
+
+    glActiveTexture(GL_TEXTURE0 + this->slot_);
+    glBindTexture(GL_TEXTURE_2D, this->gl_id_);
 }
 
 void gl_texture_t::unbind() const
 {
-
+    if (this->slot_ < MAX_TEXTURE_SLOTS) {
+        glActiveTexture(GL_TEXTURE0 + this->slot_);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 bool gl_texture_t::is_slot_active(uint32_t slot)
 {
     // there are only 32 possible texture slots [0, 31]
-    if (slot > 31) {
+    if (slot >= MAX_TEXTURE_SLOTS) {
         return false;
     }
 
-    return ((this->active_slots_ >> slot) & 1) == 1;
+    return ((active_slots_ >> slot) & 1) == 1;
 }
 
 bool gl_texture_t::set_slot_active(uint32_t slot)
 {
     // slot is already in use
-    if (((this->active_slots_ >> slot) & 1) == 1) {
+    if (((active_slots_ >> slot) & 1) == 1) {
         return false;
     }
 
-    this->active_slots_ |= 1 << slot;
+    active_slots_ |= 1 << slot;
     return true;
+}
+
+int gl_texture_t::find_next_slot()
+{
+    for (int i = 0; i < MAX_TEXTURE_SLOTS; i++) {
+        if (!is_slot_active(i)) {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 bool gl_texture_t::operator==(const gl_texture_t &other) const
