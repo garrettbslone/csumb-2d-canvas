@@ -23,25 +23,12 @@ int main(int argc, char *argv[])
         circle->shader_->set_uniform_int("uTex", 0);
         canvas->draw_shape(circle);
 
-        mat4 view_proj(1.f);
-        float w = canvas->window_->get_width(), h = canvas->window_->get_height();
-
-        view_proj = ortho(-w / 2, w / 2, -h / 2, h / 2, -100.f, 100.f);
-
-        canvas->window_->on_resize([&, view_proj, w, h] (uint32_t width, uint32_t height) mutable
-        {
-            w = static_cast<float>(width);
-            h = static_cast<float>(height);
-
-            view_proj = ortho(-w / 2, w / 2, -h / 2, h / 2, -100.f, 100.f);
-        });
-
-        canvas->on_update([&, view_proj] (const vector<mb2dc::ref<drawable_t>> &nodes)
+        canvas->on_update([&, canvas] (const vector<mb2dc::ref<drawable_t>> &nodes, const mat4 &view_proj)
         {
             for (const auto& n: nodes) {
                 if (n->texture_) {
                     n->texture_->bind();
-                    circle->shader_->set_uniform_int("uTex", n->texture_->slot());
+                    n->shader_->set_uniform_int("uTex", n->texture_->slot());
                 }
 
                 n->shader_->bind();

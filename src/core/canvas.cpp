@@ -27,16 +27,25 @@ canvas_t::canvas_t(const window_spec &spec)
 
     this->gl_ctx_ = new_ref<gl_context_t>(this->window_->get_native_window());
 
-//    double w = this->spec_.width_ / 2, h  = this->spec_.height_ / 2;
-//    this->proj_ = glm::ortho(-w, w, -h, h, 0.1, 1000.);
-    this->proj_ = glm::mat4(1.f);
+    float w = spec.width_ / 2.f, h  = spec.height_ / 2.f;
+    this->proj_ = glm::ortho(-w, w, -h, h, -100.f, 100.f);
     this->view_ = glm::mat4(1.f);
+
+    this->window_->on_resize([this] (uint32_t width, uint32_t height)
+    {
+        float w = static_cast<float>(width);
+        float h = static_cast<float>(height);
+
+        this->proj_ = glm::ortho(-w / 2, w / 2, -h / 2, h / 2, -100.f, 100.f);
+    });
 }
 
 canvas_t::~canvas_t() = default;
 
 void canvas_t::run()
 {
+    glm::mat4 view_proj;
+
     while (this->running_) {
         this->window_->clear();
 
@@ -45,7 +54,8 @@ void canvas_t::run()
         }
 
         if (this->update_) {
-            this->update_(this->queue_.get());
+            view_proj = this->proj_ * this->view_;
+            this->update_(this->queue_.get(), view_proj);
         }
 
         if (this->gl_ctx_) {

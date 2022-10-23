@@ -11,7 +11,7 @@
 
 namespace mb2dc {
 
-using update_fn = std::function<void(const std::vector<ref<drawable_t>> &)>;
+using update_fn = std::function<void(const std::vector<ref<drawable_t>> &shapes, const glm::mat4 &view_proj)>;
 
 class canvas_t {
 public:

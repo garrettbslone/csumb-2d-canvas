@@ -45,8 +45,6 @@ window_t::~window_t()
 {
     glfwDestroyWindow(reinterpret_cast<GLFWwindow *>(*this->native_window_));
     glfwTerminate();
-
-//    delete this->fb_;
 }
 
 static void _close_cb()
@@ -72,8 +70,7 @@ void window_t::force_fullscreen()
                           std::string(this->err_));
     }
 
-    const GLFWvidmode *m = glfwGetVideoMode(
-            reinterpret_cast<GLFWmonitor *>(*this->monitor_));
+    const GLFWvidmode *m = glfwGetVideoMode(*this->monitor_);
     if (!m) {
         glfwGetError(&this->err_);
 
@@ -81,8 +78,8 @@ void window_t::force_fullscreen()
                           std::string(this->err_));
     }
 
-    glfwSetWindowMonitor(reinterpret_cast<GLFWwindow *>(*this->native_window_),
-                         reinterpret_cast<GLFWmonitor *>(*this->monitor_),
+    glfwSetWindowMonitor(*this->native_window_,
+                         *this->monitor_,
                          0,
                          0,
                          m->width,
@@ -99,10 +96,7 @@ void window_t::resize(uint32_t width, uint32_t height)
     this->spec_.fullscreen_ = false;
     this->spec_.maximized_ = false;
 
-    glfwSetWindowSize(
-            reinterpret_cast<GLFWwindow *>(*this->native_window_),
-            width,
-            height);
+    glfwSetWindowSize(*this->native_window_, width, height);
 
     this->resize_framebuffer();
 }
@@ -126,8 +120,7 @@ void window_t::set_title(const std::string& title)
 {
     this->spec_.title_ = title;
 
-    glfwSetWindowTitle(reinterpret_cast<GLFWwindow *>(*this->native_window_),
-            title.c_str());
+    glfwSetWindowTitle(*this->native_window_,title.c_str());
 }
 
 bool window_t::update()
@@ -197,7 +190,7 @@ void window_t::create()
     this->data_.resize_ = nullptr;
     this->data_.window_ = new_ref<window_t *>(this);
 
-    auto native_win = reinterpret_cast<GLFWwindow *>(*this->native_window_);
+    auto native_win = *this->native_window_;
 
     glfwMakeContextCurrent(native_win);
     if (!gladLoadGL(glfwGetProcAddress)) {
