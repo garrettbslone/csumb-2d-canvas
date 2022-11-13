@@ -10,9 +10,6 @@ out vec2 vTexCoord;
 
 uniform float zIndex;
 uniform mat4 MVP;
-uniform float w;
-uniform float h;
-
 
 void main()
 {
