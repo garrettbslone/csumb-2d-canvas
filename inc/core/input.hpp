@@ -8,6 +8,8 @@
 #include "key_codes.hpp"
 #include "util.hpp"
 
+#include <glm/vec2.hpp>
+
 #include <functional>
 
 namespace mb2dc {
@@ -26,9 +28,40 @@ public:
     input_t() = default;
     virtual ~input_t() = default;
 
-    static double get_mouse_x();
-    static double get_mouse_y();
-    static std::pair<double, double> get_mouse_pos();
+    /*
+     * Get the (real) mouse position on the screen with [0, 0] in the top left
+     * corner and [window width, window_height] in the bottom right corner.
+     */
+    static glm::vec2 get_mouse_pos_real();
+    /*
+     * Get the mouse position relative to the center of the window. [0, 0] is
+     * in the center of the window, and the current width x height of the window
+     * is used.
+     */
+    static glm::vec2 get_mouse_pos_rel();
+    /*
+     * Get the mouse position relative to the dim with [0, 0] in the center of the window.
+     */
+    static glm::vec2 get_mouse_pos_rel(uint32_t dim);
+    /*
+     * Get the mouse position relative to the width x height with [0, 0] in the
+     * center of the window.
+     */
+    static glm::vec2 get_mouse_pos_rel(uint32_t width, uint32_t height);
+
+    /*
+     * The get_mouse_x_*** & get_mouse_y_*** functions work the same as the
+     * get_mouse_pos_*** set of functions, but only returns either the x or y
+     * coordinate.
+     */
+    static double get_mouse_x_real();
+    static double get_mouse_y_real();
+    static double get_mouse_x_rel();
+    static double get_mouse_y_rel();
+    static double get_mouse_x_rel(uint32_t dim);
+    static double get_mouse_y_rel(uint32_t dim);
+    static double get_mouse_x_rel(uint32_t width, uint32_t height);
+    static double get_mouse_y_rel(uint32_t width, uint32_t height);
 
     key_down_fn key_down_;
     key_up_fn key_up_;
