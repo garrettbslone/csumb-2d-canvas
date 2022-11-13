@@ -107,6 +107,20 @@ void gl_shader_t::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
     glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
+void gl_shader_t::enable_texture(const std::string &name, const ref<gl_texture_t>& texture)
+{
+    if (!texture.get()) {
+        return;
+    }
+
+    texture->bind();
+
+    GLint loc = glGetUniformLocation(this->gl_id_, name.c_str());
+    glUniform1i(loc, texture->slot());
+
+    this->set_uniform_float("uAlpha", texture->alpha_);
+}
+
 void gl_shader_t::read_glsl_files(const std::string &vertex_src_path, const std::string &fragment_src_path)
 {
     auto vertex_src = read_file(vertex_src_path);
