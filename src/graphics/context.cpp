@@ -4,6 +4,7 @@
 
 #include <graphics/context.hpp>
 
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
 namespace mb2dc {
@@ -15,6 +16,10 @@ gl_context_t::gl_context_t(void *w)
     if (this->native_window_ && this->native_window_.get()) {
         glfwMakeContextCurrent(*this->native_window_);
     }
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void gl_context_t::swap_buffers()
