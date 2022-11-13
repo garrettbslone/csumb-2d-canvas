@@ -12,21 +12,23 @@ namespace mb2dc {
 class draw_queue_t {
 public:
     draw_queue_t();
-    draw_queue_t(int front, int back);
+    draw_queue_t(float front, float back);
 
-    void enqueue(ref<drawable_t> shape);
-    void dequeue(ref<drawable_t> shape);
+    void enqueue(drawable_t *shape) const;
+    void dequeue(const drawable_t *shape) const;
 
-    void bring_to_front(ref<drawable_t> shape);
-    void bring_to_back(ref<drawable_t> shape);
+    void adjust(drawable_t *shape, float z_index) const;
+
+    void bring_to_front(const drawable_t *shape);
+    void bring_to_back(const drawable_t *shape);
 
     void clear();
-    const std::vector<ref<drawable_t>> &get();
+    const std::vector<drawable_t *> &get();
 
 private:
-    int front_, back_;
+    mutable float front_, back_;
 
-    std::vector<ref<drawable_t>> shapes_;
+    mutable std::vector<drawable_t *> shapes_;
 };
 
 } // mb2dc

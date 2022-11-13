@@ -103,17 +103,12 @@ void window_t::resize(uint32_t width, uint32_t height)
 
 void window_t::on_resize(resize_fn cb)
 {
-    this->data_.resize_ = cb;
+    this->data_.resize_ = std::move(cb);
 }
 
-void window_t::set_close_cb(close_fn cb)
+void window_t::on_close(close_fn cb)
 {
     this->data_.close_ = std::move(cb);
-}
-
-void window_t::set_resize_cb(resize_fn cb)
-{
-    this->data_.resize_ = std::move(cb);
 }
 
 void window_t::set_title(const std::string& title)
@@ -123,19 +118,28 @@ void window_t::set_title(const std::string& title)
     glfwSetWindowTitle(*this->native_window_,title.c_str());
 }
 
+void window_t::set_resizable(bool resizeable)
+{
+    glfwSetWindowAttrib(*this->native_window_, GLFW_RESIZABLE, resizeable);
+}
+
 bool window_t::update()
 {
     glfwMakeContextCurrent(*this->native_window_);
-    glfwPollEvents();
+
+    if (this->event_driven_) {
+        glfwWaitEvents();
+    } else {
+        glfwPollEvents();
+    }
+
     return static_cast<bool>(glfwWindowShouldClose(*this->native_window_));
 }
 
-void *window_t::get_native_window()
+void *window_t::native_window()
 {
     return static_cast<void *>(*this->native_window_);
 }
-
-
 
 void window_t::resize_framebuffer()
 {
@@ -155,8 +159,9 @@ void window_t::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height
 
 void window_t::window_set_close(GLFWwindow *w) const
 {
-    if (this->data_.close_)
+    if (this->data_.close_) {
         this->data_.close_();
+    }
 }
 
 void window_t::create()
@@ -186,7 +191,7 @@ void window_t::create()
         this->data_.close_ = _close_cb;
     }
 
-    this->data_.input_ = input_t::get(this->get_native_window());
+    this->data_.input_ = input_t::get(this->native_window());
     this->data_.resize_ = nullptr;
     this->data_.window_ = new_ref<window_t *>(this);
 

@@ -59,11 +59,13 @@ public:
      * Clear the screen through the rendering context.
      */
     void clear() const;
+
     /*
      * Force a window into fullscreen mode. If the window is already in fullscreen,
      * it will stay in fullscreen.
      */
     void force_fullscreen();
+
     /*
      * Resize the window. If the window is in fullscreen mode, this call has no
      * effect.
@@ -71,12 +73,14 @@ public:
     void resize(uint32_t width, uint32_t height);
     void on_resize(resize_fn cb);
 
-    void set_close_cb(close_fn cb);
-    void set_resize_cb(resize_fn cb);
+    void on_close(close_fn cb);
+
     /*
      * Set the window's title.
      */
     void set_title(const std::string& title);
+
+    void set_resizable(bool resizeable);
 
     /*
      * Update the window. This should be called once per render pass.
@@ -88,14 +92,14 @@ public:
      * Returns a void pointer to the underlying native (OS) window
      * implementation.
      */
-    void *get_native_window();
+    void *native_window();
 
-    inline double get_aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
+    inline double aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
 
-    inline uint32_t get_width() const { return this->spec_.width_; }
-    inline uint32_t get_height() const { return this->spec_.height_; }
+    inline uint32_t width() const { return this->spec_.width_; }
+    inline uint32_t height() const { return this->spec_.height_; }
 
-    bool fb_resized_{false};
+    bool fb_resized_{false}, event_driven_{false};
     const char *err_{nullptr};
     glm::vec4 clear_clr_;
 
