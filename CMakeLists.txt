@@ -3,7 +3,7 @@ project(mb2dc)
 
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 add_compile_definitions(RES_PATH="${CMAKE_SOURCE_DIR}/res/")
 
 find_package(Git QUIET)
@@ -28,7 +28,7 @@ set(GRAPHICS_SRCS src/graphics/buffer.cpp
         src/graphics/texture.cpp
         src/graphics/vertex_array.cpp
         src/graphics/gl_util.cpp)
-set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/rect.cpp samples/main.cpp)
+set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/rect.cpp)
 
 add_subdirectory(ext/glfw)
 
