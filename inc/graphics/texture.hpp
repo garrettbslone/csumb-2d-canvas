@@ -6,16 +6,20 @@
 #define GLW_GL_TEXTURE_HPP
 
 #include "gl_util.hpp"
+#include "core/util.hpp"
 
-#include <string>
+#include <glm/mat4x4.hpp>
 
-#define MAX_TEXTURE_SLOTS 32
+#include <vector>
+
+// minimum number of textures supported by OpenGL 3.3 is 48
+#define MAX_TEXTURE_SLOTS 48
 
 namespace mb2dc {
 
 class gl_texture_t : public gl_object_t {
 public:
-    gl_texture_t(uint32_t width, uint32_t height);
+    gl_texture_t(uint32_t width, uint32_t height, const float *img_data);
     explicit gl_texture_t(const std::string &path);
     ~gl_texture_t() override;
 
@@ -23,21 +27,18 @@ public:
 
     inline uint32_t get_width() const { return this->width_; }
     inline uint32_t get_height() const { return this->height_; }
-    inline uint32_t slot() const { return this->slot_; }
+    inline uint8_t slot() const { return this->slot_; }
     inline bool is_loaded() const { return this->loaded_; }
 
-    void bind(uint32_t slot) const;
-    void unbind(uint32_t slot = 0) const;
+    void bind(uint8_t slot) const;
+    void unbind(uint8_t slot) const;
 
     void bind() override;
     void unbind() const override;
 
-    static bool is_slot_active(uint32_t slot);
-    static bool set_slot_active(uint32_t slot);
-    static int find_next_slot();
-    static inline uint32_t get_active_slots()  { return active_slots_; }
-
     bool operator==(const gl_texture_t &other) const;
+
+    float alpha_{-1.f};
 
 private:
     /*
@@ -45,15 +46,12 @@ private:
      *                  (usually RGBA8 or RGB8).
      * data_format: the format of the pixel data (usually RGBA or RGB).
      */
-    uint32_t internal_fmt_, data_fmt_;
-    /*
-     * There are 32 texture slots in the gl state machine, so we can use 32 bit
-     * int as a bit map to keep track of active slots.
-     */
-    uint32_t width_, height_, slot_{MAX_TEXTURE_SLOTS};
-    bool loaded_;
+    int internal_fmt_, data_fmt_;
+    int width_, height_;
 
-    static uint32_t active_slots_;
+    uint8_t slot_{0};
+
+    bool loaded_;
 
 };
 

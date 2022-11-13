@@ -4,6 +4,7 @@
 
 #include <core/exception.hpp>
 #include <graphics/texture.hpp>
+#include <utility>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -11,9 +12,7 @@
 
 namespace mb2dc {
 
-uint32_t gl_texture_t::active_slots_ = 0;
-
-gl_texture_t::gl_texture_t(uint32_t width, uint32_t height)
+gl_texture_t::gl_texture_t(uint32_t width, uint32_t height, const float *img_data)
 {
     this->width_ = width;
     this->height_ = height;
@@ -29,6 +28,17 @@ gl_texture_t::gl_texture_t(uint32_t width, uint32_t height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 this->data_fmt_,
+                 this->width_,
+                 this->height_,
+                 0,
+                 this->data_fmt_,
+                 GL_UNSIGNED_BYTE,
+                 img_data);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 gl_texture_t::gl_texture_t(const std::string &path)
@@ -75,6 +85,7 @@ gl_texture_t::gl_texture_t(const std::string &path)
                  data);
 
     stbi_image_free(data);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 gl_texture_t::~gl_texture_t()
@@ -95,73 +106,34 @@ void gl_texture_t::set_data(void *data, uint32_t size)
                  data);
 }
 
-void gl_texture_t::bind(uint32_t slot) const
+void gl_texture_t::bind(uint8_t slot) const
 {
-    glActiveTexture(GL_TEXTURE0 + slot);
-    glBindTexture(GL_TEXTURE_2D, this->gl_id_);
-}
 
-void gl_texture_t::unbind(uint32_t slot) const
-{
-    glActiveTexture(GL_TEXTURE0 + slot);
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void gl_texture_t::bind()
-{
-    if (this->slot_ >= MAX_TEXTURE_SLOTS) {
-        int slot = find_next_slot();
-
-        if (slot < 0) {
-            throw texture_ex("Cannot bind to slot " + std::to_string(slot) +
-                            "! Must be between 0 and " + std::to_string(MAX_TEXTURE_SLOTS));
-        }
-
-        this->slot_ = slot;
+    if (slot >= MAX_TEXTURE_SLOTS || slot < 0) {
+        throw texture_ex("Cannot bind to slot " + std::to_string(slot) +
+                             "! Must be between 0 and " + std::to_string(MAX_TEXTURE_SLOTS));
     }
 
-    glActiveTexture(GL_TEXTURE0 + this->slot_);
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, this->gl_id_);
 }
 
-void gl_texture_t::unbind() const
+void gl_texture_t::unbind(uint8_t slot) const
 {
     if (this->slot_ < MAX_TEXTURE_SLOTS) {
-        glActiveTexture(GL_TEXTURE0 + this->slot_);
+        glActiveTexture(GL_TEXTURE0 + slot);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
 
-bool gl_texture_t::is_slot_active(uint32_t slot)
+void gl_texture_t::bind()
 {
-    // there are only 32 possible texture slots [0, 31]
-    if (slot >= MAX_TEXTURE_SLOTS) {
-        return false;
-    }
-
-    return ((active_slots_ >> slot) & 1) == 1;
+    this->bind(this->slot_);
 }
 
-bool gl_texture_t::set_slot_active(uint32_t slot)
+void gl_texture_t::unbind() const
 {
-    // slot is already in use
-    if (((active_slots_ >> slot) & 1) == 1) {
-        return false;
-    }
-
-    active_slots_ |= 1 << slot;
-    return true;
-}
-
-int gl_texture_t::find_next_slot()
-{
-    for (int i = 0; i < MAX_TEXTURE_SLOTS; i++) {
-        if (!is_slot_active(i)) {
-            return i;
-        }
-    }
-
-    return -1;
+    this->unbind(this->slot_);
 }
 
 bool gl_texture_t::operator==(const gl_texture_t &other) const

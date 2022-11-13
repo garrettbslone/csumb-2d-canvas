@@ -45,8 +45,6 @@ window_t::~window_t()
 {
     glfwDestroyWindow(reinterpret_cast<GLFWwindow *>(*this->native_window_));
     glfwTerminate();
-
-//    delete this->fb_;
 }
 
 static void _close_cb()
@@ -72,8 +70,7 @@ void window_t::force_fullscreen()
                           std::string(this->err_));
     }
 
-    const GLFWvidmode *m = glfwGetVideoMode(
-            reinterpret_cast<GLFWmonitor *>(*this->monitor_));
+    const GLFWvidmode *m = glfwGetVideoMode(*this->monitor_);
     if (!m) {
         glfwGetError(&this->err_);
 
@@ -81,8 +78,8 @@ void window_t::force_fullscreen()
                           std::string(this->err_));
     }
 
-    glfwSetWindowMonitor(reinterpret_cast<GLFWwindow *>(*this->native_window_),
-                         reinterpret_cast<GLFWmonitor *>(*this->monitor_),
+    glfwSetWindowMonitor(*this->native_window_,
+                         *this->monitor_,
                          0,
                          0,
                          m->width,
@@ -99,50 +96,50 @@ void window_t::resize(uint32_t width, uint32_t height)
     this->spec_.fullscreen_ = false;
     this->spec_.maximized_ = false;
 
-    glfwSetWindowSize(
-            reinterpret_cast<GLFWwindow *>(*this->native_window_),
-            width,
-            height);
+    glfwSetWindowSize(*this->native_window_, width, height);
 
     this->resize_framebuffer();
 }
 
 void window_t::on_resize(resize_fn cb)
 {
-    this->data_.resize_ = cb;
+    this->data_.resize_ = std::move(cb);
 }
 
-void window_t::set_close_cb(close_fn cb)
+void window_t::on_close(close_fn cb)
 {
     this->data_.close_ = std::move(cb);
-}
-
-void window_t::set_resize_cb(resize_fn cb)
-{
-    this->data_.resize_ = std::move(cb);
 }
 
 void window_t::set_title(const std::string& title)
 {
     this->spec_.title_ = title;
 
-    glfwSetWindowTitle(reinterpret_cast<GLFWwindow *>(*this->native_window_),
-            title.c_str());
+    glfwSetWindowTitle(*this->native_window_,title.c_str());
+}
+
+void window_t::set_resizable(bool resizeable)
+{
+    glfwSetWindowAttrib(*this->native_window_, GLFW_RESIZABLE, resizeable);
 }
 
 bool window_t::update()
 {
     glfwMakeContextCurrent(*this->native_window_);
-    glfwPollEvents();
+
+    if (this->event_driven_) {
+        glfwWaitEvents();
+    } else {
+        glfwPollEvents();
+    }
+
     return static_cast<bool>(glfwWindowShouldClose(*this->native_window_));
 }
 
-void *window_t::get_native_window()
+void *window_t::native_window()
 {
     return static_cast<void *>(*this->native_window_);
 }
-
-
 
 void window_t::resize_framebuffer()
 {
@@ -162,8 +159,9 @@ void window_t::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height
 
 void window_t::window_set_close(GLFWwindow *w) const
 {
-    if (this->data_.close_)
+    if (this->data_.close_) {
         this->data_.close_();
+    }
 }
 
 void window_t::create()
@@ -193,11 +191,11 @@ void window_t::create()
         this->data_.close_ = _close_cb;
     }
 
-    this->data_.input_ = input_t::get(this->get_native_window());
+    this->data_.input_ = input_t::get(this->native_window());
     this->data_.resize_ = nullptr;
     this->data_.window_ = new_ref<window_t *>(this);
 
-    auto native_win = reinterpret_cast<GLFWwindow *>(*this->native_window_);
+    auto native_win = *this->native_window_;
 
     glfwMakeContextCurrent(native_win);
     if (!gladLoadGL(glfwGetProcAddress)) {

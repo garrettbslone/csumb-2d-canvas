@@ -9,58 +9,65 @@
 namespace mb2dc {
 
 draw_queue_t::draw_queue_t()
-    : draw_queue_t(-100, 100)
+    : draw_queue_t(-100.f, 100.f)
 {
 
 }
 
-draw_queue_t::draw_queue_t(int front, int back)
+draw_queue_t::draw_queue_t(float front, float back)
     : front_(front), back_(back)
 {
     this->shapes_ = {};
 }
 
-void draw_queue_t::enqueue(ref<drawable_t> shape)
+void draw_queue_t::enqueue(drawable_t *shape) const
 {
-    if (this->shapes_.empty()) {
-        this->shapes_.push_back(shape);
-    }
-
-    auto it = this->shapes_.begin();
-
-    while (it != this->shapes_.end()) {
-        if ((*it)->z_index_ >= shape->z_index_) {
-            break;
-        }
-
-        it++;
-    }
+    auto it = std::find_if(this->shapes_.begin(),
+                           this->shapes_.end(),
+                           [shape](drawable_t *curr)
+                           {
+                                return curr->z_index_ >= shape->z_index_;
+                           });
 
     this->shapes_.insert(it, shape);
 }
 
-void draw_queue_t::dequeue(ref<drawable_t> shape)
+void draw_queue_t::dequeue(const drawable_t *shape) const
 {
-    auto it = std::find_if(this->shapes_.begin(),
-                              this->shapes_.end(),
-                              [&shape] (const ref<drawable_t> &node) -> bool
-                              {
-                                  return shape == node;
-                              });
+    auto it = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
 
     if (it != this->shapes_.end()) {
         this->shapes_.erase(it);
     }
 }
 
-void draw_queue_t::bring_to_front(ref<drawable_t> shape)
+void draw_queue_t::adjust(drawable_t *shape, float z_index) const
 {
-    auto it = std::find_if(this->shapes_.begin(),
-                              this->shapes_.end(),
-                              [&shape] (const ref<drawable_t> &node) -> bool
-                              {
-                                    return shape == node;
-                              });
+    if (shape->z_index_ == z_index) {
+        return;
+    }
+
+    shape->z_index_ = z_index;
+
+    auto it = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
+
+    if (it != this->shapes_.end()) {
+        auto end = std::find_if(this->shapes_.begin(),
+                                  this->shapes_.end(),
+                                  [&shape](drawable_t *curr)
+                                  {
+                                        return curr->z_index_ >= shape->z_index_ && curr != shape;
+                                  });
+
+        if (end != this->shapes_.end()) {
+            std::rotate(it, it++, end);
+        }
+    }
+}
+
+void draw_queue_t::bring_to_front(const drawable_t *shape)
+{
+    auto it = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
 
     // If the shape is already in the front, no need to move it. If it's not
     // in the queue then we have no work to do.
@@ -69,14 +76,10 @@ void draw_queue_t::bring_to_front(ref<drawable_t> shape)
     }
 }
 
-void draw_queue_t::bring_to_back(ref<drawable_t> shape)
+void draw_queue_t::bring_to_back(const drawable_t *shape)
 {
-    auto pivot = std::find_if(this->shapes_.begin(),
-                              this->shapes_.end(),
-                              [&shape] (const ref<drawable_t> &node) -> bool
-                              {
-                                  return shape == node;
-                              });
+    auto pivot = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
+
     // If the shape is already in the end, no need to move it. If it's not
     // in the queue then we have no work to do.
     if (*pivot != *this->shapes_.rbegin() && pivot != this->shapes_.end()) {
@@ -89,7 +92,7 @@ void draw_queue_t::clear()
     this->shapes_.clear();
 }
 
-const std::vector<ref<drawable_t>> &draw_queue_t::get()
+const std::vector<drawable_t *> &draw_queue_t::get()
 {
     return this->shapes_;
 }

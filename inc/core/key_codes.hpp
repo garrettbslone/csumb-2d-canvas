@@ -151,131 +151,131 @@ inline std::ostream &operator<<(std::ostream &os, key code)
 }
 
 // From glfw3.h
-#define KEY_SPACE           ::key::Space
-#define KEY_APOSTROPHE      ::key::Apostrophe    /* ' */
-#define KEY_COMMA           ::key::Comma         /* , */
-#define KEY_MINUS           ::key::Minus         /* - */
-#define KEY_PERIOD          ::key::Period        /* . */
-#define KEY_SLASH           ::key::Slash         /* / */
-#define KEY_0               ::key::D0
-#define KEY_1               ::key::D1
-#define KEY_2               ::key::D2
-#define KEY_3               ::key::D3
-#define KEY_4               ::key::D4
-#define KEY_5               ::key::D5
-#define KEY_6               ::key::D6
-#define KEY_7               ::key::D7
-#define KEY_8               ::key::D8
-#define KEY_9               ::key::D9
-#define KEY_SEMICOLON       ::key::Semicolon     /* ; */
-#define KEY_EQUAL           ::key::Equal         /* = */
-#define KEY_A               ::key::A
-#define KEY_B               ::key::B
-#define KEY_C               ::key::C
-#define KEY_D               ::key::D
-#define KEY_E               ::key::E
-#define KEY_F               ::key::F
-#define KEY_G               ::key::G
-#define KEY_H               ::key::H
-#define KEY_I               ::key::I
-#define KEY_J               ::key::J
-#define KEY_K               ::key::K
-#define KEY_L               ::key::L
-#define KEY_M               ::key::M
-#define KEY_N               ::key::N
-#define KEY_O               ::key::O
-#define KEY_P               ::key::P
-#define KEY_Q               ::key::Q
-#define KEY_R               ::key::R
-#define KEY_S               ::key::S
-#define KEY_T               ::key::T
-#define KEY_U               ::key::U
-#define KEY_V               ::key::V
-#define KEY_W               ::key::W
-#define KEY_X               ::key::X
-#define KEY_Y               ::key::Y
-#define KEY_Z               ::key::Z
-#define KEY_LEFT_BRACKET    ::key::LeftBracket   /* [ */
-#define KEY_BACKSLASH       ::key::Backslash     /* \ */
-#define KEY_RIGHT_BRACKET   ::key::RightBracket  /* ] */
-#define KEY_GRAVE_ACCENT    ::key::GraveAccent   /* ` */
-#define KEY_WORLD_1         ::key::World1        /* non-US #1 */
-#define KEY_WORLD_2         ::key::World2        /* non-US #2 */
+#define KEY_SPACE           key::Space
+#define KEY_APOSTROPHE      key::Apostrophe    /* ' */
+#define KEY_COMMA           key::Comma         /* , */
+#define KEY_MINUS           key::Minus         /* - */
+#define KEY_PERIOD          key::Period        /* . */
+#define KEY_SLASH           key::Slash         /* / */
+#define KEY_0               key::D0
+#define KEY_1               key::D1
+#define KEY_2               key::D2
+#define KEY_3               key::D3
+#define KEY_4               key::D4
+#define KEY_5               key::D5
+#define KEY_6               key::D6
+#define KEY_7               key::D7
+#define KEY_8               key::D8
+#define KEY_9               key::D9
+#define KEY_SEMICOLON       key::Semicolon     /* ; */
+#define KEY_EQUAL           key::Equal         /* = */
+#define KEY_A               key::A
+#define KEY_B               key::B
+#define KEY_C               key::C
+#define KEY_D               key::D
+#define KEY_E               key::E
+#define KEY_F               key::F
+#define KEY_G               key::G
+#define KEY_H               key::H
+#define KEY_I               key::I
+#define KEY_J               key::J
+#define KEY_K               key::K
+#define KEY_L               key::L
+#define KEY_M               key::M
+#define KEY_N               key::N
+#define KEY_O               key::O
+#define KEY_P               key::P
+#define KEY_Q               key::Q
+#define KEY_R               key::R
+#define KEY_S               key::S
+#define KEY_T               key::T
+#define KEY_U               key::U
+#define KEY_V               key::V
+#define KEY_W               key::W
+#define KEY_X               key::X
+#define KEY_Y               key::Y
+#define KEY_Z               key::Z
+#define KEY_LEFT_BRACKET    key::LeftBracket   /* [ */
+#define KEY_BACKSLASH       key::Backslash     /* \ */
+#define KEY_RIGHT_BRACKET   key::RightBracket  /* ] */
+#define KEY_GRAVE_ACCENT    key::GraveAccent   /* ` */
+#define KEY_WORLD_1         key::World1        /* non-US #1 */
+#define KEY_WORLD_2         key::World2        /* non-US #2 */
 
 /* Function keys */
-#define KEY_ESCAPE          ::key::Escape
-#define KEY_ENTER           ::key::Enter
-#define KEY_TAB             ::key::Tab
-#define KEY_BACKSPACE       ::key::Backspace
-#define KEY_INSERT          ::key::Insert
-#define KEY_DELETE          ::key::Delete
-#define KEY_RIGHT           ::key::Right
-#define KEY_LEFT            ::key::Left
-#define KEY_DOWN            ::key::Down
-#define KEY_UP              ::key::Up
-#define KEY_PAGE_UP         ::key::PageUp
-#define KEY_PAGE_DOWN       ::key::PageDown
-#define KEY_HOME            ::key::Home
-#define KEY_END             ::key::End
-#define KEY_CAPS_LOCK       ::key::CapsLock
-#define KEY_SCROLL_LOCK     ::key::ScrollLock
-#define KEY_NUM_LOCK        ::key::NumLock
-#define KEY_PRINT_SCREEN    ::key::PrintScreen
-#define KEY_PAUSE           ::key::Pause
-#define KEY_F1              ::key::F1
-#define KEY_F2              ::key::F2
-#define KEY_F3              ::key::F3
-#define KEY_F4              ::key::F4
-#define KEY_F5              ::key::F5
-#define KEY_F6              ::key::F6
-#define KEY_F7              ::key::F7
-#define KEY_F8              ::key::F8
-#define KEY_F9              ::key::F9
-#define KEY_F10             ::key::F10
-#define KEY_F11             ::key::F11
-#define KEY_F12             ::key::F12
-#define KEY_F13             ::key::F13
-#define KEY_F14             ::key::F14
-#define KEY_F15             ::key::F15
-#define KEY_F16             ::key::F16
-#define KEY_F17             ::key::F17
-#define KEY_F18             ::key::F18
-#define KEY_F19             ::key::F19
-#define KEY_F20             ::key::F20
-#define KEY_F21             ::key::F21
-#define KEY_F22             ::key::F22
-#define KEY_F23             ::key::F23
-#define KEY_F24             ::key::F24
-#define KEY_F25             ::key::F25
+#define KEY_ESCAPE          key::Escape
+#define KEY_ENTER           key::Enter
+#define KEY_TAB             key::Tab
+#define KEY_BACKSPACE       key::Backspace
+#define KEY_INSERT          key::Insert
+#define KEY_DELETE          key::Delete
+#define KEY_RIGHT           key::Right
+#define KEY_LEFT            key::Left
+#define KEY_DOWN            key::Down
+#define KEY_UP              key::Up
+#define KEY_PAGE_UP         key::PageUp
+#define KEY_PAGE_DOWN       key::PageDown
+#define KEY_HOME            key::Home
+#define KEY_END             key::End
+#define KEY_CAPS_LOCK       key::CapsLock
+#define KEY_SCROLL_LOCK     key::ScrollLock
+#define KEY_NUM_LOCK        key::NumLock
+#define KEY_PRINT_SCREEN    key::PrintScreen
+#define KEY_PAUSE           key::Pause
+#define KEY_F1              key::F1
+#define KEY_F2              key::F2
+#define KEY_F3              key::F3
+#define KEY_F4              key::F4
+#define KEY_F5              key::F5
+#define KEY_F6              key::F6
+#define KEY_F7              key::F7
+#define KEY_F8              key::F8
+#define KEY_F9              key::F9
+#define KEY_F10             key::F10
+#define KEY_F11             key::F11
+#define KEY_F12             key::F12
+#define KEY_F13             key::F13
+#define KEY_F14             key::F14
+#define KEY_F15             key::F15
+#define KEY_F16             key::F16
+#define KEY_F17             key::F17
+#define KEY_F18             key::F18
+#define KEY_F19             key::F19
+#define KEY_F20             key::F20
+#define KEY_F21             key::F21
+#define KEY_F22             key::F22
+#define KEY_F23             key::F23
+#define KEY_F24             key::F24
+#define KEY_F25             key::F25
 
 /* keypad */
-#define KEY_KP_0            ::key::KP0
-#define KEY_KP_1            ::key::KP1
-#define KEY_KP_2            ::key::KP2
-#define KEY_KP_3            ::key::KP3
-#define KEY_KP_4            ::key::KP4
-#define KEY_KP_5            ::key::KP5
-#define KEY_KP_6            ::key::KP6
-#define KEY_KP_7            ::key::KP7
-#define KEY_KP_8            ::key::KP8
-#define KEY_KP_9            ::key::KP9
-#define KEY_KP_DECIMAL      ::key::KPDecimal
-#define KEY_KP_DIVIDE       ::key::KPDivide
-#define KEY_KP_MULTIPLY     ::key::KPMultiply
-#define KEY_KP_SUBTRACT     ::key::KPSubtract
-#define KEY_KP_ADD          ::key::KPAdd
-#define KEY_KP_ENTER        ::key::KPEnter
-#define KEY_KP_EQUAL        ::key::KPEqual
+#define KEY_KP_0            key::KP0
+#define KEY_KP_1            key::KP1
+#define KEY_KP_2            key::KP2
+#define KEY_KP_3            key::KP3
+#define KEY_KP_4            key::KP4
+#define KEY_KP_5            key::KP5
+#define KEY_KP_6            key::KP6
+#define KEY_KP_7            key::KP7
+#define KEY_KP_8            key::KP8
+#define KEY_KP_9            key::KP9
+#define KEY_KP_DECIMAL      key::KPDecimal
+#define KEY_KP_DIVIDE       key::KPDivide
+#define KEY_KP_MULTIPLY     key::KPMultiply
+#define KEY_KP_SUBTRACT     key::KPSubtract
+#define KEY_KP_ADD          key::KPAdd
+#define KEY_KP_ENTER        key::KPEnter
+#define KEY_KP_EQUAL        key::KPEqual
 
-#define KEY_LEFT_SHIFT      ::key::LeftShift
-#define KEY_LEFT_CONTROL    ::key::LeftControl
-#define KEY_LEFT_ALT        ::key::LeftAlt
-#define KEY_LEFT_SUPER      ::key::LeftSuper
-#define KEY_RIGHT_SHIFT     ::key::RightShift
-#define KEY_RIGHT_CONTROL   ::key::RightControl
-#define KEY_RIGHT_ALT       ::key::RightAlt
-#define KEY_RIGHT_SUPER     ::key::RightSuper
-#define KEY_MENU            ::key::Menu
+#define KEY_LEFT_SHIFT      key::LeftShift
+#define KEY_LEFT_CONTROL    key::LeftControl
+#define KEY_LEFT_ALT        key::LeftAlt
+#define KEY_LEFT_SUPER      key::LeftSuper
+#define KEY_RIGHT_SHIFT     key::RightShift
+#define KEY_RIGHT_CONTROL   key::RightControl
+#define KEY_RIGHT_ALT       key::RightAlt
+#define KEY_RIGHT_SUPER     key::RightSuper
+#define KEY_MENU            key::Menu
 
 typedef enum class mouse_button : uint16_t {
   BUTTON0 = 0,
@@ -289,15 +289,15 @@ typedef enum class mouse_button : uint16_t {
   MIDDLE = BUTTON2,
 } mouse_btn;
 
-#define MOUSE_BTN_0 ::mouse_btn::BUTTON0
-#define MOUSE_BTN_1 ::mouse_btn::BUTTON1
-#define MOUSE_BTN_2 ::mouse_btn::BUTTON2
-#define MOUSE_BTN_3 ::mouse_btn::BUTTON3
-#define MOUSE_BTN_4 ::mouse_btn::BUTTON4
-#define MOUSE_BTN_5 ::mouse_btn::BUTTON5
-#define MOUSE_BTN_LEFT ::mouse_btn::LEFT
-#define MOUSE_BTN_RIGHT ::mouse_btn::RIGHT
-#define MOUSE_BTN_MIDDLE ::mouse_btn::MIDDLE
+#define MOUSE_BTN_0 mouse_btn::BUTTON0
+#define MOUSE_BTN_1 mouse_btn::BUTTON1
+#define MOUSE_BTN_2 mouse_btn::BUTTON2
+#define MOUSE_BTN_3 mouse_btn::BUTTON3
+#define MOUSE_BTN_4 mouse_btn::BUTTON4
+#define MOUSE_BTN_5 mouse_btn::BUTTON5
+#define MOUSE_BTN_LEFT mouse_btn::LEFT
+#define MOUSE_BTN_RIGHT mouse_btn::RIGHT
+#define MOUSE_BTN_MIDDLE mouse_btn::MIDDLE
 
 }
 

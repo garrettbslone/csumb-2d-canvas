@@ -6,6 +6,7 @@
 #define GLW_GL_SHADER_HPP
 
 #include "gl_util.hpp"
+#include "texture.hpp"
 #include "core/util.hpp"
 
 #include <glm/glm.hpp>
@@ -23,7 +24,7 @@ public:
     void unbind() const override;
 
     /*
-     * Pass some values to the vertex shader of this shader program as uniforms.
+     * Pass some values to the vertex and fragment shaders of this shader program as uniforms.
      */
     void set_uniform_int(const std::string &name, int val);
     void set_uniform_int_arr(const std::string &name, int *vals, uint32_t cnt);
@@ -35,11 +36,15 @@ public:
     void set_uniform_mat3(const std::string &name, const glm::mat3 &m);
     void set_uniform_mat4(const std::string &name, const glm::mat4 &m);
 
+    void enable_texture(const std::string &name, const ref<gl_texture_t> &texture);
+
     static const std::string DEFAULT_NAME,
                              DEFAULT_VERT_PATH,
                              DEFAULT_FRAG_PATH;
 
     static const std::string defaults[3];
+
+    static ref<gl_shader_t> get_default();
 
 private:
     /*
@@ -57,6 +62,8 @@ private:
      * name_: a name for the shader program.
      */
     std::string name_;
+
+    static ref<gl_shader_t> default_instance_;
 };
 
 }
