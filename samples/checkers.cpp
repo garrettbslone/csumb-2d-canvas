@@ -640,9 +640,7 @@ int main(int argc, char *argv[])
             background->scale(vec2{static_cast<float>(window_dim * BACKGROUND_SCALE)});
             move_rect->scale(vec2{static_cast<float>(window_dim / BOARD_DIM * BACKGROUND_SCALE)});
             checker_scale = window_dim * checker_piece_t::CHECKER_SCALE;
-            cout << checker_piece_t::translation_offset_ << endl;
             checker_piece_t::translation_offset_ = 1.0 / (10.0 * checker_scale);
-            cout << checker_piece_t::translation_offset_ << endl;
         });
 
         selection_t selected;

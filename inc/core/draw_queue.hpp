@@ -2,8 +2,8 @@
 // Created by Garrett on 10/22/2022.
 //
 
-#ifndef MB2DC_DRAW_QUEUE_H
-#define MB2DC_DRAW_QUEUE_H
+#ifndef MB2DC_DRAW_QUEUE_HPP
+#define MB2DC_DRAW_QUEUE_HPP
 
 #include "drawable/drawable.hpp"
 
@@ -33,4 +33,4 @@ private:
 
 } // mb2dc
 
-#endif //MB2DC_DRAW_QUEUE_H
+#endif //MB2DC_DRAW_QUEUE_HPP

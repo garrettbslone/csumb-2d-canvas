@@ -5,7 +5,7 @@
 #ifndef MB2DC_CANVAS_HPP
 #define MB2DC_CANVAS_HPP
 
-#include "draw_queue.h"
+#include "draw_queue.hpp"
 #include "graphics/context.hpp"
 #include "window.hpp"
 
