@@ -12,6 +12,10 @@ struct GLFWwindow;
 
 namespace mb2dc {
 
+enum cull {
+};
+
+
 /*
  * An OpenGL defined renderer.
  */
@@ -24,6 +28,13 @@ public:
     gl_context_t &operator=(const gl_context_t &) = delete;
 
     void swap_buffers();
+
+    static void state_enable(int state);
+    static void state_disable(int state);
+
+    static void set_depth(bool enable);
+    static void cull_face(bool enable);
+    static void blend(bool enable);
 
 private:
     ref<::GLFWwindow *> native_window_;
