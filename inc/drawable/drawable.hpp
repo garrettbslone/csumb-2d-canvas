@@ -45,7 +45,7 @@ public:
     std::string name_;
 
 protected:
-    glm::mat4 model_;
+    glm::mat4 model_{1.f};
     float z_index_{0};
 
     int queue_pos_;
@@ -55,10 +55,11 @@ protected:
      * per drawable. Each drawable will have its own render call and slots can be shared between
      * different drawables.
      */
-    uint64_t active_slots_{0xFFFFFFFF};
+    uint64_t active_slots_{0x00000000};
 
     // forward declare the canvas_t here so that the draw_queue_t can be reordered
     // when a drawable changes its z_index_ (if needed)
+    template<class>
     friend class draw_queue_t;
 };
 

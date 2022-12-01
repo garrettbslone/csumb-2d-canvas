@@ -15,8 +15,9 @@ canvas_t *canvas_t::instance_ = nullptr;
 
 canvas_t::canvas_t(const window_spec &spec)
 {
-    if (instance_)
+    if (instance_) {
         throw canvas_ex("app already exists!");
+    }
 
     instance_ = this;
 
@@ -31,6 +32,8 @@ canvas_t::canvas_t(const window_spec &spec)
     float w = spec.width_ / 2.f, h  = spec.height_ / 2.f;
     this->proj_ = glm::ortho(-w, w, -h, h, -100.f, 100.f);
     this->view_ = glm::mat4(1.f);
+
+    this->overlay_ = ui_overlay_t::get();
 
     this->window_->on_resize([this] (uint32_t width, uint32_t height)
     {
@@ -77,6 +80,10 @@ void canvas_t::run(bool event_driven)
         if (this->update_) {
             view_proj = this->proj_ * this->view_;
             this->update_(this->queue_.get(), view_proj);
+        }
+
+        if (this->overlay_) {
+            this->overlay_->update(view_proj);
         }
 
         if (this->gl_ctx_) {
