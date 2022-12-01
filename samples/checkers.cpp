@@ -307,7 +307,7 @@ static bool is_valid_move_reg(int r, int c, int move_r, int move_c, bool remove)
         if (tolower(board[r + y_dir][c - 1]) == other &&
                 tolower(board[r + y_dir * 3][c - 1]) == other && valid_jump) {
             to_remove[0] = &board[r + y_dir][c - 1];
-            to_remove[0] = &board[r + y_dir * 3][c - 1];
+            to_remove[1] = &board[r + y_dir * 3][c - 1];
 
             if (remove) {
                 remove_pieces(to_remove, 2);
