@@ -20,7 +20,7 @@ class window_t;
 class input_t;
 
 struct window_spec {
-    std::string title_{"glw app"};
+    std::string title_{"2D Canvas"};
     uint32_t width_{1280}, height_{720};
     bool fullscreen_{false}, maximized_{false};
     float alpha_{1.f};
