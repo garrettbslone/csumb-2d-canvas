@@ -11,6 +11,10 @@
 
 namespace mb2dc {
 
+const std::string res_path(RES_PATH);
+
+std::string get_res(const std::string &res);
+
 template<typename T>
 using ref = std::shared_ptr<T>;
 
@@ -19,6 +23,8 @@ ref<T> new_ref(Args &&... args)
 {
     return std::make_shared<T>(args ...);
 }
+
+long long pow_2_greater(int n);
 
 /*
 * Read the contents of 'f_path' as a string.

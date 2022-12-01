@@ -61,6 +61,24 @@ public:
             : mb2dc_runtime_ex(msg) {}
 };
 
+class font_load_ex : public mb2dc_runtime_ex {
+public:
+    explicit font_load_ex(const std::string &msg)
+            : mb2dc_runtime_ex(msg) {}
+};
+
+class font_manager_ex : public mb2dc_runtime_ex {
+public:
+    explicit font_manager_ex(const std::string &msg)
+            : mb2dc_runtime_ex(msg) {}
+};
+
+class text_ex : public mb2dc_runtime_ex {
+public:
+    explicit text_ex(const std::string &msg)
+            : mb2dc_runtime_ex(msg) {}
+};
+
 }
 
 #endif //MB2dc_EXCEPTION_HPP

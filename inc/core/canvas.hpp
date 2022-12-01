@@ -7,6 +7,7 @@
 
 #include "draw_queue.hpp"
 #include "graphics/context.hpp"
+#include "ui/overlay.hpp"
 #include "window.hpp"
 
 namespace mb2dc {
@@ -32,6 +33,7 @@ public:
     void close();
     void on_update(update_fn cb);
     void on_window_resize(resize_fn cb);
+    void on_ui_update(ui_update_fn cb);
 
     void fixed_size();
     void resizable();
@@ -42,6 +44,7 @@ public:
     inline static const canvas_t *get() { return canvas_t::instance_; }
 
     ref<window_t> window_;
+    ref<ui_overlay_t> overlay_;
     glm::mat4 proj_, view_;
 
 private:
@@ -50,7 +53,7 @@ private:
     ref<input_t> input_;
     ref<gl_context_t> gl_ctx_;
     bool running_, minimized_;
-    draw_queue_t queue_;
+    draw_queue_t<drawable_t> queue_{};
 
     static canvas_t *instance_;
 

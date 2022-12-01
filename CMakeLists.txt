@@ -20,22 +20,38 @@ if (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     endif()
 endif()
 
-set(CORE_SRCS src/core/window.cpp src/core/canvas.cpp src/core/input.cpp src/core/util.cpp src/core/draw_queue.cpp inc/core/draw_queue.h)
-set(GRAPHICS_SRCS src/graphics/buffer.cpp
-        src/graphics/framebuffer.cpp
-        src/graphics/context.cpp
-        src/graphics/shader.cpp
-        src/graphics/texture.cpp
-        src/graphics/vertex_array.cpp
-        src/graphics/gl_util.cpp)
-set(DRAWABLE_SRCS src/drawable/drawable.cpp src/drawable/circle.cpp src/drawable/rect.cpp)
+set(CORE_SRCS
+    src/core/window.cpp
+    src/core/canvas.cpp
+    src/core/input.cpp
+    src/core/util.cpp)
+set(GRAPHICS_SRCS
+    src/graphics/buffer.cpp
+    src/graphics/framebuffer.cpp
+    src/graphics/context.cpp
+    src/graphics/shader.cpp
+    src/graphics/texture.cpp
+    src/graphics/vertex_array.cpp
+    src/graphics/gl_util.cpp)
+set(DRAWABLE_SRCS
+    src/drawable/drawable.cpp
+    src/drawable/circle.cpp
+    src/drawable/rect.cpp)
+set(UI_SRCS
+    src/ui/element.cpp
+    src/ui/font.cpp
+    src/ui/font_manager.cpp
+    src/ui/glyph.cpp
+    src/ui/overlay.cpp
+    src/ui/text.cpp)
 
 add_subdirectory(ext/glfw)
+add_subdirectory(ext/freetype)
 
-add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS} ${DRAWABLE_SRCS})
+add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS} ${DRAWABLE_SRCS} ${UI_SRCS})
 
-target_include_directories(mb2dc PUBLIC inc ext ext/glfw/include ext/stb_image ext/glm)
-target_link_directories(mb2dc PUBLIC ${CMAKE_SOURCE_DIR}/ext/glfw/src)
-target_link_libraries(mb2dc glfw)
+target_include_directories(mb2dc PUBLIC inc ext ext/glfw/include ext/stb_image ext/glm ext/freetype/include)
+target_link_directories(mb2dc PUBLIC ${CMAKE_SOURCE_DIR}/ext/glfw/src ${CMAKE_SOURCE_DIR}/ext/freetype)
+target_link_libraries(mb2dc glfw freetype)
 
 add_subdirectory(samples)

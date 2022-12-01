@@ -8,6 +8,22 @@
 
 namespace mb2dc {
 
+std::string get_res(const std::string &res)
+{
+    return res_path + res;
+}
+
+long long pow_2_greater(int n)
+{
+    long long p2 = 1;
+
+    while (p2 < n && p2 < LONG_LONG_MAX) {
+        p2 = p2 << 1;
+    }
+
+    return p2;
+}
+
 std::string read_file(const std::string &f_path)
 {
     std::ifstream fin(f_path, std::ifstream::in | std::ifstream::binary);

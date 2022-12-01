@@ -25,4 +25,11 @@
 #include "graphics/texture.hpp"
 #include "graphics/vertex_array.hpp"
 
+#include "ui/element.hpp"
+#include "ui/font.hpp"
+#include "ui/font_manager.hpp"
+#include "ui/glyph.hpp"
+#include "ui/overlay.hpp"
+#include "ui/text.hpp"
+
 #endif //MB2DC_MB2DC_HPP
