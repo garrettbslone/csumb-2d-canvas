@@ -1,10 +1,4 @@
-#include <glad/gl.h>
-#include <mb2dc.hpp>
-#include <iostream>
-
-using namespace glm;
-using namespace std;
-using namespace mb2dc;
+#include "samples_common.hpp"
 
 int main(int argc, char *argv[])
 {
