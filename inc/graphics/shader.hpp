@@ -38,6 +38,8 @@ public:
 
     void enable_texture(const std::string &name, const ref<gl_texture_t> &texture);
 
+    const std::string &name() { return this->name_; }
+
     static const std::string DEFAULT_NAME,
                              DEFAULT_VERT_PATH,
                              DEFAULT_FRAG_PATH;
