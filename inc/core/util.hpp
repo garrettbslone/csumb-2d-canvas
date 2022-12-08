@@ -7,6 +7,8 @@
 
 #include "exception.hpp"
 
+#include <glm/ext/scalar_constants.hpp>
+
 #include <memory>
 
 namespace mb2dc {
@@ -30,6 +32,9 @@ long long pow_2_greater(int n);
 * Read the contents of 'f_path' as a string.
 */
 std::string read_file(const std::string &f_path);
+
+constexpr auto pi = glm::pi<double>();
+constexpr auto fpi = glm::pi<float>();
 
 }
 

@@ -7,6 +7,7 @@
 #include <graphics/shader.hpp>
 
 #include <glm/ext.hpp>
+#include <utility>
 
 
 namespace mb2dc {
@@ -47,7 +48,9 @@ canvas_t::canvas_t(const window_spec &spec)
         }
     });
 
-    this->window_->data_.input_->key_down_ = [&] (int key)
+    this->input_ = this->window_->data_.input_;
+
+    this->input_->key_down_ = [&] (int key)
     {
         if (static_cast<key_code>(key) == KEY_ESCAPE) {
             auto _win = reinterpret_cast<GLFWwindow *>(this->window_->native_window());
@@ -61,6 +64,8 @@ canvas_t::canvas_t(const window_spec &spec)
             n->draw(view_proj);
         }
     };
+
+    this->register_ui_clicks();
 }
 
 canvas_t::~canvas_t() = default;
@@ -94,12 +99,52 @@ void canvas_t::run(bool event_driven)
 
 void canvas_t::on_update(update_fn cb)
 {
-    this->update_ = cb;
+    this->update_ = std::move(cb);
 }
 
 void canvas_t::on_window_resize(resize_fn cb)
 {
-    this->resize_ = cb;
+    this->resize_ = std::move(cb);
+}
+
+void canvas_t::on_ui_update(ui_update_fn cb)
+{
+    this->overlay_->on_update(std::move(cb));
+}
+
+void canvas_t::on_mouse_btn_down(mouse_button_down_fn cb)
+{
+    this->input_->mouse_btn_down_ = std::move(cb);
+}
+
+void canvas_t::on_mouse_btn_up(mouse_button_up_fn cb)
+{
+    this->input_->mouse_btn_up_ = std::move(cb);
+}
+
+void canvas_t::on_mouse_move(mouse_move_fn cb)
+{
+    this->input_->mouse_move_ = std::move(cb);
+}
+
+void canvas_t::on_key_down(key_down_fn cb)
+{
+    this->input_->key_down_ = std::move(cb);
+}
+
+void canvas_t::on_key_up(key_up_fn cb)
+{
+    this->input_->key_up_ = std::move(cb);
+}
+
+void canvas_t::register_ui_clicks()
+{
+    this->overlay_->click_thru(this->input_->mouse_btn_down_);
+    this->input_->mouse_btn_down_ = [this] (int btn)
+    {
+        auto pos = this->input_->get_mouse_pos_rel(this->window_->width(), this->window_->height());
+        this->overlay_->try_click(btn, pos.x, pos.y);
+    };
 }
 
 void canvas_t::close()
@@ -117,12 +162,12 @@ void canvas_t::resizable()
     this->window_->set_resizable(true);
 }
 
-void canvas_t::draw_shape(ref<drawable_t> shape)
+void canvas_t::draw_shape(const ref<drawable_t>& shape)
 {
     this->queue_.enqueue(shape.get());
 }
 
-void canvas_t::draw_shape_at(ref<drawable_t> shape, int x, int y)
+void canvas_t::draw_shape_at(const ref<drawable_t>& shape, int x, int y)
 {
     shape->translate({x, y});
     this->queue_.enqueue(shape.get());
