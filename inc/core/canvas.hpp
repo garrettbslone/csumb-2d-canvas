@@ -34,12 +34,19 @@ public:
     void on_update(update_fn cb);
     void on_window_resize(resize_fn cb);
     void on_ui_update(ui_update_fn cb);
+    void on_mouse_btn_down(mouse_button_down_fn cb);
+    void on_mouse_btn_up(mouse_button_up_fn cb);
+    void on_mouse_move(mouse_move_fn cb);
+    void on_key_down(key_down_fn cb);
+    void on_key_up(key_up_fn cb);
+
+    void register_ui_clicks();
 
     void fixed_size();
     void resizable();
 
-    void draw_shape(ref<drawable_t> shape);
-    void draw_shape_at(ref<drawable_t> shape, int x, int y);
+    void draw_shape(const ref<drawable_t>& shape);
+    void draw_shape_at(const ref<drawable_t>& shape, int x, int y);
 
     inline static const canvas_t *get() { return canvas_t::instance_; }
 

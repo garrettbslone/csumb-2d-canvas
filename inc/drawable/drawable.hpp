@@ -16,14 +16,26 @@ namespace mb2dc {
 
 class drawable_t {
 public:
-    ~drawable_t();
+    virtual ~drawable_t();
 
     void draw() const;
 
     virtual void draw(const glm::mat4 &view_proj) const;
-    void translate(const glm::vec2 &v);
-    void rotate(float deg, const glm::vec3 &axis = glm::vec3(0.f, 0.f, -1.f));
-    void scale(const glm::vec2 &v);
+
+    /*
+     * Freeze the drawable in place on the canvas_t. When frozen, calls to translate,
+     * rotate, scale, & set_z_index will have no effect.
+     */
+    void freeze();
+    void unfreeze();
+
+    void translate(const glm::vec2 &v, bool reset = true);
+    void rotate(float deg, bool reset = true);
+    void scale(const glm::vec2 &v, bool reset = true);
+
+    inline glm::vec2 center() const { return this->center_; }
+    inline float rotation() const { return this->rotation_; }
+    inline glm::vec2 scale() const { return this->scale_; }
 
     inline void reset_transformations() { this->model_ = glm::mat4(1.f); }
     inline glm::mat4 get_model_mat() { return this->model_; }
@@ -45,10 +57,16 @@ public:
     std::string name_;
 
 protected:
+    void make_model_mat();
+
     glm::mat4 model_{1.f};
-    float z_index_{0};
+    glm::vec2 center_{0.f}, scale_{1.f};
+
+    float z_index_{0.f}, rotation_{0.f};
 
     int queue_pos_;
+
+    bool frozen_{false};
 
     /*
      * There are at least 48 texture slots in OpenGL, so we can keep track of the active ones

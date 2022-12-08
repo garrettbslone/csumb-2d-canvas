@@ -70,6 +70,8 @@ void circle_t::create(const std::string &name, const std::vector<glm::vec4> &col
                             "). Only " + std::to_string(colors.size()) + " given.");
     }
 
+    this->r_ = r;
+
     created_++;
     alive_++;
 

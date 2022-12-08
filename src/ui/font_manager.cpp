@@ -25,14 +25,14 @@ void font_manager_t::load(const ref<font_t>& font)
     }
 }
 
-ref<font_t> font_manager_t::load(const std::string &font_path)
+ref<font_t> font_manager_t::load(const std::string &font_path, unsigned int height)
 {
     auto it = this->font_cache_.find(font_t::name_from_path(font_path));
     if (it != this->font_cache_.end()) {
         return it->second;
     }
 
-    auto font = new_ref<font_t>(font_path);
+    auto font = new_ref<font_t>(font_path, 0, height);
 
     if (!font) {
         return nullptr;

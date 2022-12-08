@@ -16,6 +16,25 @@ void ui_overlay_t::update(const glm::mat4 &view_proj)
     }
 }
 
+void ui_overlay_t::try_click(int btn, double x, double y)
+{
+    for (auto &c: this->clickables_) {
+        if (c->overlapping(x, y)) {
+            c->click_(btn, c);
+            return;
+        }
+    }
+
+    if (this->click_thru_) {
+        this->click_thru_(btn);
+    }
+}
+
+void ui_overlay_t::click_thru(mouse_button_down_fn cb)
+{
+    this->click_thru_ = std::move(cb);
+}
+
 ref<text_t> ui_overlay_t::draw_text(std::string_view text, const ref<font_t> &font, glm::vec2 pos, float scale)
 {
     auto t = new_ref<text_t>(text, font ? font : font_t::inkfree(), pos, scale);
@@ -31,16 +50,30 @@ void ui_overlay_t::draw_text(const ref<text_t> &text)
 void ui_overlay_t::draw_element(const ref<ui_element_t> &element)
 {
     this->queue_.enqueue(element.get());
+
+    clickable_t *c = nullptr;
+    if ((c = dynamic_cast<clickable_t *>(element.get())) && this->clickables_.count(c) == 0) {
+        this->clickables_.insert(c);
+    }
 }
 
 void ui_overlay_t::erase(ui_element_t *element)
 {
     this->queue_.dequeue(element);
+
+    auto *c = dynamic_cast<clickable_t *>(element);
+    if (c) {
+        auto it = this->clickables_.find(c);
+
+        if (it != this->clickables_.end()) {
+            this->clickables_.erase(it);
+        }
+    }
 }
 
 void ui_overlay_t::erase(const ref<ui_element_t> &element)
 {
-    this->queue_.dequeue(element.get());
+    this->erase(element.get());
 }
 
 ref<ui_overlay_t> ui_overlay_t::get()

@@ -25,6 +25,7 @@
 #include "graphics/texture.hpp"
 #include "graphics/vertex_array.hpp"
 
+#include "ui/button.hpp"
 #include "ui/element.hpp"
 #include "ui/font.hpp"
 #include "ui/font_manager.hpp"

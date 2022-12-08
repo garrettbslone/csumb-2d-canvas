@@ -18,4 +18,11 @@ ui_element_t::~ui_element_t()
     }
 }
 
+int clickable_t::ID = 0;
+
+clickable_t::clickable_t()
+{
+    this->id_ = ID++;
+}
+
 }

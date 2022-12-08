@@ -2,26 +2,9 @@
 // Created by Garrett on 10/23/2022.
 //
 
-#include <mb2dc.hpp>
-
-#include <iostream>
-#include <unordered_map>
+#include "samples_common.hpp"
 
 #include <glad/gl.h>
-
-using namespace mb2dc;
-using namespace glm;
-
-using std::vector;
-using std::cout;
-using std::endl;
-using std::to_string;
-using std::string;
-using std::unordered_map;
-using std::pair;
-using std::swap;
-using std::tolower;
-using std::toupper;
 
 // by default rects are 200 x 200
 const double BACKGROUND_SCALE = 1.0 / 200.0;
@@ -603,13 +586,13 @@ int main(int argc, char *argv[])
 
         auto background = new_ref<rect_t>();
         background->shader_ = new_ref<gl_shader_t>("board background",
-                                                   std::string(RES_PATH) + "shaders/flat.vs.glsl",
-                                                   std::string(RES_PATH) + "shaders/tex.fs.glsl");
+                                                   get_res("shaders/flat.vs.glsl"),
+                                                   get_res("shaders/tex.fs.glsl"));
         background->textures_.emplace("checker board",
-                                      new_ref<gl_texture_t>(string(RES_PATH) + "img/checkerboard.png"));
+                                      new_ref<gl_texture_t>(get_res("img/checkerboard.png")));
         background->textures_.begin()->second->alpha_ = 1.f;
         background->shader_->set_uniform_int("uTex", 0);
-        background->scale({window_dim * BACKGROUND_SCALE, window_dim * BACKGROUND_SCALE});
+        background->scale({window_dim * BACKGROUND_SCALE, window_dim * BACKGROUND_SCALE}, true);
         canvas->draw_shape(background);
 
         // the blue highlight square
@@ -621,14 +604,14 @@ int main(int argc, char *argv[])
         auto checker_scale = window_dim * checker_piece_t::CHECKER_SCALE;
         checker_piece_t::translation_offset_ = 1.0 / (10.0 * checker_scale);
         checker->set_z_index(10.f);
-        checker->textures_["red"] = new_ref<gl_texture_t>(string(RES_PATH) + "img/red_checker.png");
-        checker->textures_["black"] = new_ref<gl_texture_t>(string(RES_PATH) + "img/black_checker.png");
-        checker->textures_["red_king"] = new_ref<gl_texture_t>(string(RES_PATH) + "img/red_checker_king.png");
-        checker->textures_["black_king"] = new_ref<gl_texture_t>(string(RES_PATH) + "img/black_checker_king.png");
+        checker->textures_["red"] = new_ref<gl_texture_t>(get_res("img/red_checker.png"));
+        checker->textures_["black"] = new_ref<gl_texture_t>(get_res("img/black_checker.png"));
+        checker->textures_["red_king"] = new_ref<gl_texture_t>(get_res("img/red_checker_king.png"));
+        checker->textures_["black_king"] = new_ref<gl_texture_t>(get_res("img/black_checker_king.png"));
         checker->shader_ = background->shader_;
         canvas->draw_shape(checker);
 
-        background->set_z_index(-10);
+        background->set_z_index(-10.f);
 
         canvas->on_window_resize([&background, &window_dim, &move_rect, &checker_scale](int width, int height)
         {
@@ -663,9 +646,6 @@ int main(int argc, char *argv[])
             }
         };
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
         canvas->on_update([&checker_scale, &selected, &window_dim, &canvas]
             (const vector<drawable_t *> &nodes, const mat4 &view_proj)
         {
@@ -688,6 +668,7 @@ int main(int argc, char *argv[])
                 } else {
                     n->draw(view_proj);
                 }
+
             }
 
             if (game_state::red_pieces == 0) {
