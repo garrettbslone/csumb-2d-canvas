@@ -20,7 +20,7 @@ public:
     rect_t(const std::string &name, const glm::vec4 &color);
     rect_t(const std::string &name, const std::vector<glm::vec4> &colors);
 
-    ~rect_t();
+    ~rect_t() override;
 
 private:
     void create(const std::string &name, const std::vector<glm::vec4> &colors);

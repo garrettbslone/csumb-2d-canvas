@@ -19,10 +19,12 @@ public:
     circle_t(const std::string &name, const glm::vec4 &color, int vertex_count, int r = 100);
     circle_t(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r = 100);
 
-    ~circle_t();
+    ~circle_t() override;
 
 private:
     void create(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r);
+
+    int r_{-1};
 
     static int created_, alive_;
 };

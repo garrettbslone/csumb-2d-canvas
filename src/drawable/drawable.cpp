@@ -6,7 +6,6 @@
 #include <core/canvas.hpp>
 
 #include <glad/gl.h>
-#include <glm/ext.hpp>
 
 namespace mb2dc {
 
@@ -60,28 +59,74 @@ void drawable_t::draw(const glm::mat4 &view_proj) const
     }
 }
 
+void drawable_t::freeze()
+{
+    this->frozen_ = true;
+}
+
+void drawable_t::unfreeze()
+{
+    this->frozen_ = false;
+}
+
+void drawable_t::translate(const glm::vec2 &v, bool reset)
+{
+    if (this->frozen_) {
+        return;
+    }
+
+    if (reset) {
+        this->center_ = v;
+    } else {
+        this->center_ += v;
+    }
+
+    this->make_model_mat();
+}
+
+void drawable_t::rotate(float deg, bool reset)
+{
+    if (this->frozen_) {
+        return;
+    }
+
+    deg = glm::radians(deg);
+
+    if (reset) {
+        this->rotation_ = deg;
+    } else {
+        this->rotation_ += deg;
+    }
+
+    this->make_model_mat();
+}
+
+void drawable_t::scale(const glm::vec2 &v, bool reset)
+{
+    if (this->frozen_) {
+        return;
+    }
+
+    if (reset) {
+        this->scale_ = v;
+    } else {
+        this->scale_ += v;
+    }
+
+    this->make_model_mat();
+}
+
 void drawable_t::set_z_index(float z)
 {
+    if (this->frozen_) {
+        return;
+    }
+
     auto _canvas = canvas_t::get();
 
     if (_canvas) {
         _canvas->queue_.adjust(this, z);
     }
-}
-
-void drawable_t::translate(const glm::vec2 &v)
-{
-    this->model_ = glm::translate(this->model_, glm::vec3(v.x, v.y, 0));
-}
-
-void drawable_t::rotate(float deg, const glm::vec3 &axis)
-{
-    this->model_ = glm::rotate(this->model_, deg, axis);
-}
-
-void drawable_t::scale(const glm::vec2 &v)
-{
-    this->model_ = glm::scale(this->model_, glm::vec3{v.x, v.y, 1.f});
 }
 
 bool drawable_t::is_slot_active(uint8_t slot)
@@ -115,6 +160,18 @@ uint8_t drawable_t::find_next_slot()
     }
 
     return -1;
+}
+
+void drawable_t::make_model_mat()
+{
+    const float cos_rot = glm::cos(this->rotation_);
+    const float sin_rot = glm::sin(this->rotation_);
+
+    this->model_ = glm::mat4{
+            {this->scale_.x * cos_rot,         this->scale_.x * sin_rot,         0.f, 0.f},
+            {this->scale_.y * -sin_rot,        this->scale_.y * cos_rot,         0.f, 0.f},
+            {0.f,                              0.f,                              1.f, 0.f},
+            {this->center_.x * this->scale_.x, this->center_.y * this->scale_.y, 0.f, 1.f}};
 }
 
 }
