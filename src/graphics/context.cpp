@@ -17,7 +17,7 @@ gl_context_t::gl_context_t(void *w)
         glfwMakeContextCurrent(*this->native_window_);
     }
 
-    set_depth(true);
+    set_depth(false);
     cull_face(true);
     blend(true);
 }
