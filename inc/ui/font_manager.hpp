@@ -22,7 +22,7 @@ public:
     ~font_manager_t();
 
     void load(const ref<font_t>& font);
-    ref<font_t> load(const std::string &font_path);
+    ref<font_t> load(const std::string &font_path, unsigned int height = 72);
 
     void unload(const ref<font_t>& font);
 
