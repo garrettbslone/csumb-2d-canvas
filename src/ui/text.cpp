@@ -5,6 +5,11 @@
 #include <glad/gl.h>
 #include <ui/text.hpp>
 
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 namespace mb2dc {
 
 text_t::text_t(std::string_view text, const ref<font_t>& font, glm::vec2 pos, float scale)
@@ -13,6 +18,7 @@ text_t::text_t(std::string_view text, const ref<font_t>& font, glm::vec2 pos, fl
     this->va_ = new_ref<gl_vertex_array_t>();
     this->generate(text, font.get(), pos, scale);
     this->set_z_index(100);
+    this->name_ = text;
 }
 
 void text_t::backspace()
@@ -43,14 +49,14 @@ void text_t::change(std::string_view text, unsigned int from)
 
 void text_t::resize(float scale)
 {
-    if (this->glyphs_.empty()) {
+    if (this->end_ == 0 || this->glyphs_.empty()) {
         throw text_ex("Cannot resize the text in an uninitialized text_t object!");
     }
 
     std::string s;
 
-    for (auto &g: this->glyphs_) {
-        s += g.character();
+    for (auto g = 0; g < this->end_; g++) {
+        s += this->glyphs_[g].character();
     }
 
     this->generate(s, this->glyphs_[0].font(), this->anchor_pos_, scale);
@@ -58,14 +64,14 @@ void text_t::resize(float scale)
 
 void text_t::change_font(const ref<font_t> &font)
 {
-    if (this->glyphs_.empty()) {
+    if (this->end_ == 0 || this->glyphs_.empty()) {
         throw text_ex("Cannot change the font of the text in an uninitialized text_t object!");
     }
 
     std::string s;
 
-    for (auto &g: this->glyphs_) {
-        s += g.character();
+    for (auto g = 0; g < this->end_; g++) {
+        s += this->glyphs_[g].character();
     }
 
     this->generate(s, font.get(), this->anchor_pos_, this->scale_);
@@ -73,14 +79,14 @@ void text_t::change_font(const ref<font_t> &font)
 
 void text_t::reposition(glm::vec2 pos)
 {
-    if (this->glyphs_.empty()) {
+    if (this->end_ == 0 || this->glyphs_.empty()) {
         throw text_ex("Cannot reposition the text in an uninitialized text_t object!");
     }
 
     std::string s;
 
-    for (auto &g: this->glyphs_) {
-        s += g.character();
+    for (auto g = 0; g < this->end_; g++) {
+        s += this->glyphs_[g].character();
     }
 
     this->generate(s, this->glyphs_[0].font(), pos, this->scale_);
@@ -117,6 +123,29 @@ void text_t::generate(std::string_view text, font_t *font, glm::vec2 pos, float 
     }
 }
 
+float text_t::width() const
+{
+//    cout << this->end_ << " | " << this->glyphs_.size() << endl;
+//    cout << "x0: " << this->anchor_pos_.x << " | epx: " << this->glyphs_[this->end_].pos_.x << " | nx: " << this->glyphs_[this->end_].next_x() << endl;
+    float delta = 0;
+
+    if (this->end_ > 0) {
+        delta = this->glyphs_[this->end_].next_x() + this->glyphs_[this->end_].pos_.x - this->anchor_pos_.x;
+    }
+
+    return delta;
+}
+
+float text_t::height() const
+{
+    return 0;
+}
+
+glm::vec2 text_t::end() const
+{
+    return {this->width(), this->anchor_pos_.y};
+}
+
 void text_t::draw(const glm::mat4 &view_proj) const
 {
     this->va_->bind();
@@ -135,5 +164,4 @@ void text_t::draw(const glm::mat4 &view_proj) const
                 (GLint) g.vb_->get_data_size());
     }
 }
-
 }

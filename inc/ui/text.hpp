@@ -24,6 +24,15 @@ public:
 
     void generate(std::string_view text, font_t *font, glm::vec2 pos, float scale, unsigned int i = 0);
 
+    float width() const;
+    float height() const;
+    glm::vec2 end() const;
+
+    inline glm::vec2 anchor() const { return this->anchor_pos_; }
+    inline float scale() const { return this->scale_; }
+    inline unsigned int size() const { return this->end_; }
+    inline unsigned int reserved() const { return this->glyphs_.size(); }
+
     void draw(const glm::mat4 &view_proj) const override;
 
     // Max length (number of glyphs) of a text_t object

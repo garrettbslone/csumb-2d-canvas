@@ -11,12 +11,24 @@
 
 namespace mb2dc {
 
-class button_t;
-
-using btn_click_fn = std::function<void(button_t *thiz)>;
-
-class button_t : public ui_element_t {
+class button_t : public ui_element_t, public clickable_t {
 public:
+    explicit button_t(glm::vec4 border_color = {0.2f, 0.2f, 0.2f, 1.f}, float border_radius = 1.f);
+
+    ~button_t() override;
+
+    void draw(const glm::mat4 &view_proj) const override;
+
+    glm::vec2 convert_to_spos(const glm::vec2 &v);
+
+    bool overlapping(double x, double y) override;
+
+    void set_state(uint16_t state, bool clear_previous = false);
+    inline uint16_t state() const { return this->state_; }
+
+    void set_border_radius(float border_radius);
+    inline float border_radius() const { return this->border_radius_; }
+
     static constexpr uint16_t STATE_ACTIVE = 1 << 0;
     static constexpr uint16_t STATE_INACTIVE = 1 << 2;
     static constexpr uint16_t STATE_VISIBLE = 1 << 3;
@@ -24,18 +36,11 @@ public:
     static constexpr uint16_t STATE_CLICKED = 1 << 5;
     static constexpr uint16_t STATE_UNCLICKED = 1 << 6;
 
-    button_t();
-    explicit button_t(drawable_t *base);
-
-    inline void on_click(const btn_click_fn &cb) { this->click_ = cb; }
-
-    void set_state(uint16_t state, bool clear_previous);
-    inline uint16_t state() const { return this->state_; }
+    glm::vec4 border_color_;
 
 private:
-    btn_click_fn click_;
-
     uint16_t state_;
+    float border_radius_;
 };
 
 }
