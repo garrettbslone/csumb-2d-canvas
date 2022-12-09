@@ -9,13 +9,13 @@ int main()
     try {
         canvas_t canvas(window_spec{.maximized_ = true});
 
-        auto x = (-1.0 * canvas.window_->width() / 2.0);
-        auto y = canvas.window_->height() / 2.0;
+        auto x = (-1.0 * canvas.width() / 2.0);
+        auto y = canvas.height() / 2.0;
         int secs = 0, fc = 0;
 
-        auto time = canvas.overlay_->draw_text("Time: " + to_string(secs), font_t::inkfree(), {x - (x / 2.95), y - (y / 2.75)}, 0.25);
-        auto fps = canvas.overlay_->draw_text("fps: ", font_t::inkfree(), {x - (x / 2.25), y - (y / 2.75)}, 0.25);
-        auto changing = canvas.overlay_->draw_text("Start Typing...", font_t::inkfree(), {0.f, 0.f}, 1.f);
+        auto time = canvas.draw_text("Time: " + to_string(secs), font_t::inkfree(), {x - (x / 2.95), y - (y / 2.75)}, 0.25);
+        auto fps = canvas.draw_text("fps: ", font_t::inkfree(), {x - (x / 2.25), y - (y / 2.75)}, 0.25);
+        auto changing = canvas.draw_text("Start Typing...", font_t::inkfree(), {0.f, 0.f}, 1.f);
         bool changed = false;
 
         auto btn = new_ref<button_t>();
@@ -23,17 +23,17 @@ int main()
         btn->set_z_index(-1.f);
         btn->on_click([&] (int btn, clickable_t *thiz)
         {
-            auto _p = canvas.window_->data_.input_->get_mouse_pos_rel();
+            auto _p = canvas.get_mouse_pos_rel();
             cout << "btn clicked id: " << thiz->id() << " - " << dynamic_cast<button_t *>(thiz)->name_ << endl;
             changing->clear();
         });
-        canvas.overlay_->draw_element(btn);
+        canvas.draw_ui_element(btn);
 
         auto p = btn->convert_to_spos(btn->center());
-        auto btn_msg = canvas.overlay_->draw_text("Clear Text", font_t::arial(), p / glm::vec2(1.415f, 1.525f), 0.2f);
+        auto btn_msg = canvas.draw_text("Clear Text", font_t::arial(), p / glm::vec2(1.415f, 1.525f), 0.2f);
         btn_msg->set_z_index(100.f);
 
-        canvas.window_->data_.input_->key_down_ = [&] (int k)
+        canvas.on_key_down([&] (int k)
         {
             if (!changed) {
                 changing->clear();
@@ -52,7 +52,7 @@ int main()
             }
 
             changing->append(reinterpret_cast<char *>(&k));
-        };
+        });
 
         canvas.on_window_resize([&] (int w, int h)
         {
@@ -68,7 +68,7 @@ int main()
             btn_msg->reposition(p / glm::vec2(1.415f, 1.525f));
         });
 
-        canvas.overlay_->on_update([&] (const vector<ui_element_t *> &elements, const mat4 &view_proj)
+        canvas.on_ui_update([&] (const vector<ui_element_t *> &elements, const mat4 &view_proj)
         {
             auto _time = glfwGetTime();
             if (floor(_time) >= secs) {

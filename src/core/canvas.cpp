@@ -107,14 +107,95 @@ void canvas_t::on_window_resize(resize_fn cb)
     this->resize_ = std::move(cb);
 }
 
+void canvas_t::force_fullscreen()
+{
+    this->window_->force_fullscreen();
+}
+
+void canvas_t::on_close(close_fn cb)
+{
+    this->window_->on_close(std::move(cb));
+}
+
+void canvas_t::set_title(const std::string &title)
+{
+    this->window_->set_title(title);
+}
+
+void canvas_t::set_clear_color(const glm::vec4 &c)
+{
+    this->window_->clear_clr_ = c;
+}
+
+double canvas_t::aspect_ratio()
+{
+    return this->window_->aspect_ratio();
+}
+
+uint32_t canvas_t::width() const
+{
+    return this->window_->width();
+}
+
+uint32_t canvas_t::height() const
+{
+    return this->window_->height();
+}
+
+ref<text_t> canvas_t::draw_text(std::string_view text, const ref<font_t> &font, glm::vec2 pos, float scale)
+{
+    return this->overlay_->draw_text(text, font, pos, scale);
+}
+
+void canvas_t::draw_ui_text(const ref<text_t> &text)
+{
+    this->overlay_->draw_text(text);
+}
+
+void canvas_t::draw_ui_element(const ref<ui_element_t> &element)
+{
+    this->overlay_->draw_element(element);
+}
+
+void canvas_t::erase_ui_element(ui_element_t *element)
+{
+    this->overlay_->erase(element);
+}
+
+void canvas_t::erase_ui_element(const ref<ui_element_t> &element)
+{
+    this->overlay_->erase(element);
+}
+
 void canvas_t::on_ui_update(ui_update_fn cb)
 {
     this->overlay_->on_update(std::move(cb));
 }
 
+glm::vec2 canvas_t::get_mouse_pos_real()
+{
+    return this->input_->get_mouse_pos_real();
+}
+
+glm::vec2 canvas_t::get_mouse_pos_rel()
+{
+    return this->input_->get_mouse_pos_rel(this->width(), this->height());
+}
+
+glm::vec2 canvas_t::get_mouse_pos_rel(uint32_t dim)
+{
+    return this->input_->get_mouse_pos_rel(dim);
+}
+
+glm::vec2 canvas_t::get_mouse_pos_rel(uint32_t width, uint32_t height)
+{
+    return this->input_->get_mouse_pos_rel(width, height);
+}
+
 void canvas_t::on_mouse_btn_down(mouse_button_down_fn cb)
 {
     this->input_->mouse_btn_down_ = std::move(cb);
+    this->register_ui_clicks();
 }
 
 void canvas_t::on_mouse_btn_up(mouse_button_up_fn cb)

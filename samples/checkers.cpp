@@ -579,7 +579,7 @@ int main(int argc, char *argv[])
 
     try {
         auto canvas = new_ref<canvas_t>(window_spec{"checkers", window_dim, window_dim});
-        canvas->window_->clear_clr_ = {0.28125f, 0.0546875f, 0.0078125f, 1.f};
+        canvas->set_clear_color({0.28125f, 0.0546875f, 0.0078125f, 1.f});
         // don't allow the window to be resized because the translations get messed up on
         // resize for some reason
         canvas->fixed_size();
@@ -627,7 +627,7 @@ int main(int argc, char *argv[])
         });
 
         selection_t selected;
-        canvas->window_->data_.input_->mouse_btn_down_ = [&selected, &canvas, &window_dim] (int btn)
+        canvas->on_mouse_btn_down([&selected, &canvas, &window_dim] (int btn)
         {
             if (static_cast<mouse_btn>(btn) == MOUSE_BTN_LEFT) {
                 auto pos = canvas->window_->data_.input_->get_mouse_pos_real();
@@ -644,7 +644,7 @@ int main(int argc, char *argv[])
                     selected.second_ = {r, c};
                 }
             }
-        };
+        });
 
         canvas->on_update([&checker_scale, &selected, &window_dim, &canvas]
             (const vector<drawable_t *> &nodes, const mat4 &view_proj)
@@ -653,7 +653,7 @@ int main(int argc, char *argv[])
                 return;
             }
 
-            canvas->window_->set_title(game_state::title());
+            canvas->set_title(game_state::title());
 
             for (auto &n: nodes) {
                 if (dynamic_cast<checker_piece_t *>(n)) {
@@ -668,7 +668,6 @@ int main(int argc, char *argv[])
                 } else {
                     n->draw(view_proj);
                 }
-
             }
 
             if (game_state::red_pieces == 0) {
@@ -683,5 +682,5 @@ int main(int argc, char *argv[])
         cout << ex.msg_ << endl;
     }
 
-    exit(EXIT_SUCCESS);
+    return 0;
 }
