@@ -38,6 +38,7 @@ set(DRAWABLE_SRCS
     src/drawable/circle.cpp
     src/drawable/rect.cpp)
 set(UI_SRCS
+    src/ui/button.cpp
     src/ui/element.cpp
     src/ui/font.cpp
     src/ui/font_manager.cpp
