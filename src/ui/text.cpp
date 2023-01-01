@@ -5,11 +5,6 @@
 #include <glad/gl.h>
 #include <ui/text.hpp>
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
 namespace mb2dc {
 
 text_t::text_t(std::string_view text, const ref<font_t>& font, glm::vec2 pos, float scale)
@@ -125,8 +120,6 @@ void text_t::generate(std::string_view text, font_t *font, glm::vec2 pos, float 
 
 float text_t::width() const
 {
-//    cout << this->end_ << " | " << this->glyphs_.size() << endl;
-//    cout << "x0: " << this->anchor_pos_.x << " | epx: " << this->glyphs_[this->end_].pos_.x << " | nx: " << this->glyphs_[this->end_].next_x() << endl;
     float delta = 0;
 
     if (this->end_ > 0) {

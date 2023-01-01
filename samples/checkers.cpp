@@ -383,8 +383,8 @@ static bool is_valid_move_king(int r, int c, int move_r, int move_c, bool remove
         // up 4, jumps on right
         if (tolower(board[r - 1][c + 1]) == other &&
                 tolower(board[r - 3][c + 1]) == other && valid_jump) {
-            to_remove[0] = &board[r + 1][c + 1];
-            to_remove[1] = &board[r + 3][c + 1];
+            to_remove[0] = &board[r - 1][c + 1];
+            to_remove[1] = &board[r - 3][c + 1];
 
             if (remove) {
                 remove_pieces(to_remove, 2);
@@ -571,7 +571,7 @@ static void show_possible_moves(rect_t *move_rect,
 
 int main(int argc, char *argv[])
 {
-    // declare these in main so they can be captured into the window resize callback
+    // declare this in main so they can be captured into the window resize callback
     // we want the board to always be a square, so only keep 'window_dim' for window
     // width and height
     // I would suggest keeping this between 500-1000

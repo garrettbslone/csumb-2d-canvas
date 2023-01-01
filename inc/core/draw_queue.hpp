@@ -87,7 +87,7 @@ void draw_queue_t<T>::adjust(T *shape, float z_index) const
                                 this->shapes_.end(),
                                 [&shape](T *curr)
                                 {
-                                    return curr->z_index_ >= shape->z_index_ && curr != shape;
+                                    return curr->z_index_ <= shape->z_index_ && curr != shape;
                                 });
 
         if (end != this->shapes_.end()) {
