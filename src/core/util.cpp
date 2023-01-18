@@ -13,6 +13,11 @@ std::string get_res(const std::string &res)
     return res_path + res;
 }
 
+int ascii_cast(char c)
+{
+    return static_cast<int>(static_cast<unsigned char>(c));
+}
+
 long long pow_2_greater(int n)
 {
     long long p2 = 1;

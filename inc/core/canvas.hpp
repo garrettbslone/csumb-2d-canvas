@@ -31,9 +31,48 @@ public:
      */
     void run(bool wait_events = false);
     void close();
+
+    /*
+     * Called when the canvas is being updated and contains the canvas's
+     * draw queue of drawable_t elements.
+     */
     void on_update(update_fn cb);
     void on_window_resize(resize_fn cb);
+
+    /*
+     * window wrappers
+     */
+    void force_fullscreen();
+    void on_close(close_fn cb);
+    void set_title(const std::string& title);
+    void set_clear_color(const glm::vec4 &c);
+    double aspect_ratio();
+    uint32_t width() const;
+    uint32_t height() const;
+
+    /*
+     * ui wrappers
+     *
+     * Called when the ui overlay is being updated and contains the overlay's
+     * draw queue of ui_element_t elements.
+     */
     void on_ui_update(ui_update_fn cb);
+    ref<text_t> draw_text(std::string_view text,
+                          const ref<font_t> &font = nullptr,
+                          glm::vec2 pos = {0.f, 0.f},
+                          float scale = 1.f);
+    void draw_ui_text(const ref<text_t> &text);
+    void draw_ui_element(const ref<ui_element_t> &element);
+    void erase_ui_element(ui_element_t *element);
+    void erase_ui_element(const ref<ui_element_t> &element);
+
+    /*
+     * input wrappers
+     */
+    glm::vec2 get_mouse_pos_real();
+    glm::vec2 get_mouse_pos_rel();
+    glm::vec2 get_mouse_pos_rel(uint32_t dim);
+    glm::vec2 get_mouse_pos_rel(uint32_t width, uint32_t height);
     void on_mouse_btn_down(mouse_button_down_fn cb);
     void on_mouse_btn_up(mouse_button_up_fn cb);
     void on_mouse_move(mouse_move_fn cb);

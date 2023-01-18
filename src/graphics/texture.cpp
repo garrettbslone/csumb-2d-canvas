@@ -84,8 +84,8 @@ gl_texture_t::gl_texture_t(uint32_t width, uint32_t height, const unsigned char 
     glBindTexture(GL_TEXTURE_2D, this->gl_id_);
 
     int w = gl_texture_params::get_gl_wrap(params.wrap_),
-            _min = gl_texture_params::get_gl_scale_filter(params.min_filter_),
-            _max = gl_texture_params::get_gl_scale_filter(params.max_filter_);
+        _min = gl_texture_params::get_gl_scale_filter(params.min_filter_),
+        _max = gl_texture_params::get_gl_scale_filter(params.max_filter_);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _min);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _max);
