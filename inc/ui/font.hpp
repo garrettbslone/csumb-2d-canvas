@@ -7,15 +7,16 @@
 
 #include "font_manager.hpp"
 
-#include <string>
-
 namespace mb2dc {
 
 class glyph_t;
 
+constexpr uint8_t NUM_ASCII_CHARS = 256;
+
 class font_t {
 public:
     explicit font_t(const std::string &font_path, uint32_t width = 0, uint32_t height = 72);
+    ~font_t();
 
     FT_Face face() const { return this->face_; }
     const std::string &name() const { return this->name_; }
@@ -25,7 +26,7 @@ public:
 
     void unload(char c);
 
-    std::unordered_map<char, glyph_t *> loaded() const { return this->glyph_cache_; }
+    std::array<glyph_t *, NUM_ASCII_CHARS> loaded() const { return this->glyph_cache_; }
 
     static std::string name_from_path(std::string_view path);
 
@@ -37,7 +38,7 @@ public:
 private:
     void preload_ascii();
 
-    std::unordered_map<char, glyph_t *> glyph_cache_;
+    std::array<glyph_t *, NUM_ASCII_CHARS> glyph_cache_;
 
     FT_Face face_;
     std::string name_;

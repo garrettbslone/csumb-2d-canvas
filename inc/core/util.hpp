@@ -26,11 +26,16 @@ ref<T> new_ref(Args &&... args)
     return std::make_shared<T>(args ...);
 }
 
+/*
+ * Cast a char to its int valuu.
+ */
+int ascii_cast(char c);
+
 long long pow_2_greater(int n);
 
 /*
-* Read the contents of 'f_path' as a string.
-*/
+ * Read the contents of 'f_path' as a string.
+ */
 std::string read_file(const std::string &f_path);
 
 constexpr auto pi = glm::pi<double>();

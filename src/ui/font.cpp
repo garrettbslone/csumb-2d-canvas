@@ -9,7 +9,6 @@
 #include <filesystem>
 #include "ui/font.hpp"
 
-
 namespace mb2dc {
 
 ref<font_t> font_t::arial_ = nullptr;
@@ -34,11 +33,21 @@ font_t::font_t(const std::string &font_path, uint32_t width, uint32_t height)
     this->preload_ascii();
 }
 
+font_t::~font_t()
+{
+    for (auto &c: this->glyph_cache_) {
+        delete c;
+    }
+
+    FT_Done_Face(this->face_);
+}
+
 glyph_t font_t::load(char c, glm::vec2 pos, float scale)
 {
-    auto it = this->glyph_cache_.find(c);
-    if (it != this->glyph_cache_.end()) {
-        return *it->second;
+    auto i = ascii_cast(c);
+    auto g = this->glyph_cache_[i];
+    if (g != nullptr) {
+        return *g;
     }
 
     auto glyph = new glyph_t(c, this, pos, scale);
@@ -47,23 +56,30 @@ glyph_t font_t::load(char c, glm::vec2 pos, float scale)
         throw font_load_ex("failed to load glyph " + std::string(&c) + " from font " + this->name_);
     }
 
-    this->glyph_cache_.emplace(c, glyph);
+    this->glyph_cache_[i] = glyph;
     return *glyph;
 }
 
 void font_t::load(glyph_t *glyph)
 {
-    if (this->glyph_cache_.find(glyph->character()) == this->glyph_cache_.end()) {
-        this->glyph_cache_.emplace(glyph->character(), glyph);
+    if (!glyph) {
+        return;
+    }
+
+    auto i = ascii_cast(glyph->character());
+    if (this->glyph_cache_[i] == nullptr) {
+        this->glyph_cache_[i] = glyph;
     }
 }
 
 void font_t::unload(char c)
 {
-    auto it = this->glyph_cache_.find(c);
+    auto i = ascii_cast(c);
+    auto glyph = this->glyph_cache_[i];
 
-    if (it != this->glyph_cache_.end()) {
-        this->glyph_cache_.erase(it);
+    if (glyph != nullptr) {
+        delete glyph;
+        this->glyph_cache_[i] = nullptr;
     }
 }
 
@@ -85,8 +101,8 @@ void font_t::load_defaults()
 void font_t::preload_ascii()
 {
     this->glyph_cache_ = {};
-    for (char c = 0; c < std::numeric_limits<char>::max(); c++) {
-        (void) this->load(c, {0.f, 0.f}, 1.f);
+    for (char c = 0; c < NUM_ASCII_CHARS; c++) {
+        static_cast<void>(this->load(c, {0.f, 0.f}, 1.f));
     }
 }
 

@@ -4,7 +4,6 @@
 
 #include <ui/glyph.hpp>
 
-#include <glm/ext.hpp>
 #include <glad/gl.h>
 
 namespace mb2dc {
