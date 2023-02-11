@@ -2,8 +2,8 @@
 // Created by Garrett on 10/27/2021.
 //
 
-#ifndef GLW_GL_BUFFER_HPP
-#define GLW_GL_BUFFER_HPP
+#ifndef MB2DC_BUFFER_HPP
+#define MB2DC_BUFFER_HPP
 
 #include "gl_util.hpp"
 #include "drawable/vertex.hpp"
@@ -47,7 +47,7 @@ public:
     void unbind() const override;
 
     inline std::vector<float> &get_data() { return this->vertices_; }
-    unsigned int get_data_size() const;
+    [[nodiscard]] unsigned int get_data_size() const;
 
     void write_data(void *vertices, uint64_t size, uint64_t offset);
 
@@ -71,7 +71,7 @@ public:
 
     void write_data(void *indices, uint64_t size, uint64_t offset);
 
-    inline uint32_t get_count() const { return this->count_; }
+    [[nodiscard]] inline uint32_t get_count() const { return this->count_; }
 
 private:
     uint32_t count_;
@@ -81,4 +81,4 @@ private:
 
 }
 
-#endif //GLW_GL_BUFFER_HPP
+#endif

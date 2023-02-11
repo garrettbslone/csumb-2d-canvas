@@ -218,6 +218,21 @@ void canvas_t::on_key_up(key_up_fn cb)
     this->input_->key_up_ = std::move(cb);
 }
 
+bool canvas_t::get_key(const key_code &k)
+{
+    return this->input_->get_key(k);
+}
+
+bool canvas_t::get_key_down(const key_code &k)
+{
+    return this->input_->get_key_down(k);
+}
+
+bool canvas_t::get_key_up(const key_code &k)
+{
+    return this->input_->get_key_up(k);
+}
+
 void canvas_t::register_ui_clicks()
 {
     this->overlay_->click_thru(this->input_->mouse_btn_down_);

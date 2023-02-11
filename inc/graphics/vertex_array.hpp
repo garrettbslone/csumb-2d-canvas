@@ -2,8 +2,8 @@
 // Created by Garrett on 10/27/2021.
 //
 
-#ifndef GLW_GL_VERTEX_ARRAY_HPP
-#define GLW_GL_VERTEX_ARRAY_HPP
+#ifndef MB2DC_VERTEX_ARRAY_HPP
+#define MB2DC_VERTEX_ARRAY_HPP
 
 #include "buffer.hpp"
 #include "core/util.hpp"
@@ -38,4 +38,4 @@ private:
 
 }
 
-#endif //GLW_GL_VERTEX_ARRAY_HPP
+#endif

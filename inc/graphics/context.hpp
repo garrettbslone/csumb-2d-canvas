@@ -2,8 +2,8 @@
 // Created by Garrett on 10/30/2021.
 //
 
-#ifndef GLW_GL_RENDERER_HPP
-#define GLW_GL_RENDERER_HPP
+#ifndef MB2DC_RENDERER_HPP
+#define MB2DC_RENDERER_HPP
 
 #include "gl_util.hpp"
 #include "core/util.hpp"
@@ -11,10 +11,6 @@
 struct GLFWwindow;
 
 namespace mb2dc {
-
-enum cull {
-};
-
 
 /*
  * An OpenGL defined renderer.
@@ -42,4 +38,4 @@ private:
 
 }
 
-#endif //GLW_GL_RENDERER_HPP
+#endif

@@ -78,6 +78,9 @@ public:
     void on_mouse_move(mouse_move_fn cb);
     void on_key_down(key_down_fn cb);
     void on_key_up(key_up_fn cb);
+    bool get_key(const key_code &k);
+    bool get_key_down(const key_code &k);
+    bool get_key_up(const key_code &k);
 
     void register_ui_clicks();
 

@@ -30,7 +30,7 @@ font_t::font_t(const std::string &font_path, uint32_t width, uint32_t height)
     FT_Set_Pixel_Sizes(this->face_, width, height);
 
     this->name_ = name_from_path(font_path);
-    this->preload_ascii();
+    this->preload_printable_ascii();
 }
 
 font_t::~font_t()
@@ -44,7 +44,11 @@ font_t::~font_t()
 
 glyph_t font_t::load(char c, glm::vec2 pos, float scale)
 {
-    auto i = ascii_cast(c);
+    if (!std::isprint(c)) {
+
+    }
+
+    auto i = ascii_cast(c - CHAR_OFFSET);
     auto g = this->glyph_cache_[i];
     if (g != nullptr) {
         return *g;
@@ -74,7 +78,7 @@ void font_t::load(glyph_t *glyph)
 
 void font_t::unload(char c)
 {
-    auto i = ascii_cast(c);
+    auto i = ascii_cast(c - CHAR_OFFSET);
     auto glyph = this->glyph_cache_[i];
 
     if (glyph != nullptr) {
@@ -98,10 +102,10 @@ void font_t::load_defaults()
     inkfree_ = manager->load(get_res("fonts/Inkfree.ttf"));
 }
 
-void font_t::preload_ascii()
+void font_t::preload_printable_ascii()
 {
     this->glyph_cache_ = {};
-    for (char c = 0; c < NUM_ASCII_CHARS; c++) {
+    for (char c = CHAR_OFFSET; c < (char) (static_cast<uint8_t>(CHAR_OFFSET) + NUM_PRINTABLE_ASCII_CHARS); c++) {
         static_cast<void>(this->load(c, {0.f, 0.f}, 1.f));
     }
 }

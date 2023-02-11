@@ -2,8 +2,8 @@
 // Created by Garrett on 11/25/21.
 //
 
-#ifndef GLW_INPUT_HPP
-#define GLW_INPUT_HPP
+#ifndef MB2DC_INPUT_HPP
+#define MB2DC_INPUT_HPP
 
 #include "key_codes.hpp"
 #include "util.hpp"
@@ -25,8 +25,13 @@ using mouse_move_fn = std::function<void(double, double)>;
  */
 class input_t {
 public:
-    input_t() = default;
     virtual ~input_t() = default;
+
+    key_down_fn key_down_;
+    key_up_fn key_up_;
+    mouse_button_down_fn mouse_btn_down_;
+    mouse_button_up_fn mouse_btn_up_;
+    mouse_move_fn mouse_move_;
 
     /*
      * Get the (real) mouse position on the screen with [0, 0] in the top left
@@ -63,11 +68,13 @@ public:
     static double get_mouse_x_rel(uint32_t width, uint32_t height);
     static double get_mouse_y_rel(uint32_t width, uint32_t height);
 
-    key_down_fn key_down_;
-    key_up_fn key_up_;
-    mouse_button_down_fn mouse_btn_down_;
-    mouse_button_up_fn mouse_btn_up_;
-    mouse_move_fn mouse_move_;
+    static bool get_key(const key_code &k);
+    static bool get_key_down(const key_code &k);
+    static bool get_key_up(const key_code &k);
+    static bool shifting();
+    static bool ctrl();
+    static bool alt();
+    static bool caps_locked();
 
     static ref<input_t> get(void *w);
 
@@ -79,4 +86,4 @@ protected:
 
 }
 
-#endif //GLW_INPUT_HPP
+#endif

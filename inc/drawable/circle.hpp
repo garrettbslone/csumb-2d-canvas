@@ -2,8 +2,8 @@
 // Created by Garrett on 12/7/2021.
 //
 
-#ifndef WORMY_HPP
-#define WORMY_HPP
+#ifndef MB2DC_CIRCLE_HPP
+#define MB2DC_CIRCLE_HPP
 
 #include "drawable.hpp"
 
@@ -31,4 +31,4 @@ private:
 
 }
 
-#endif //WORMY_HPP
+#endif

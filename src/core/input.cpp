@@ -92,6 +92,41 @@ double input_t::get_mouse_y_rel(uint32_t width, uint32_t height)
     return get_mouse_pos_rel(width, height).y;
 }
 
+bool input_t::get_key(const key_code &k)
+{
+    return glfwGetKey(g_native_win, static_cast<int>(k)) == GLFW_REPEAT;
+}
+
+bool input_t::get_key_down(const key_code &k)
+{
+    return glfwGetKey(g_native_win, static_cast<int>(k)) == GLFW_KEY_DOWN;
+}
+
+bool input_t::get_key_up(const key_code &k)
+{
+    return glfwGetKey(g_native_win, static_cast<int>(k)) == GLFW_KEY_UP;
+}
+
+bool input_t::shifting()
+{
+    return get_key(KEY_LEFT_SHIFT) || get_key(KEY_RIGHT_SHIFT);
+}
+
+bool input_t::ctrl()
+{
+    return get_key(KEY_LEFT_CONTROL) || get_key(KEY_RIGHT_CONTROL);
+}
+
+bool input_t::alt()
+{
+    return get_key(KEY_LEFT_ALT) || get_key(KEY_RIGHT_ALT);
+}
+
+bool input_t::caps_locked()
+{
+    return get_key(KEY_CAPS_LOCK);
+}
+
 ref<input_t> input_t::get(void *w)
 {
     if (w) {
