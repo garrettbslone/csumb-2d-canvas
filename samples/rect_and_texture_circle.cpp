@@ -1,6 +1,6 @@
 #include "samples_common.hpp"
 
-int main(int argc, char *argv[])
+int main()
 {
     try {
         auto canvas = new_ref<canvas_t>(window_spec{.maximized_ = true});

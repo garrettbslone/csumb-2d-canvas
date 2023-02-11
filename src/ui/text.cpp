@@ -50,7 +50,7 @@ void text_t::resize(float scale)
 
     std::string s;
 
-    for (auto g = 0; g < this->end_; g++) {
+    for (size_t g = 0; g < this->end_; g++) {
         s += this->glyphs_[g].character();
     }
 
@@ -65,7 +65,7 @@ void text_t::change_font(const ref<font_t> &font)
 
     std::string s;
 
-    for (auto g = 0; g < this->end_; g++) {
+    for (size_t g = 0; g < this->end_; g++) {
         s += this->glyphs_[g].character();
     }
 
@@ -80,7 +80,7 @@ void text_t::reposition(glm::vec2 pos)
 
     std::string s;
 
-    for (auto g = 0; g < this->end_; g++) {
+    for (size_t g = 0; g < this->end_; g++) {
         s += this->glyphs_[g].character();
     }
 
@@ -145,7 +145,7 @@ void text_t::draw(const glm::mat4 &view_proj) const
     this->shader_->bind();
     this->shader_->set_uniform_float("zIndex", this->z_index_);
 
-    for (auto i = 0; i < this->end_; i++) {
+    for (size_t i = 0; i < this->end_; i++) {
         auto g = this->glyphs_[i];
         this->shader_->enable_texture("uTex", g.textures_.begin()->second);
         this->shader_->set_uniform_mat4("MVP", g.get_model_mat() * view_proj);

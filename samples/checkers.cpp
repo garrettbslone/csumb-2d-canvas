@@ -9,21 +9,19 @@
 // by default rects are 200 x 200
 const double BACKGROUND_SCALE = 1.0 / 200.0;
 
-// This checker board is 10x10, and I realized after making it that it should be
-// 8x8 but the math is easier for 10x10.
 const int BOARD_DIM = 10, EDGE = BOARD_DIM - 1;
 
 char board[BOARD_DIM][BOARD_DIM] = {
-        ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r',
-        'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ',
-        ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r',
-        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-        'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ',
-        ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b',
-        'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' '
+        {' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r'},
+        {'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' '},
+        {' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r', ' ', 'r'},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' '},
+        {' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'},
+        {'b', ' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b', ' '}
 };
 
 struct game_state {
@@ -474,10 +472,10 @@ bool on_black_square(int r, int c)
  */
 static bool move_is_valid(int r, int c, int move_r, int move_c, bool remove)
 {
-    // r can't be the same as move_r and c can't be the same as move_c
+    // r can't be the same as move_r and c can't be the same as move_c,
     // but we don't need to explicitly check for it since if they are trying to
     // move to the same space teh board[move_r][move_c] won't be empty and will
-    // fail here anyways
+    // fail here anyway
     if (r < 0 || r >= BOARD_DIM ||
         c < 0 || c >= BOARD_DIM ||
         move_r < 0 || move_r >= BOARD_DIM ||
@@ -569,9 +567,9 @@ static void show_possible_moves(rect_t *move_rect,
     }
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    // declare this in main so they can be captured into the window resize callback
+    // declare this in main, so they can be captured into the window resize callback
     // we want the board to always be a square, so only keep 'window_dim' for window
     // width and height
     // I would suggest keeping this between 500-1000
@@ -662,7 +660,7 @@ int main(int argc, char *argv[])
                     show_possible_moves(
                             dynamic_cast<rect_t *>(n),
                             view_proj,
-                            window_dim / (BOARD_DIM) * BACKGROUND_SCALE,
+                            (window_dim / BOARD_DIM) * BACKGROUND_SCALE,
                             selected,
                             window_dim);
                 } else {

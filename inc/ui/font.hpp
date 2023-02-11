@@ -11,7 +11,7 @@ namespace mb2dc {
 
 class glyph_t;
 
-constexpr uint8_t NUM_ASCII_CHARS = 256;
+constexpr uint8_t NUM_PRINTABLE_ASCII_CHARS = '~' - ' ';
 
 class font_t {
 public:
@@ -26,7 +26,7 @@ public:
 
     void unload(char c);
 
-    std::array<glyph_t *, NUM_ASCII_CHARS> loaded() const { return this->glyph_cache_; }
+    std::array<glyph_t *, NUM_PRINTABLE_ASCII_CHARS> loaded() const { return this->glyph_cache_; }
 
     static std::string name_from_path(std::string_view path);
 
@@ -36,14 +36,16 @@ public:
     static const ref<font_t> &inkfree() { return inkfree_; }
 
 private:
-    void preload_ascii();
+    void preload_printable_ascii();
 
-    std::array<glyph_t *, NUM_ASCII_CHARS> glyph_cache_;
+    std::array<glyph_t *, NUM_PRINTABLE_ASCII_CHARS> glyph_cache_;
 
     FT_Face face_;
     std::string name_;
 
     static ref<font_t> arial_, inkfree_;
+
+    static constexpr char CHAR_OFFSET = ' ';
 };
 
 }

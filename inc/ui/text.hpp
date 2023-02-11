@@ -29,7 +29,7 @@ public:
     glm::vec2 end() const;
 
     inline glm::vec2 anchor() const { return this->anchor_pos_; }
-    inline float scale() const { return this->scale_; }
+    inline float font_scale() const { return this->scale_; }
     inline unsigned int size() const { return this->end_; }
     inline unsigned int reserved() const { return this->glyphs_.size(); }
 

@@ -23,7 +23,7 @@ canvas_t::canvas_t(const window_spec &spec)
     instance_ = this;
 
     this->window_ = new_ref<window_t>(spec, window_data {
-            nullptr, nullptr, nullptr
+            nullptr, nullptr, nullptr, nullptr
     });
     this->running_ = true;
     this->minimized_ = false;
@@ -216,6 +216,21 @@ void canvas_t::on_key_down(key_down_fn cb)
 void canvas_t::on_key_up(key_up_fn cb)
 {
     this->input_->key_up_ = std::move(cb);
+}
+
+bool canvas_t::get_key(const key_code &k)
+{
+    return this->input_->get_key(k);
+}
+
+bool canvas_t::get_key_down(const key_code &k)
+{
+    return this->input_->get_key_down(k);
+}
+
+bool canvas_t::get_key_up(const key_code &k)
+{
+    return this->input_->get_key_up(k);
 }
 
 void canvas_t::register_ui_clicks()

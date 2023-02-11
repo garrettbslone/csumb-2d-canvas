@@ -41,6 +41,8 @@ std::string read_file(const std::string &f_path);
 constexpr auto pi = glm::pi<double>();
 constexpr auto fpi = glm::pi<float>();
 
+#define UNUSED(x) static_cast<void>(x);
+
 }
 
 #endif //MB2DC_UTIL_HPP

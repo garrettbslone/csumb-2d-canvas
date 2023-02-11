@@ -41,7 +41,7 @@ gl_vertex_buffer_t::gl_vertex_buffer_t(const std::vector<vertex_t> &vertices, bu
 
 gl_vertex_buffer_t::gl_vertex_buffer_t(const std::vector<float> &vertices, const std::vector<uint8_t> &attributes,
                                        buffer_usage_type usage)
-        : usage_(usage), attributes_(attributes), vertices_(vertices)
+        : attributes_(attributes), vertices_(vertices), usage_(usage)
 {
     glGenBuffers(1, &this->gl_id_);
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id_);
@@ -94,7 +94,7 @@ void gl_vertex_buffer_t::write_data(void *vertices, uint64_t size, uint64_t offs
 
     auto v = static_cast<float *>(vertices);
 
-    for (auto i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
         this->vertices_.push_back(v[i]);
     }
 }

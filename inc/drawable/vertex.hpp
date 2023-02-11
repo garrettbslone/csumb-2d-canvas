@@ -44,7 +44,7 @@ struct vertex_t {
       std::vector<vertex_t> vertices;
       vertices.reserve(data.size() / 8);
 
-      for (auto i = 0; i <= data.size() - 8; i += 8) {
+      for (size_t i = 0; i <= data.size() - 8; i += 8) {
           vertices.push_back({
                   glm::vec2{data[i], data[i + 1]},
                   glm::vec4{data[i + 2], data[i + 3], data[i + 4], data[i + 5]},
@@ -61,13 +61,13 @@ struct vertex_t {
           const std::vector<float> &uvs
   )
   {
-      assert(positions.size() / 2 == colors.size() / 4 == uvs.size() / 2
+      assert((positions.size() / 2 == colors.size() / 4) == uvs.size() / 2
             && "There must be the same number of vertices for each type of data!");
 
       std::vector<vertex_t> vertices;
       vertices.reserve(uvs.size() / 2);
 
-      for (auto i = 0; i <= positions.size() - 2; i += 2) {
+      for (size_t i = 0; i <= positions.size() - 2; i += 2) {
           vertices.push_back({
                   glm::vec2{positions[i], positions[i + 1]},
                   glm::vec4{colors[i], colors[i + 1], colors[i + 2], colors[i + 3]},

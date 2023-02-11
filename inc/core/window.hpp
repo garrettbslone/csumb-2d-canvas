@@ -94,10 +94,13 @@ public:
      */
     void *native_window();
 
-    inline double aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
+    [[nodiscard]] constexpr inline double aspect_ratio() const
+    {
+        return static_cast<double>(this->spec_.width_) / this->spec_.height_;
+    }
 
-    inline uint32_t width() const { return this->spec_.width_; }
-    inline uint32_t height() const { return this->spec_.height_; }
+    [[nodiscard]] constexpr inline uint32_t width() const { return this->spec_.width_; }
+    [[nodiscard]] constexpr inline uint32_t height() const { return this->spec_.height_; }
 
     bool fb_resized_{false}, event_driven_{false};
     const char *err_{nullptr};

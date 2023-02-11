@@ -2,8 +2,8 @@
 // Created by Garrett on 10/27/2021.
 //
 
-#ifndef GLW_GL_FRAMEBUFFER_HPP
-#define GLW_GL_FRAMEBUFFER_HPP
+#ifndef MB2DC_FRAMEBUFFER_HPP
+#define MB2DC_FRAMEBUFFER_HPP
 
 #include "gl_util.hpp"
 
@@ -30,8 +30,8 @@ public:
 
     void resize(uint32_t width, uint32_t height) const;
 
-    inline uint32_t get_width() const { return this->width_; }
-    inline uint32_t get_height() const { return this->height_; }
+    [[nodiscard]] constexpr inline uint32_t get_width() const { return this->width_; }
+    [[nodiscard]] constexpr inline uint32_t get_height() const { return this->height_; }
 
     framebuffer_resize_fn resize_cb_;
     glm::vec4 clear_clr_;
@@ -42,4 +42,4 @@ private:
 
 }
 
-#endif //GLW_GL_FRAMEBUFFER_HPP
+#endif

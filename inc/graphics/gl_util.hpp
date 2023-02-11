@@ -2,8 +2,8 @@
 // Created by Garrett on 12/2/21.
 //
 
-#ifndef GLW_TOPOLOGY_HPP
-#define GLW_TOPOLOGY_HPP
+#ifndef MB2DC_GL_UTIL_HPP
+#define MB2DC_GL_UTIL_HPP
 
 #include <cstdint>
 
@@ -16,7 +16,7 @@ public:
     virtual void bind() = 0;
     virtual void unbind() const = 0;
 
-    virtual uint32_t id() const final { return this->gl_id_; }
+    [[nodiscard]] virtual uint32_t id() const final { return this->gl_id_; }
 
 protected:
     uint32_t gl_id_;
@@ -47,4 +47,4 @@ uint32_t get_topology(topology t);
 
 }
 
-#endif //GLW_TOPOLOGY_HPP
+#endif

@@ -2,8 +2,8 @@
 // Created by Garrett on 10/30/2021.
 //
 
-#ifndef GLW_GL_SHADER_HPP
-#define GLW_GL_SHADER_HPP
+#ifndef MB2DC_SHADER_HPP
+#define MB2DC_SHADER_HPP
 
 #include "gl_util.hpp"
 #include "texture.hpp"
@@ -70,4 +70,4 @@ private:
 
 }
 
-#endif //GLW_GL_SHADER_HPP
+#endif

@@ -13,7 +13,7 @@
 namespace mb2dc {
 
 window_t::window_t(const window_spec &spec)
-    : window_t(spec, {nullptr, nullptr}) {}
+    : window_t(spec, {nullptr, nullptr, nullptr, nullptr}) {}
 
 window_t::window_t(const window_spec &spec, const window_data &data)
 {
@@ -154,11 +154,14 @@ void window_t::resize_framebuffer()
 
 void window_t::resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height)
 {
+    UNUSED(w)
     this->fb_->resize(width, height);
 }
 
 void window_t::window_set_close(GLFWwindow *w) const
 {
+    UNUSED(w)
+
     if (this->data_.close_) {
         this->data_.close_();
     }
@@ -216,6 +219,9 @@ void window_t::create()
 
     glfwSetKeyCallback(native_win, [](GLFWwindow* w, int k, int scancode, int action, int mods)
     {
+        UNUSED(scancode)
+        UNUSED(mods)
+
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
         if (!data.input_) {
@@ -233,6 +239,8 @@ void window_t::create()
 
     glfwSetMouseButtonCallback(native_win, [](GLFWwindow* w, int btn, int action, int mods)
     {
+        UNUSED(mods)
+
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
         if (!data.input_) {

@@ -162,6 +162,7 @@ gl_texture_t::~gl_texture_t()
 
 void gl_texture_t::set_data(void *data, uint32_t size)
 {
+    (void) size;
     glTexImage2D(GL_TEXTURE_2D,
                  0,
                  this->internal_fmt_,
@@ -176,7 +177,7 @@ void gl_texture_t::set_data(void *data, uint32_t size)
 void gl_texture_t::bind(uint8_t slot) const
 {
 
-    if (slot >= MAX_TEXTURE_SLOTS || slot < 0) {
+    if (slot >= MAX_TEXTURE_SLOTS) {
         throw texture_ex("Cannot bind to slot " + std::to_string(slot) +
                          "! Must be between 0 and " + std::to_string(MAX_TEXTURE_SLOTS));
     }

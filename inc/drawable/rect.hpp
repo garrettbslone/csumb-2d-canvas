@@ -2,8 +2,8 @@
 // Created by Garrett on 12/6/2021.
 //
 
-#ifndef GLW_QUAD_HPP
-#define GLW_QUAD_HPP
+#ifndef MB2DC_RECT_HPP
+#define MB2DC_RECT_HPP
 
 #include "drawable.hpp"
 
@@ -30,4 +30,4 @@ private:
 
 }
 
-#endif //GLW_QUAD_HPP
+#endif

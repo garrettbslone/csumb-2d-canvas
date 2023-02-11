@@ -2,8 +2,8 @@
 // Created by Garrett on 10/29/2021.
 //
 
-#ifndef GLW_GL_TEXTURE_HPP
-#define GLW_GL_TEXTURE_HPP
+#ifndef MB2DC_TEXTURE_HPP
+#define MB2DC_TEXTURE_HPP
 
 #include "gl_util.hpp"
 #include "core/util.hpp"
@@ -120,4 +120,4 @@ private:
 
 }
 
-#endif //GLW_GL_TEXTURE_HPP
+#endif
