@@ -65,7 +65,7 @@ circle_t::~circle_t()
 
 void circle_t::create(const std::string &name, const std::vector<glm::vec4> &colors, int vertex_count, int r)
 {
-    if (colors.size() < vertex_count) {
+    if (colors.size() < static_cast<size_t>(vertex_count)) {
         throw drawable_ex("There must be one color for each vertex ("  + std::to_string(vertex_count) +
                             "). Only " + std::to_string(colors.size()) + " given.");
     }

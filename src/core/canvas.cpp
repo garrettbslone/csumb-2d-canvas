@@ -23,7 +23,7 @@ canvas_t::canvas_t(const window_spec &spec)
     instance_ = this;
 
     this->window_ = new_ref<window_t>(spec, window_data {
-            nullptr, nullptr, nullptr
+            nullptr, nullptr, nullptr, nullptr
     });
     this->running_ = true;
     this->minimized_ = false;

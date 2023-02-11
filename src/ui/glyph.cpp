@@ -9,7 +9,7 @@
 namespace mb2dc {
 
 glyph_t::glyph_t(char c, font_t *font, glm::vec2 pos, float scale)
-    : font_(font), c_(c), pos_(pos), scale_(scale)
+    : pos_(pos), scale_(scale), c_(c), font_(font)
 {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 

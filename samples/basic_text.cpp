@@ -24,7 +24,8 @@ int main()
         btn->on_click([&] (int btn, clickable_t *thiz)
         {
             auto _p = canvas.get_mouse_pos_rel();
-            cout << "btn clicked id: " << thiz->id() << " - " << dynamic_cast<button_t *>(thiz)->name_ << endl;
+            cout << "btn clicked: " << btn << " id: " << thiz->id() << " - " << dynamic_cast<button_t *>(thiz)->name_ << endl;
+            cout << "[" << _p.x << ", " << _p.y << "]\n";
             changing->clear();
         });
         canvas.draw_ui_element(btn);
