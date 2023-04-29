@@ -21,19 +21,19 @@ public:
     void bind() override;
     void unbind() const override;
 
-    void set_vertex_buffer(ref<gl_vertex_buffer_t> buff);
-    void set_index_buffer(ref<gl_index_buffer_t> buff);
+    void set_vertex_buffer(ref_t<gl_vertex_buffer_t> buff);
+    void set_index_buffer(ref_t<gl_index_buffer_t> buff);
 
-    inline ref<gl_vertex_buffer_t> get_vertex_buffers() const { return this->vb_; }
-    inline ref<gl_index_buffer_t> get_index_buffer() const { return this->ib_; }
+    inline ref_t<gl_vertex_buffer_t> get_vertex_buffers() const { return this->vb_; }
+    inline ref_t<gl_index_buffer_t> get_index_buffer() const { return this->ib_; }
 
 private:
     /*
      * v_buff_index_: the index of the next attribute to be bound.
      */
     uint32_t v_buff_index_ = 0, offset_ = 0;
-    ref<gl_vertex_buffer_t> vb_{};
-    ref<gl_index_buffer_t> ib_{};
+    ref_t<gl_vertex_buffer_t> vb_{};
+    ref_t<gl_index_buffer_t> ib_{};
 };
 
 }

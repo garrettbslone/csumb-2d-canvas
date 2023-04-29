@@ -79,15 +79,6 @@ void button_t::draw(const glm::mat4 &view_proj) const
     drawable_t::draw(view_proj);
 }
 
-void button_t::set_state(uint16_t state, bool clear_previous)
-{
-    if (clear_previous) {
-        this->state_ = 0;
-    }
-
-    this->state_ |= state;
-}
-
 glm::vec2 button_t::convert_to_spos(const glm::vec2 &v)
 {
     auto c = canvas_t::get();

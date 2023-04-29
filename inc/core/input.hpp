@@ -76,12 +76,12 @@ public:
     static bool alt();
     static bool caps_locked();
 
-    static ref<input_t> get(void *w);
+    static ref_t<input_t> get(void *w);
 
 protected:
     explicit input_t(void *w);
 
-    static ref<input_t> instance_;
+    static ref_t<input_t> instance_;
 };
 
 }

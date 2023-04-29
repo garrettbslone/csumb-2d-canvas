@@ -18,16 +18,16 @@ const std::string res_path(RES_PATH);
 std::string get_res(const std::string &res);
 
 template<typename T>
-using ref = std::shared_ptr<T>;
+using ref_t = std::shared_ptr<T>;
 
 template<class T, class ...Args>
-ref<T> new_ref(Args &&... args)
+ref_t<T> new_ref(Args &&... args)
 {
     return std::make_shared<T>(args ...);
 }
 
 /*
- * Cast a char to its int valuu.
+ * Cast a char to its int value.
  */
 int ascii_cast(char c);
 

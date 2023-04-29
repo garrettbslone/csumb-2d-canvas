@@ -43,6 +43,8 @@ int main()
 
             auto _k = static_cast<key_code>(k);
 
+            cout << _k << " " << input_t::get(nullptr)->shifting() << " " <<  input_t::get(nullptr)->caps_locked() << endl;
+
             if (_k == KEY_ESCAPE) {
                 canvas.close();
             } else if (_k == KEY_DELETE || _k == KEY_BACKSPACE) {
@@ -51,8 +53,6 @@ int main()
             } else if (_k == KEY_ENTER) {
                 changing->clear();
                 return;
-//            } else if (!std::isprint(k)) {
-//                return;
             } else if ((_k >= KEY_A && _k <= KEY_Z) && canvas.get_key(KEY_LEFT_SHIFT)) {
                 _k = static_cast<key_code>(k - 'a' - 'A');
             }

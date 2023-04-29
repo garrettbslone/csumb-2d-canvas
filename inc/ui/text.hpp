@@ -12,14 +12,14 @@ namespace mb2dc {
 
 class text_t : public ui_element_t {
 public:
-    text_t(std::string_view text, const ref<font_t>& font, glm::vec2 pos = {0.f, 0.f}, float scale = 1.f);
+    text_t(std::string_view text, const ref_t<font_t>& font, glm::vec2 pos = {0.f, 0.f}, float scale = 1.f);
 
     void backspace();
     void clear();
     void append(std::string_view text);
     void change(std::string_view text, unsigned int from = 0);
     void resize(float scale);
-    void change_font(const ref<font_t> &font);
+    void change_font(const ref_t<font_t> &font);
     void reposition(glm::vec2 pos);
 
     void generate(std::string_view text, font_t *font, glm::vec2 pos, float scale, unsigned int i = 0);

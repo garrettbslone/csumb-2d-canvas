@@ -142,17 +142,17 @@ uint32_t canvas_t::height() const
     return this->window_->height();
 }
 
-ref<text_t> canvas_t::draw_text(std::string_view text, const ref<font_t> &font, glm::vec2 pos, float scale)
+ref_t<text_t> canvas_t::draw_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
 {
     return this->overlay_->draw_text(text, font, pos, scale);
 }
 
-void canvas_t::draw_ui_text(const ref<text_t> &text)
+void canvas_t::draw_ui_text(const ref_t<text_t> &text)
 {
     this->overlay_->draw_text(text);
 }
 
-void canvas_t::draw_ui_element(const ref<ui_element_t> &element)
+void canvas_t::draw_ui_element(const ref_t<ui_element_t> &element)
 {
     this->overlay_->draw_element(element);
 }
@@ -162,7 +162,7 @@ void canvas_t::erase_ui_element(ui_element_t *element)
     this->overlay_->erase(element);
 }
 
-void canvas_t::erase_ui_element(const ref<ui_element_t> &element)
+void canvas_t::erase_ui_element(const ref_t<ui_element_t> &element)
 {
     this->overlay_->erase(element);
 }
@@ -258,12 +258,12 @@ void canvas_t::resizable()
     this->window_->set_resizable(true);
 }
 
-void canvas_t::draw_shape(const ref<drawable_t>& shape)
+void canvas_t::draw_shape(const ref_t<drawable_t>& shape)
 {
     this->queue_.enqueue(shape.get());
 }
 
-void canvas_t::draw_shape_at(const ref<drawable_t>& shape, int x, int y)
+void canvas_t::draw_shape_at(const ref_t<drawable_t>& shape, int x, int y)
 {
     shape->translate({x, y});
     this->queue_.enqueue(shape.get());

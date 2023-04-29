@@ -36,7 +36,7 @@ public:
     void set_uniform_mat3(const std::string &name, const glm::mat3 &m);
     void set_uniform_mat4(const std::string &name, const glm::mat4 &m);
 
-    void enable_texture(const std::string &name, const ref<gl_texture_t> &texture);
+    void enable_texture(const std::string &name, const ref_t<gl_texture_t> &texture);
 
     const std::string &name() { return this->name_; }
 
@@ -46,7 +46,7 @@ public:
 
     static const std::string defaults[3];
 
-    static ref<gl_shader_t> get_default();
+    static ref_t<gl_shader_t> get_default();
 
 private:
     /*
@@ -65,7 +65,7 @@ private:
      */
     std::string name_;
 
-    static ref<gl_shader_t> default_instance_;
+    static ref_t<gl_shader_t> default_instance_;
 };
 
 }

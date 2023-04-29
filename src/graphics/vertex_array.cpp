@@ -29,7 +29,7 @@ void gl_vertex_array_t::unbind() const
     glBindVertexArray(0);
 }
 
-void gl_vertex_array_t::set_vertex_buffer(ref<gl_vertex_buffer_t> buff)
+void gl_vertex_array_t::set_vertex_buffer(ref_t<gl_vertex_buffer_t> buff)
 {
     glBindVertexArray(this->gl_id_);
 
@@ -55,7 +55,7 @@ void gl_vertex_array_t::set_vertex_buffer(ref<gl_vertex_buffer_t> buff)
     this->vb_ = buff;
 }
 
-void gl_vertex_array_t::set_index_buffer(ref<gl_index_buffer_t> buff)
+void gl_vertex_array_t::set_index_buffer(ref_t<gl_index_buffer_t> buff)
 {
     glBindVertexArray(this->gl_id_);
 

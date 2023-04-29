@@ -33,8 +33,8 @@ using close_fn = std::function<void(void)>;
 using resize_fn = std::function<void(int, int)>;
 
 struct window_data {
-    ref<window_t *> window_;
-    ref<input_t> input_;
+    ref_t<window_t *> window_;
+    ref_t<input_t> input_;
     close_fn close_;
     resize_fn resize_;
 };
@@ -125,9 +125,9 @@ private:
     */
     void create();
 
-    ref<GLFWwindow *> native_window_;
-    ref<GLFWmonitor *> monitor_;
-    ref<gl_framebuffer_t> fb_;
+    ref_t<GLFWwindow *> native_window_;
+    ref_t<GLFWmonitor *> monitor_;
+    ref_t<gl_framebuffer_t> fb_;
 };
 
 }

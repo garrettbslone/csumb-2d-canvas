@@ -11,8 +11,8 @@
 
 namespace mb2dc {
 
-ref<font_t> font_t::arial_ = nullptr;
-ref<font_t> font_t::inkfree_ = nullptr;
+ref_t<font_t> font_t::arial_ = nullptr;
+ref_t<font_t> font_t::inkfree_ = nullptr;
 
 font_t::font_t(const std::string &font_path, uint32_t width, uint32_t height)
 {
@@ -107,6 +107,7 @@ void font_t::preload_printable_ascii()
     this->glyph_cache_ = {};
     for (char c = CHAR_OFFSET; c < (char) (static_cast<uint8_t>(CHAR_OFFSET) + NUM_PRINTABLE_ASCII_CHARS); c++) {
         static_cast<void>(this->load(c, {0.f, 0.f}, 1.f));
+        printf("char: %c loaded\n", c);
     }
 }
 

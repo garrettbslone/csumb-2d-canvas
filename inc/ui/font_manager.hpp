@@ -21,19 +21,19 @@ class font_manager_t {
 public:
     ~font_manager_t();
 
-    void load(const ref<font_t>& font);
-    ref<font_t> load(const std::string &font_path, unsigned int height = 72);
+    void load(const ref_t<font_t>& font);
+    ref_t<font_t> load(const std::string &font_path, unsigned int height = 72);
 
-    void unload(const ref<font_t>& font);
+    void unload(const ref_t<font_t>& font);
 
-    std::unordered_map<std::string, ref<font_t>> loaded() const { return this->font_cache_; }
+    std::unordered_map<std::string, ref_t<font_t>> loaded() const { return this->font_cache_; }
 
     static font_manager_t *get();
-    static ref<gl_shader_t> text_shader_;
+    static ref_t<gl_shader_t> text_shader_;
 
 private:
     font_manager_t();
-    std::unordered_map<std::string, ref<font_t>> font_cache_;
+    std::unordered_map<std::string, ref_t<font_t>> font_cache_;
 
     static font_manager_t *instance_;
     static FT_Library g_library_;

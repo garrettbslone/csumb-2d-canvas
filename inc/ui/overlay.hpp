@@ -24,17 +24,17 @@ public:
     void try_click(int btn, double x, double y);
     void click_thru(mouse_button_down_fn cb);
 
-    ref<text_t> draw_text(std::string_view text,
-                          const ref<font_t> &font = nullptr,
-                          glm::vec2 pos = {0.f, 0.f},
-                          float scale = 1.f);
-    void draw_text(const ref<text_t> &text);
-    void draw_element(const ref<ui_element_t> &element);
+    ref_t<text_t> draw_text(std::string_view text,
+                            const ref_t<font_t> &font = nullptr,
+                            glm::vec2 pos = {0.f, 0.f},
+                            float scale = 1.f);
+    void draw_text(const ref_t<text_t> &text);
+    void draw_element(const ref_t<ui_element_t> &element);
 
     void erase(ui_element_t *element);
-    void erase(const ref<ui_element_t> &element);
+    void erase(const ref_t<ui_element_t> &element);
 
-    static ref<ui_overlay_t> get();
+    static ref_t<ui_overlay_t> get();
 
     /*
      * Returns whether or not the instance_ of ui_overlay_t has been created. Avoids some segfault
@@ -53,7 +53,7 @@ private:
 
     mouse_button_down_fn click_thru_;
 
-    static ref<ui_overlay_t> instance_;
+    static ref_t<ui_overlay_t> instance_;
     static bool init_;
 };
 

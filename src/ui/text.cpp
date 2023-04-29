@@ -7,7 +7,7 @@
 
 namespace mb2dc {
 
-text_t::text_t(std::string_view text, const ref<font_t>& font, glm::vec2 pos, float scale)
+text_t::text_t(std::string_view text, const ref_t<font_t>& font, glm::vec2 pos, float scale)
 {
     this->shader_ = font_manager_t::text_shader_;
     this->va_ = new_ref<gl_vertex_array_t>();
@@ -57,7 +57,7 @@ void text_t::resize(float scale)
     this->generate(s, this->glyphs_[0].font(), this->anchor_pos_, scale);
 }
 
-void text_t::change_font(const ref<font_t> &font)
+void text_t::change_font(const ref_t<font_t> &font)
 {
     if (this->end_ == 0 || this->glyphs_.empty()) {
         throw text_ex("Cannot change the font of the text in an uninitialized text_t object!");

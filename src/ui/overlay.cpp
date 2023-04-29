@@ -6,7 +6,7 @@
 
 namespace mb2dc {
 
-ref<ui_overlay_t> ui_overlay_t::instance_ = nullptr;
+ref_t<ui_overlay_t> ui_overlay_t::instance_ = nullptr;
 bool ui_overlay_t::init_ = false;
 
 void ui_overlay_t::update(const glm::mat4 &view_proj)
@@ -35,19 +35,19 @@ void ui_overlay_t::click_thru(mouse_button_down_fn cb)
     this->click_thru_ = std::move(cb);
 }
 
-ref<text_t> ui_overlay_t::draw_text(std::string_view text, const ref<font_t> &font, glm::vec2 pos, float scale)
+ref_t<text_t> ui_overlay_t::draw_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
 {
     auto t = new_ref<text_t>(text, font ? font : font_t::inkfree(), pos, scale);
     this->queue_.enqueue(t.get());
     return t;
 }
 
-void ui_overlay_t::draw_text(const ref<text_t> &text)
+void ui_overlay_t::draw_text(const ref_t<text_t> &text)
 {
     this->queue_.enqueue(text.get());
 }
 
-void ui_overlay_t::draw_element(const ref<ui_element_t> &element)
+void ui_overlay_t::draw_element(const ref_t<ui_element_t> &element)
 {
     this->queue_.enqueue(element.get());
 
@@ -71,12 +71,12 @@ void ui_overlay_t::erase(ui_element_t *element)
     }
 }
 
-void ui_overlay_t::erase(const ref<ui_element_t> &element)
+void ui_overlay_t::erase(const ref_t<ui_element_t> &element)
 {
     this->erase(element.get());
 }
 
-ref<ui_overlay_t> ui_overlay_t::get()
+ref_t<ui_overlay_t> ui_overlay_t::get()
 {
     if (!instance_) {
         ui_overlay_t o{};

@@ -8,7 +8,7 @@
 
 namespace mb2dc {
 
-ref<gl_shader_t> font_manager_t::text_shader_ = nullptr;
+ref_t<gl_shader_t> font_manager_t::text_shader_ = nullptr;
 
 font_manager_t *font_manager_t::instance_ = nullptr;
 FT_Library font_manager_t::g_library_ = nullptr;
@@ -18,14 +18,14 @@ font_manager_t::~font_manager_t()
     FT_Done_FreeType(g_library_);
 }
 
-void font_manager_t::load(const ref<font_t>& font)
+void font_manager_t::load(const ref_t<font_t>& font)
 {
     if (this->font_cache_.find(font->name()) != this->font_cache_.end()) {
         this->font_cache_.emplace(font->name(), font);
     }
 }
 
-ref<font_t> font_manager_t::load(const std::string &font_path, unsigned int height)
+ref_t<font_t> font_manager_t::load(const std::string &font_path, unsigned int height)
 {
     auto it = this->font_cache_.find(font_t::name_from_path(font_path));
     if (it != this->font_cache_.end()) {
@@ -42,7 +42,7 @@ ref<font_t> font_manager_t::load(const std::string &font_path, unsigned int heig
     return font;
 }
 
-void font_manager_t::unload(const ref<font_t>& font)
+void font_manager_t::unload(const ref_t<font_t>& font)
 {
     auto it = this->font_cache_.find(font->name());
 

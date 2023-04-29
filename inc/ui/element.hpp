@@ -25,9 +25,12 @@ public:
     clickable_t();
 
     inline void on_click(const ui_click_fn &cb) { this->click_ = cb; }
-    inline int id() { return this->id_; }
+    [[nodiscard]] inline int id() const { return this->id_; }
 
     virtual bool overlapping(double x, double y) = 0;
+    
+    static constexpr uint16_t STATE_CLICKED = 1 << 5;
+    static constexpr uint16_t STATE_UNCLICKED = 1 << 6;
 
 protected:
     ui_click_fn  click_;
