@@ -34,7 +34,7 @@ int main()
         auto btn_msg = canvas.draw_text("Clear Text", font_t::arial(), p / glm::vec2(1.415f, 1.525f), 0.2f);
         btn_msg->set_z_index(100.f);
 
-        canvas.on_key_down([&] (int k)
+        canvas.on_key_down([&] (int k, int mods)
         {
             if (!changed) {
                 changing->clear();
@@ -42,8 +42,6 @@ int main()
             }
 
             auto _k = static_cast<key_code>(k);
-
-            cout << _k << " " << input_t::get(nullptr)->shifting() << " " <<  input_t::get(nullptr)->caps_locked() << endl;
 
             if (_k == KEY_ESCAPE) {
                 canvas.close();
@@ -53,11 +51,13 @@ int main()
             } else if (_k == KEY_ENTER) {
                 changing->clear();
                 return;
-            } else if ((_k >= KEY_A && _k <= KEY_Z) && canvas.get_key(KEY_LEFT_SHIFT)) {
-                _k = static_cast<key_code>(k - 'a' - 'A');
             }
 
-            changing->append(reinterpret_cast<char *>(&k));
+            auto key_ch = key_code_to_ascii(_k, mods & KEY_MOD_SHIFT, mods & KEY_MOD_CAPS);
+            if (std::isprint(key_ch)) {
+                char app[2] = {key_ch, '\0'};
+                changing->append(app);
+            }
         });
 
         canvas.on_window_resize([&] (int w, int h)

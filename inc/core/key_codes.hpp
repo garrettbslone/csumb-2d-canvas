@@ -141,7 +141,6 @@ typedef enum class key_code : uint16_t {
   RightAlt = 346,
   RightSuper = 347,
   Menu = 348
-
 } key_code;
 
 inline std::ostream &operator<<(std::ostream &os, key_code code)

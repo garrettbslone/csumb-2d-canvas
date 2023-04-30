@@ -217,10 +217,11 @@ void window_t::create()
         }
     });
 
+    // enable caps lock handling
+    glfwSetInputMode(native_win, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
     glfwSetKeyCallback(native_win, [](GLFWwindow* w, int k, int scancode, int action, int mods)
     {
         UNUSED(scancode)
-        UNUSED(mods)
 
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
@@ -231,7 +232,7 @@ void window_t::create()
         auto _input = data.input_.get();
 
         if ((action == GLFW_PRESS || action == GLFW_REPEAT) && _input->key_down_) {
-            _input->key_down_(k);
+            _input->key_down_(k, mods);
         } else if (action == GLFW_RELEASE && _input->key_up_) {
             _input->key_up_(k);
         }

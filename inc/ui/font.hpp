@@ -11,7 +11,7 @@ namespace mb2dc {
 
 class glyph_t;
 
-constexpr uint8_t NUM_PRINTABLE_ASCII_CHARS = '~' - ' ';
+constexpr uint8_t NUM_PRINTABLE_ASCII_CHARS = '~' - ' ' + 1;
 
 class font_t {
 public:

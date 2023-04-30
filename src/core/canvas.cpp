@@ -9,7 +9,6 @@
 #include <glm/ext.hpp>
 #include <utility>
 
-
 namespace mb2dc {
 
 canvas_t *canvas_t::instance_ = nullptr;
@@ -50,8 +49,10 @@ canvas_t::canvas_t(const window_spec &spec)
 
     this->input_ = this->window_->data_.input_;
 
-    this->input_->key_down_ = [&] (int key)
+    this->input_->key_down_ = [&] (int key, int mods)
     {
+        UNUSED(mods);
+
         if (static_cast<key_code>(key) == KEY_ESCAPE) {
             auto _win = reinterpret_cast<GLFWwindow *>(this->window_->native_window());
             glfwSetWindowShouldClose(_win, GLFW_TRUE);

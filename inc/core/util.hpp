@@ -6,6 +6,7 @@
 #define MB2DC_UTIL_HPP
 
 #include "exception.hpp"
+#include "key_codes.hpp"
 
 #include <glm/ext/scalar_constants.hpp>
 
@@ -30,6 +31,8 @@ ref_t<T> new_ref(Args &&... args)
  * Cast a char to its int value.
  */
 int ascii_cast(char c);
+
+[[nodiscard]] char key_code_to_ascii(key_code key, bool is_shift, bool is_caps);
 
 long long pow_2_greater(int n);
 

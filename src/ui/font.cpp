@@ -2,12 +2,12 @@
 // Created by Garrett on 11/18/2022.
 //
 
-#include <ui/glyph.hpp>
-
 #include <core/exception.hpp>
 
+#include <ui/glyph.hpp>
+#include <ui/font.hpp>
+
 #include <filesystem>
-#include "ui/font.hpp"
 
 namespace mb2dc {
 
@@ -107,7 +107,6 @@ void font_t::preload_printable_ascii()
     this->glyph_cache_ = {};
     for (char c = CHAR_OFFSET; c < (char) (static_cast<uint8_t>(CHAR_OFFSET) + NUM_PRINTABLE_ASCII_CHARS); c++) {
         static_cast<void>(this->load(c, {0.f, 0.f}, 1.f));
-        printf("char: %c loaded\n", c);
     }
 }
 
