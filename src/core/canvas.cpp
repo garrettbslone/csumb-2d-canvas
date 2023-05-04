@@ -29,7 +29,7 @@ canvas_t::canvas_t(const window_spec &spec)
 
     this->gl_ctx_ = new_ref<gl_context_t>(this->window_->native_window());
 
-    float w = spec.width_ / 2.f, h  = spec.height_ / 2.f;
+    float w = this->window_->width() / 2.f, h  = this->window_->height() / 2.f;
     this->proj_ = glm::ortho(-w, w, -h, h, -100.f, 100.f);
     this->view_ = glm::mat4(1.f);
 
