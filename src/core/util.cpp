@@ -100,7 +100,7 @@ long long pow_2_greater(int n)
 {
     long long p2 = 1;
 
-    while (p2 < n && p2 < LONG_LONG_MAX) {
+    while (p2 < n && p2 < std::numeric_limits<long long>::max()) {
         p2 = p2 << 1;
     }
 
