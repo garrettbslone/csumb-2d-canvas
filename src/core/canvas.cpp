@@ -35,7 +35,7 @@ canvas_t::canvas_t(const window_spec &spec)
 
     this->overlay_ = ui_overlay_t::get();
 
-    this->window_->on_resize([this] (uint32_t width, uint32_t height)
+    this->window_->on_resize([this] (int32_t width, int32_t height)
     {
         auto w = static_cast<float>(width);
         auto h = static_cast<float>(height);
@@ -45,6 +45,8 @@ canvas_t::canvas_t(const window_spec &spec)
         if (this->resize_) {
             this->resize_(width, height);
         }
+
+        this->overlay_->resize_(width, height);
     });
 
     this->input_ = this->window_->data_.input_;
@@ -143,9 +145,14 @@ uint32_t canvas_t::height() const
     return this->window_->height();
 }
 
-ref_t<text_t> canvas_t::draw_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
+ref_t<text_t> canvas_t::draw_ui_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
 {
     return this->overlay_->draw_text(text, font, pos, scale);
+}
+
+ref_t<text_t> canvas_t::draw_ui_text(std::string_view text, const ref_t<font_t> &font, int16_t alignment, float scale)
+{
+    return this->overlay_->draw_text(text, font, alignment, scale);
 }
 
 void canvas_t::draw_ui_text(const ref_t<text_t> &text)

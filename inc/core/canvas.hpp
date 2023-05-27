@@ -57,10 +57,14 @@ public:
      * draw queue of ui_element_t elements.
      */
     void on_ui_update(ui_update_fn cb);
-    ref_t<text_t> draw_text(std::string_view text,
-                            const ref_t<font_t> &font = nullptr,
-                            glm::vec2 pos = {0.f, 0.f},
-                            float scale = 1.f);
+    ref_t<text_t> draw_ui_text(std::string_view text,
+                               const ref_t<font_t> &font = nullptr,
+                               glm::vec2 pos = {0.f, 0.f},
+                               float scale = 1.f);
+    ref_t<text_t> draw_ui_text(std::string_view text,
+                               const ref_t<font_t> &font = nullptr,
+                               int16_t alignment = align::HZ_LEFT | align::VT_TOP,
+                               float scale = 1.f);
     void draw_ui_text(const ref_t<text_t> &text);
     void draw_ui_element(const ref_t<ui_element_t> &element);
     void erase_ui_element(ui_element_t *element);

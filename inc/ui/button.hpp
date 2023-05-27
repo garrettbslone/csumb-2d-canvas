@@ -24,6 +24,21 @@ public:
     void set_border_radius(float border_radius);
     inline float border_radius() const { return this->border_radius_; }
 
+    inline float width() const override { return 100.f * this->scale_.x; }
+    inline float height() const override { return 20.f * this->scale_.y; }
+
+    inline void align(uint16_t alignment) override
+    {
+        this->alignment_ = alignment;
+        this->translate(ui_overlay_t::calculate_alignment(
+            this->alignment_,
+            this->width(),
+            this->height(),
+            align::DEFAULT_BUFFER_PERCENT,
+            true
+        ));
+    }
+
     glm::vec4 border_color_;
 
 private:

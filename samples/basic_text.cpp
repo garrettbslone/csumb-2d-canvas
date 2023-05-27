@@ -4,35 +4,81 @@
 
 #include "samples_common.hpp"
 
+#define CURSOR_TRACKING_POS {\
+    changing->width() * CURSOR_SCALE_W / canvas.width(),\
+    CURSOR_SCALE_H/ (changing->height() * canvas.height())\
+}
+
+constexpr float CURSOR_SCALE_W = 100.f, CURSOR_SCALE_H = 200.f;
+
 int main()
 {
     try {
         canvas_t canvas(window_spec{.maximized_ = true});
 
-        auto x = (-1.0 * canvas.width() / 2.0);
-        auto y = canvas.height() / 2.0;
         int secs = 0, fc = 0;
 
-        auto time = canvas.draw_text("Time: " + to_string(secs), font_t::inkfree(), {x - (x / 2.95), y - (y / 2.75)}, 0.25);
-        auto fps = canvas.draw_text("fps: ", font_t::inkfree(), {x - (x / 2.25), y - (y / 2.75)}, 0.25);
-        auto changing = canvas.draw_text("Start Typing...", font_t::inkfree(), {0.f, 0.f}, 1.f);
+        auto time = canvas.draw_ui_text(
+            "Time: " + to_string(secs),
+            font_t::inkfree(),
+            align::HZ_LEFT | align::VT_TOP,
+            0.25
+        );
+        auto fps = canvas.draw_ui_text(
+            "fps: ",
+            font_t::inkfree(),
+            align::HZ_RIGHT | align::VT_TOP,
+            0.25
+        );
+        auto changing = canvas.draw_ui_text(
+            "Start Typing...",
+            font_t::inkfree(),
+            align::VT_CENTER | align::HZ_CENTER,
+            1.f
+        );
+
+        auto cursor = new_ref<rect_t>("cursor", vec4(1.f));
+        cursor->scale({0.01f, changing->height() / 200.f});
+        cursor->translate(CURSOR_TRACKING_POS);
+        cursor->shader_ = new_ref<gl_shader_t>(
+            "blink",
+            get_res("shaders/flat.vs.glsl"),
+            get_res("shaders/blink.fs.glsl")
+        );
+        canvas.draw_shape(cursor);
+
         bool changed = false;
 
         auto btn = new_ref<button_t>();
-        btn->translate({-0.85f, 0.85f});
+        btn->translate(
+            ui_overlay_t::calculate_alignment(
+                align::VT_TOP | align::HZ_CENTER | align::ANCHOR_ORIGIN_HZ | align::ANCHOR_EDGE_VT,
+                100,
+                20,
+                0.015,
+                true
+            )
+        );
         btn->set_z_index(-1.f);
         btn->on_click([&] (int btn, clickable_t *thiz)
         {
             auto _p = canvas.get_mouse_pos_rel();
-            cout << "btn clicked: " << btn << " id: " << thiz->id() << " - " << dynamic_cast<button_t *>(thiz)->name_ << endl;
-            cout << "[" << _p.x << ", " << _p.y << "]\n";
+            cout << "btn clicked: " << btn << " id: " << thiz->id() << " - ";
+            cout << dynamic_cast<button_t *>(thiz)->name_ << " @ [" << _p.x << ", " << _p.y << "]\n";
             changing->clear();
+            cursor->translate(CURSOR_TRACKING_POS);
         });
         canvas.draw_ui_element(btn);
 
-        auto p = btn->convert_to_spos(btn->center());
-        auto btn_msg = canvas.draw_text("Clear Text", font_t::arial(), p / glm::vec2(1.415f, 1.525f), 0.2f);
+        auto btn_msg = btn->make_child<text_t>(
+                "Clear Text",
+                font_t::arial(),
+                vec2{0, 0},
+                0.2f
+        );
+        btn_msg->align(align::ANCHOR_EDGE | align::VT_TOP | align::HZ_CENTER);
         btn_msg->set_z_index(100.f);
+        canvas.draw_ui_text(btn_msg);
 
         canvas.on_key_down([&] (int k, int mods)
         {
@@ -47,37 +93,25 @@ int main()
                 canvas.close();
             } else if (_k == KEY_DELETE || _k == KEY_BACKSPACE) {
                 changing->backspace();
+                cursor->translate(CURSOR_TRACKING_POS);
                 return;
             } else if (_k == KEY_ENTER) {
                 changing->clear();
+                cursor->translate(CURSOR_TRACKING_POS);
                 return;
             }
 
-            auto key_ch = key_code_to_ascii(_k, mods & KEY_MOD_SHIFT, mods & KEY_MOD_CAPS);
-            if (std::isprint(key_ch)) {
-                char app[2] = {key_ch, '\0'};
-                changing->append(app);
+            char key_str[2] = {key_code_to_ascii(_k, mods & KEY_MOD_SHIFT, mods & KEY_MOD_CAPS), '\0'};
+
+            if (std::isprint(key_str[0])) {
+                changing->append(key_str);
+                cursor->translate(CURSOR_TRACKING_POS);
             }
-        });
-
-        canvas.on_window_resize([&] (int w, int h)
-        {
-            x = (-1.0 * w / 2.0);
-            y = h / 2.0;
-
-            time->reposition({x - (x / 2.95), y - (y / 2.75)});
-            fps->reposition({x - (x / 2.25), y - (y / 2.75)});
-            changing->reposition({0.0, 0.0});
-
-            btn->translate({-0.85f, 0.85f});
-            p = btn->convert_to_spos(btn->center());
-            btn_msg->reposition(p / glm::vec2(1.415f, 1.525f));
         });
 
         canvas.on_ui_update([&] (const vector<ui_element_t *> &elements, const mat4 &view_proj)
         {
-            auto _time = glfwGetTime();
-            if (floor(_time) >= secs) {
+            if (floor(glfwGetTime()) >= secs) {
                 secs++;
                 time->change(to_string(secs), 6);
                 fps->change(to_string(fc), 5);
@@ -87,8 +121,18 @@ int main()
             for (auto &e: elements) {
                 e->draw(view_proj);
             }
-            fc++;
 
+            fc++;
+        });
+
+        canvas.on_update([&] (const vector<drawable_t *> &elements, const mat4 &view_proj)
+        {
+            for (auto &e: elements) {
+                e->shader_->bind();
+                e->shader_->set_uniform_float("uTime", glfwGetTime());
+                e->shader_->set_uniform_float("uRate", 5.f);
+                e->draw(view_proj);
+            }
         });
 
         canvas.run();

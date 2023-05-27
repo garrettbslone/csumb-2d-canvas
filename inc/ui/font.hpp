@@ -7,6 +7,8 @@
 
 #include "font_manager.hpp"
 
+#include <array>
+
 namespace mb2dc {
 
 class glyph_t;

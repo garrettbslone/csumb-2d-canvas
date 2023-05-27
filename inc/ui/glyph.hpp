@@ -18,6 +18,12 @@ class glyph_t : public ui_element_t {
 public:
     glyph_t(char c, font_t *font, glm::vec2 pos = {0.f, 0.f}, float scale = 1.f);
 
+
+    inline float width() const override { return 0.f; }
+    inline float height() const override { return 0.f; }
+
+    inline void align(uint16_t alignment) override { UNUSED(alignment) }
+
     void resize(float scale);
     void move(glm::vec2 pos);
     void modify(glm::vec2 pos, float scale);

@@ -21,12 +21,12 @@ public:
     void resize(float scale);
     void change_font(const ref_t<font_t> &font);
     void reposition(glm::vec2 pos);
+    void align(uint16_t alignment) final;
 
     void generate(std::string_view text, font_t *font, glm::vec2 pos, float scale, unsigned int i = 0);
 
-    float width() const;
-    float height() const;
-    glm::vec2 end() const;
+    inline float width() const override { return this->width_; }
+    inline float height() const override { return this->height_; }
 
     inline glm::vec2 anchor() const { return this->anchor_pos_; }
     inline float font_scale() const { return this->scale_; }
@@ -43,7 +43,7 @@ private:
 
     unsigned int end_{};
 
-    float scale_{};
+    float scale_{}, width_{}, height_{};
     glm::vec2 anchor_pos_{};
 };
 
