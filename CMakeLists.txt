@@ -49,6 +49,8 @@ set(UI_SRCS
     src/ui/text.cpp)
 
 add_subdirectory(ext/glfw)
+
+set(FT_DISABLE_HARFBUZZ true)
 add_subdirectory(ext/freetype)
 
 add_library(mb2dc SHARED ${CORE_SRCS} ${GRAPHICS_SRCS} ${DRAWABLE_SRCS} ${UI_SRCS})
