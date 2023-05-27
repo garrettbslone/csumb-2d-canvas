@@ -18,9 +18,8 @@ gl_texture_params gl_texture_params::text_default = gl_texture_params(RED, CLAMP
 int gl_texture_params::get_gl_fmt(fmt f)
 {
     switch (f) {
-        using enum gl_texture_params::fmt;
         case RGB:
-            return RGB;
+            return GL_RGB;
         case RGBA:
             return GL_RGBA;
         case RED:
