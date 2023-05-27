@@ -49,7 +49,7 @@ gl_vertex_buffer_t::gl_vertex_buffer_t(const std::vector<float> &vertices, const
             GL_ARRAY_BUFFER,
             vertices.size() * sizeof(float),
             reinterpret_cast<const void *>(vertices.data()),
-            get_usage_type(usage)
+            get_usage_type(this->usage_)
     );
 }
 
@@ -108,7 +108,7 @@ gl_index_buffer_t::gl_index_buffer_t(const std::vector<uint32_t> &indices, buffe
             GL_ELEMENT_ARRAY_BUFFER,
             indices.size() * sizeof(uint32_t),
             reinterpret_cast<const void *>(indices.data()),
-            get_usage_type(usage)
+            get_usage_type(this->usage_)
     );
 
     this->count_ = indices.size();

@@ -2,17 +2,17 @@
 // Created by Garrett on 11/18/2022.
 //
 
-#include <ui/glyph.hpp>
-
 #include <core/exception.hpp>
 
+#include <ui/glyph.hpp>
+#include <ui/font.hpp>
+
 #include <filesystem>
-#include "ui/font.hpp"
 
 namespace mb2dc {
 
-ref<font_t> font_t::arial_ = nullptr;
-ref<font_t> font_t::inkfree_ = nullptr;
+ref_t<font_t> font_t::arial_ = nullptr;
+ref_t<font_t> font_t::inkfree_ = nullptr;
 
 font_t::font_t(const std::string &font_path, uint32_t width, uint32_t height)
 {

@@ -31,11 +31,8 @@ window_t::window_t(const window_spec &spec, const window_data &data)
         throw viewport_ex("Failed to find monitor_" + std::string(this->err_));
     }
 
-    const GLFWvidmode *m = glfwGetVideoMode(*this->monitor_);
-
     if (this->spec_.maximized_) {
-        this->spec_.width_ = m->width;
-        this->spec_.height_ = m->height;
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
     }
 
     this->create();
@@ -94,9 +91,7 @@ void window_t::resize(uint32_t width, uint32_t height)
     this->spec_.width_ = width;
     this->spec_.height_ = height;
     this->spec_.fullscreen_ = false;
-    this->spec_.maximized_ = false;
-
-    glfwSetWindowSize(*this->native_window_, width, height);
+    this->spec_.maximized_ = glfwGetWindowAttrib(*this->native_window_, GLFW_MAXIMIZED) == GLFW_TRUE;
 
     this->resize_framebuffer();
 }
@@ -190,6 +185,12 @@ void window_t::create()
         throw viewport_ex("Failed to create window: " + std::string(this->err_));
     }
 
+    glfwGetWindowSize(
+            *this->native_window_,
+            reinterpret_cast<int *>(&this->spec_.width_),
+            reinterpret_cast<int *>(&this->spec_.height_)
+    );
+
     if (!this->data_.close_) {
         this->data_.close_ = _close_cb;
     }
@@ -217,10 +218,11 @@ void window_t::create()
         }
     });
 
+    // enable caps lock handling
+    glfwSetInputMode(native_win, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
     glfwSetKeyCallback(native_win, [](GLFWwindow* w, int k, int scancode, int action, int mods)
     {
         UNUSED(scancode)
-        UNUSED(mods)
 
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
@@ -231,7 +233,7 @@ void window_t::create()
         auto _input = data.input_.get();
 
         if ((action == GLFW_PRESS || action == GLFW_REPEAT) && _input->key_down_) {
-            _input->key_down_(k);
+            _input->key_down_(k, mods);
         } else if (action == GLFW_RELEASE && _input->key_up_) {
             _input->key_up_(k);
         }
@@ -284,10 +286,12 @@ void window_t::create()
     {
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
+        if (data.window_) {
+            (*data.window_)->resize(width, height);
+        }
+
         if (data.resize_) {
             data.resize_(width, height);
-        } else if (data.window_) {
-            (*data.window_)->resize(width, height);
         }
     });
 

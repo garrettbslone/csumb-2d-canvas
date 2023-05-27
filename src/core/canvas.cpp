@@ -9,7 +9,6 @@
 #include <glm/ext.hpp>
 #include <utility>
 
-
 namespace mb2dc {
 
 canvas_t *canvas_t::instance_ = nullptr;
@@ -30,13 +29,13 @@ canvas_t::canvas_t(const window_spec &spec)
 
     this->gl_ctx_ = new_ref<gl_context_t>(this->window_->native_window());
 
-    float w = spec.width_ / 2.f, h  = spec.height_ / 2.f;
+    float w = this->window_->width() / 2.f, h  = this->window_->height() / 2.f;
     this->proj_ = glm::ortho(-w, w, -h, h, -100.f, 100.f);
     this->view_ = glm::mat4(1.f);
 
     this->overlay_ = ui_overlay_t::get();
 
-    this->window_->on_resize([this] (uint32_t width, uint32_t height)
+    this->window_->on_resize([this] (int32_t width, int32_t height)
     {
         auto w = static_cast<float>(width);
         auto h = static_cast<float>(height);
@@ -46,12 +45,16 @@ canvas_t::canvas_t(const window_spec &spec)
         if (this->resize_) {
             this->resize_(width, height);
         }
+
+        this->overlay_->resize_(width, height);
     });
 
     this->input_ = this->window_->data_.input_;
 
-    this->input_->key_down_ = [&] (int key)
+    this->input_->key_down_ = [&] (int key, int mods)
     {
+        UNUSED(mods);
+
         if (static_cast<key_code>(key) == KEY_ESCAPE) {
             auto _win = reinterpret_cast<GLFWwindow *>(this->window_->native_window());
             glfwSetWindowShouldClose(_win, GLFW_TRUE);
@@ -142,17 +145,22 @@ uint32_t canvas_t::height() const
     return this->window_->height();
 }
 
-ref<text_t> canvas_t::draw_text(std::string_view text, const ref<font_t> &font, glm::vec2 pos, float scale)
+ref_t<text_t> canvas_t::draw_ui_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
 {
     return this->overlay_->draw_text(text, font, pos, scale);
 }
 
-void canvas_t::draw_ui_text(const ref<text_t> &text)
+ref_t<text_t> canvas_t::draw_ui_text(std::string_view text, const ref_t<font_t> &font, int16_t alignment, float scale)
+{
+    return this->overlay_->draw_text(text, font, alignment, scale);
+}
+
+void canvas_t::draw_ui_text(const ref_t<text_t> &text)
 {
     this->overlay_->draw_text(text);
 }
 
-void canvas_t::draw_ui_element(const ref<ui_element_t> &element)
+void canvas_t::draw_ui_element(const ref_t<ui_element_t> &element)
 {
     this->overlay_->draw_element(element);
 }
@@ -162,7 +170,7 @@ void canvas_t::erase_ui_element(ui_element_t *element)
     this->overlay_->erase(element);
 }
 
-void canvas_t::erase_ui_element(const ref<ui_element_t> &element)
+void canvas_t::erase_ui_element(const ref_t<ui_element_t> &element)
 {
     this->overlay_->erase(element);
 }
@@ -258,12 +266,12 @@ void canvas_t::resizable()
     this->window_->set_resizable(true);
 }
 
-void canvas_t::draw_shape(const ref<drawable_t>& shape)
+void canvas_t::draw_shape(const ref_t<drawable_t>& shape)
 {
     this->queue_.enqueue(shape.get());
 }
 
-void canvas_t::draw_shape_at(const ref<drawable_t>& shape, int x, int y)
+void canvas_t::draw_shape_at(const ref_t<drawable_t>& shape, int x, int y)
 {
     shape->translate({x, y});
     this->queue_.enqueue(shape.get());

@@ -162,6 +162,15 @@ uint8_t drawable_t::find_next_slot()
     return -1;
 }
 
+void drawable_t::set_state(uint16_t state, bool clear_previous)
+{
+    if (clear_previous) {
+        this->state_ = 0;
+    }
+
+    this->state_ |= state;
+}
+
 void drawable_t::make_model_mat()
 {
     const float cos_rot = glm::cos(this->rotation_);

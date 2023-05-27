@@ -33,7 +33,7 @@ public:
     static void blend(bool enable);
 
 private:
-    ref<::GLFWwindow *> native_window_;
+    ref_t<::GLFWwindow *> native_window_;
 };
 
 }

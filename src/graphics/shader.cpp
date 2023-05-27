@@ -21,9 +21,9 @@ const std::string gl_shader_t::defaults[] = {
     DEFAULT_FRAG_PATH
 };
 
-ref<gl_shader_t> gl_shader_t::default_instance_ = nullptr;
+ref_t<gl_shader_t> gl_shader_t::default_instance_ = nullptr;
 
-ref<gl_shader_t> gl_shader_t::get_default()
+ref_t<gl_shader_t> gl_shader_t::get_default()
 {
     if (!default_instance_) {
         default_instance_ = new_ref<gl_shader_t>(defaults[0], defaults[1], defaults[2]);
@@ -107,7 +107,7 @@ void gl_shader_t::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
     glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void gl_shader_t::enable_texture(const std::string &name, const ref<gl_texture_t>& texture)
+void gl_shader_t::enable_texture(const std::string &name, const ref_t<gl_texture_t>& texture)
 {
     if (!texture.get()) {
         return;

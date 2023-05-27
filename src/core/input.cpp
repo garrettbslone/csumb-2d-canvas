@@ -7,7 +7,7 @@
 
 namespace mb2dc {
 
-ref<input_t> input_t::instance_ = nullptr;
+ref_t<input_t> input_t::instance_ = nullptr;
 
 static GLFWwindow *g_native_win;
 
@@ -94,7 +94,7 @@ double input_t::get_mouse_y_rel(uint32_t width, uint32_t height)
 
 bool input_t::get_key(const key_code &k)
 {
-    return glfwGetKey(g_native_win, static_cast<int>(k)) == GLFW_REPEAT;
+    return glfwGetKey(g_native_win, static_cast<int>(k)) == GLFW_PRESS;
 }
 
 bool input_t::get_key_down(const key_code &k)
@@ -127,7 +127,7 @@ bool input_t::caps_locked()
     return get_key(KEY_CAPS_LOCK);
 }
 
-ref<input_t> input_t::get(void *w)
+ref_t<input_t> input_t::get(void *w)
 {
     if (w) {
         input_t i(w);

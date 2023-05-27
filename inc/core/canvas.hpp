@@ -57,14 +57,18 @@ public:
      * draw queue of ui_element_t elements.
      */
     void on_ui_update(ui_update_fn cb);
-    ref<text_t> draw_text(std::string_view text,
-                          const ref<font_t> &font = nullptr,
-                          glm::vec2 pos = {0.f, 0.f},
-                          float scale = 1.f);
-    void draw_ui_text(const ref<text_t> &text);
-    void draw_ui_element(const ref<ui_element_t> &element);
+    ref_t<text_t> draw_ui_text(std::string_view text,
+                               const ref_t<font_t> &font = nullptr,
+                               glm::vec2 pos = {0.f, 0.f},
+                               float scale = 1.f);
+    ref_t<text_t> draw_ui_text(std::string_view text,
+                               const ref_t<font_t> &font = nullptr,
+                               int16_t alignment = align::HZ_LEFT | align::VT_TOP,
+                               float scale = 1.f);
+    void draw_ui_text(const ref_t<text_t> &text);
+    void draw_ui_element(const ref_t<ui_element_t> &element);
     void erase_ui_element(ui_element_t *element);
-    void erase_ui_element(const ref<ui_element_t> &element);
+    void erase_ui_element(const ref_t<ui_element_t> &element);
 
     /*
      * input wrappers
@@ -87,20 +91,20 @@ public:
     void fixed_size();
     void resizable();
 
-    void draw_shape(const ref<drawable_t>& shape);
-    void draw_shape_at(const ref<drawable_t>& shape, int x, int y);
+    void draw_shape(const ref_t<drawable_t>& shape);
+    void draw_shape_at(const ref_t<drawable_t>& shape, int x, int y);
 
     inline static const canvas_t *get() { return canvas_t::instance_; }
 
-    ref<window_t> window_;
-    ref<ui_overlay_t> overlay_;
+    ref_t<window_t> window_;
+    ref_t<ui_overlay_t> overlay_;
     glm::mat4 proj_, view_;
 
 private:
     resize_fn resize_;
     update_fn update_;
-    ref<input_t> input_;
-    ref<gl_context_t> gl_ctx_;
+    ref_t<input_t> input_;
+    ref_t<gl_context_t> gl_ctx_;
     bool running_, minimized_;
     draw_queue_t<drawable_t> queue_{};
 

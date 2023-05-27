@@ -6,6 +6,7 @@
 #define MB2DC_UTIL_HPP
 
 #include "exception.hpp"
+#include "key_codes.hpp"
 
 #include <glm/ext/scalar_constants.hpp>
 
@@ -18,18 +19,20 @@ const std::string res_path(RES_PATH);
 std::string get_res(const std::string &res);
 
 template<typename T>
-using ref = std::shared_ptr<T>;
+using ref_t = std::shared_ptr<T>;
 
 template<class T, class ...Args>
-ref<T> new_ref(Args &&... args)
+ref_t<T> new_ref(Args &&... args)
 {
     return std::make_shared<T>(args ...);
 }
 
 /*
- * Cast a char to its int valuu.
+ * Cast a char to its int value.
  */
 int ascii_cast(char c);
+
+[[nodiscard]] char key_code_to_ascii(key_code key, bool is_shift, bool is_caps);
 
 long long pow_2_greater(int n);
 

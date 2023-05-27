@@ -11,5 +11,5 @@ uniform float uRate;
 
 void main() {
         FragColor = vColor;
-        FragColor.a *= cos(uTime * uRate);
+        FragColor.a *= (cos(uTime * uRate) + 1.f) / 2.f;
 }

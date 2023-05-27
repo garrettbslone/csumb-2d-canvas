@@ -14,11 +14,19 @@
 
 namespace mb2dc {
 
-using key_down_fn = std::function<void(int)>;
+using key_down_fn = std::function<void(int, int)>;
 using key_up_fn = std::function<void(int)>;
 using mouse_button_down_fn = std::function<void(int)>;
 using mouse_button_up_fn = std::function<void(int)>;
 using mouse_move_fn = std::function<void(double, double)>;
+
+// from glfw3.h
+constexpr int KEY_MOD_SHIFT = 1 << 0;
+constexpr int KEY_MOD_CTRL = 1 << 1;
+constexpr int KEY_MOD_ALT = 1 << 2;
+constexpr int KEY_MOD_SUPER = 1 << 3;
+constexpr int KEY_MOD_CAPS = 1 << 4;
+constexpr int KEY_MOD_NUM_LK = 1 << 5;
 
 /*
  * A class that handles mouse & keyboard io.
@@ -76,12 +84,12 @@ public:
     static bool alt();
     static bool caps_locked();
 
-    static ref<input_t> get(void *w);
+    static ref_t<input_t> get(void *w);
 
 protected:
     explicit input_t(void *w);
 
-    static ref<input_t> instance_;
+    static ref_t<input_t> instance_;
 };
 
 }

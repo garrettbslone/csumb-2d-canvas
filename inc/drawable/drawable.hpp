@@ -48,13 +48,21 @@ public:
     uint8_t find_next_slot();
     inline uint64_t get_active_slots() const { return this->active_slots_; }
 
+    void set_state(uint16_t state, bool clear_previous = false);
+    inline uint16_t state() const { return this->state_; }
+
     topology topo_;
-    ref<gl_shader_t> shader_;
-    std::unordered_map<std::string, ref<gl_texture_t>> textures_;
-    ref<gl_index_buffer_t> ib_;
-    ref<gl_vertex_buffer_t> vb_;
-    ref<gl_vertex_array_t> va_;
+    ref_t<gl_shader_t> shader_;
+    std::unordered_map<std::string, ref_t<gl_texture_t>> textures_;
+    ref_t<gl_index_buffer_t> ib_;
+    ref_t<gl_vertex_buffer_t> vb_;
+    ref_t<gl_vertex_array_t> va_;
     std::string name_;
+
+    static constexpr uint16_t STATE_ACTIVE = 1 << 0;
+    static constexpr uint16_t STATE_INACTIVE = 1 << 2;
+    static constexpr uint16_t STATE_VISIBLE = 1 << 3;
+    static constexpr uint16_t STATE_INVISIBLE = 1 << 4;
 
 protected:
     void make_model_mat();
@@ -68,6 +76,8 @@ protected:
 
     bool frozen_{false};
 
+    uint16_t state_;
+
     /*
      * There are at least 48 texture slots in OpenGL, so we can keep track of the active ones
      * per drawable. Each drawable will have its own render call and slots can be shared between
@@ -75,10 +85,12 @@ protected:
      */
     uint64_t active_slots_{0x00000000};
 
-    // forward declare the canvas_t here so that the draw_queue_t can be reordered
+    // forward declare the draw_queue_t here so that it can be reordered
     // when a drawable changes its z_index_ (if needed)
     template<class>
     friend class draw_queue_t;
+
+
 };
 
 }

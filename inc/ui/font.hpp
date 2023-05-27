@@ -7,11 +7,13 @@
 
 #include "font_manager.hpp"
 
+#include <array>
+
 namespace mb2dc {
 
 class glyph_t;
 
-constexpr uint8_t NUM_PRINTABLE_ASCII_CHARS = '~' - ' ';
+constexpr uint8_t NUM_PRINTABLE_ASCII_CHARS = '~' - ' ' + 1;
 
 class font_t {
 public:
@@ -32,8 +34,8 @@ public:
 
     static void load_defaults();
 
-    static const ref<font_t> &arial() { return arial_; }
-    static const ref<font_t> &inkfree() { return inkfree_; }
+    static const ref_t<font_t> &arial() { return arial_; }
+    static const ref_t<font_t> &inkfree() { return inkfree_; }
 
 private:
     void preload_printable_ascii();
@@ -43,7 +45,7 @@ private:
     FT_Face face_;
     std::string name_;
 
-    static ref<font_t> arial_, inkfree_;
+    static ref_t<font_t> arial_, inkfree_;
 
     static constexpr char CHAR_OFFSET = ' ';
 };
