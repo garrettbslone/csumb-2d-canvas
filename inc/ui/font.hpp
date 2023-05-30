@@ -23,12 +23,12 @@ public:
     FT_Face face() const { return this->face_; }
     const std::string &name() const { return this->name_; }
 
-    glyph_t load(char c, glm::vec2 pos, float scale);
-    void load(glyph_t *glyph);
+    ref_t<glyph_t> load(char c, glm::vec2 pos, float scale);
+    void load(const ref_t<glyph_t> &glyph);
 
     void unload(char c);
 
-    std::array<glyph_t *, NUM_PRINTABLE_ASCII_CHARS> loaded() const { return this->glyph_cache_; }
+    std::array<ref_t<glyph_t>, NUM_PRINTABLE_ASCII_CHARS> loaded() const { return this->glyph_cache_; }
 
     static std::string name_from_path(std::string_view path);
 
@@ -40,7 +40,7 @@ public:
 private:
     void preload_printable_ascii();
 
-    std::array<glyph_t *, NUM_PRINTABLE_ASCII_CHARS> glyph_cache_;
+    std::array<ref_t<glyph_t>, NUM_PRINTABLE_ASCII_CHARS> glyph_cache_;
 
     FT_Face face_;
     std::string name_;

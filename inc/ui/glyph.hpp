@@ -18,7 +18,6 @@ class glyph_t : public ui_element_t {
 public:
     glyph_t(char c, font_t *font, glm::vec2 pos = {0.f, 0.f}, float scale = 1.f);
 
-
     inline float width() const override { return 0.f; }
     inline float height() const override { return 0.f; }
 

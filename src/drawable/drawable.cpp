@@ -9,15 +9,6 @@
 
 namespace mb2dc {
 
-drawable_t::~drawable_t()
-{
-    auto _canvas = canvas_t::get();
-
-    if (_canvas) {
-        _canvas->queue_.dequeue(this);
-    }
-}
-
 void drawable_t::draw() const
 {
     this->draw(glm::mat4(1.f));
@@ -125,7 +116,7 @@ void drawable_t::set_z_index(float z)
     auto _canvas = canvas_t::get();
 
     if (_canvas) {
-        _canvas->queue_.adjust(this, z);
+        _canvas->queue_.adjust(shared_from_this(), z);
     }
 }
 

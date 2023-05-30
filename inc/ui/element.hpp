@@ -33,8 +33,6 @@ namespace align {
 
 class ui_element_t : public drawable_t {
 public:
-    ~ui_element_t() override;
-
     inline glm::vec2 end() const { return {this->width(), this->height()}; }
     virtual float width() const = 0;
     virtual float height() const = 0;
@@ -48,7 +46,7 @@ public:
         if constexpr (!std::is_base_of<ui_element_t, T>()) return nullptr;
 
         auto child = new_ref<T>(args ...);
-        child->parent_ = static_cast<const std::shared_ptr<ui_element_t>>(this);
+        child->parent_ = std::dynamic_pointer_cast<ui_element_t>(shared_from_this());
 
         return child;
     }
@@ -60,7 +58,7 @@ public:
 
 class clickable_t;
 
-using ui_click_fn = std::function<void(int btn, clickable_t *thiz)>;
+using ui_click_fn = std::function<void(int btn, const ref_t<clickable_t> &thiz)>;
 
 class clickable_t {
 public:

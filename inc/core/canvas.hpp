@@ -12,7 +12,9 @@
 
 namespace mb2dc {
 
-using update_fn = std::function<void(const std::vector<drawable_t *> &shapes, const glm::mat4 &view_proj)>;
+using update_fn = std::function<void(
+    const std::vector<ref_t<drawable_t>> &shapes,
+    const glm::mat4 &view_proj)>;
 
 class canvas_t {
 public:
@@ -67,7 +69,6 @@ public:
                                float scale = 1.f);
     void draw_ui_text(const ref_t<text_t> &text);
     void draw_ui_element(const ref_t<ui_element_t> &element);
-    void erase_ui_element(ui_element_t *element);
     void erase_ui_element(const ref_t<ui_element_t> &element);
 
     /*
