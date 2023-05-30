@@ -60,11 +60,11 @@ int main()
             )
         );
         btn->set_z_index(-1.f);
-        btn->on_click([&] (int btn, clickable_t *thiz)
+        btn->on_click([&] (int btn, const ref_t<clickable_t> &thiz)
         {
             auto _p = canvas.get_mouse_pos_rel();
             cout << "btn clicked: " << btn << " id: " << thiz->id() << " - ";
-            cout << dynamic_cast<button_t *>(thiz)->name_ << " @ [" << _p.x << ", " << _p.y << "]\n";
+            cout << dynamic_pointer_cast<button_t>(thiz)->name_ << " @ [" << _p.x << ", " << _p.y << "]\n";
             changing->clear();
             cursor->translate(CURSOR_TRACKING_POS);
         });
@@ -109,7 +109,7 @@ int main()
             }
         });
 
-        canvas.on_ui_update([&] (const vector<ui_element_t *> &elements, const mat4 &view_proj)
+        canvas.on_ui_update([&] (const vector<ref_t<ui_element_t>> &elements, const mat4 &view_proj)
         {
             if (floor(glfwGetTime()) >= secs) {
                 secs++;
@@ -125,7 +125,7 @@ int main()
             fc++;
         });
 
-        canvas.on_update([&] (const vector<drawable_t *> &elements, const mat4 &view_proj)
+        canvas.on_update([&] (const vector<ref_t<drawable_t>> &elements, const mat4 &view_proj)
         {
             for (auto &e: elements) {
                 e->shader_->bind();
@@ -138,6 +138,8 @@ int main()
         canvas.run();
     } catch (mb2dc_runtime_ex &ex) {
         cout << ex.msg_ << endl;
+    } catch (bad_weak_ptr &e) {
+        cout << e.what();
     }
 
     return 0;

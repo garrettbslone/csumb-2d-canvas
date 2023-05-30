@@ -144,7 +144,7 @@ public:
      * board using a single drawable by changing the color and position for each piece
      * in the board.
      */
-    static void draw_all(checker_piece_t *checker,
+    static void draw_all(const ref_t<checker_piece_t> &checker,
                          const mat4 &view_proj,
                          const float checker_scale)
     {
@@ -513,7 +513,7 @@ static bool to_king(int r, char piece)
  *  1) Show all possible moves that p can make by highlighting them blue
  *  2) Check if the move is valid and remove jumped pieces if any
  */
-static void show_possible_moves(rect_t *move_rect,
+static void show_possible_moves(const ref_t<rect_t> &move_rect,
                                 const mat4 &view_proj,
                                 float scale,
                                 selection_t &selection,
@@ -645,7 +645,7 @@ int main()
         });
 
         canvas->on_update([&checker_scale, &selected, &window_dim, &canvas]
-            (const vector<drawable_t *> &nodes, const mat4 &view_proj)
+            (const vector<ref_t<drawable_t>> &nodes, const mat4 &view_proj)
         {
             if (game_state::over()) {
                 return;
@@ -654,11 +654,11 @@ int main()
             canvas->set_title(game_state::title());
 
             for (auto &n: nodes) {
-                if (dynamic_cast<checker_piece_t *>(n)) {
-                    checker_piece_t::draw_all(dynamic_cast<checker_piece_t *>(n), view_proj, checker_scale);
+                if (auto cp = dynamic_pointer_cast<checker_piece_t>(n)) {
+                    checker_piece_t::draw_all(cp, view_proj, checker_scale);
                 } else if (n->name_ == "move rect") {
                     show_possible_moves(
-                            dynamic_cast<rect_t *>(n),
+                            dynamic_pointer_cast<rect_t>(n),
                             view_proj,
                             (window_dim / BOARD_DIM) * BACKGROUND_SCALE,
                             selected,

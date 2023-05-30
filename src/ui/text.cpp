@@ -14,7 +14,7 @@ text_t::text_t(std::string_view text, const ref_t<font_t>& font, glm::vec2 pos, 
     this->shader_ = font_manager_t::text_shader_;
     this->va_ = new_ref<gl_vertex_array_t>();
     this->generate(text, font.get(), pos, scale);
-    this->set_z_index(100);
+    this->z_index_ = 100.f;
     this->name_ = text;
     this->height_ = 72 * scale;
 }
@@ -125,15 +125,15 @@ void text_t::generate(std::string_view text, font_t *font, glm::vec2 pos, float 
 
     if (this->glyphs_.size() < i + text.size()) {
         auto _g = font->load('?', pos, scale);
-        _g.shader_ = this->shader_;
+        _g->shader_ = this->shader_;
 
-        this->glyphs_.resize(pow_2_greater(i + text.size()), _g);
+        this->glyphs_.resize(pow_2_greater(i + text.size()), *_g);
     }
 
     this->end_ = i + text.size();
 
     for (char c: text) {
-        this->glyphs_[i] = font->load(c, pos, scale);
+        this->glyphs_[i] = *font->load(c, pos, scale);
         this->glyphs_[i].modify(pos, scale);
         this->glyphs_[i].shader_ = this->shader_;
 

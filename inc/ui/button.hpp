@@ -13,8 +13,6 @@ class button_t : public ui_element_t, public clickable_t {
 public:
     explicit button_t(glm::vec4 border_color = {0.2f, 0.2f, 0.2f, 1.f}, float border_radius = 1.f);
 
-    ~button_t() override;
-
     void draw(const glm::mat4 &view_proj) const override;
 
     glm::vec2 convert_to_spos(const glm::vec2 &v);

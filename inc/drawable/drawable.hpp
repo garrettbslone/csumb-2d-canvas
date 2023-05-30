@@ -10,13 +10,14 @@
 #include "graphics/texture.hpp"
 #include "graphics/vertex_array.hpp"
 
+#include <memory>
 #include <unordered_map>
 
 namespace mb2dc {
 
-class drawable_t {
+class drawable_t : public std::enable_shared_from_this<drawable_t> {
 public:
-    virtual ~drawable_t();
+    virtual ~drawable_t() = default;
 
     void draw() const;
 
@@ -89,8 +90,6 @@ protected:
     // when a drawable changes its z_index_ (if needed)
     template<class>
     friend class draw_queue_t;
-
-
 };
 
 }

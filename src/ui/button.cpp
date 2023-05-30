@@ -58,15 +58,6 @@ button_t::button_t(glm::vec4 border_color, float border_radius)
     this->name_ = "button-" + std::to_string(this->id_);
 }
 
-button_t::~button_t()
-{
-    auto overlay = ui_overlay_t::get();
-
-    if (overlay) {
-        overlay->erase(this);
-    }
-}
-
 void button_t::draw(const glm::mat4 &view_proj) const
 {
     static constexpr glm::vec2 BORDER_RADIUS_SCALE_FACTOR = {13.5f, 50.f};

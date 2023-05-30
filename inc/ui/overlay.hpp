@@ -14,7 +14,9 @@
 
 namespace mb2dc {
 
-using ui_update_fn = std::function<void(const std::vector<ui_element_t *> &elements, const glm::mat4 &view_proj)>;
+using ui_update_fn = std::function<void(
+    const std::vector<ref_t<ui_element_t>> &elements,
+    const glm::mat4 &view_proj)>;
 
 class ui_overlay_t {
 public:
@@ -35,7 +37,6 @@ public:
     void draw_text(const ref_t<text_t> &text);
     void draw_element(const ref_t<ui_element_t> &element);
 
-    void erase(ui_element_t *element);
     void erase(const ref_t<ui_element_t> &element);
 
     [[nodiscard]] static glm::vec2 calculate_alignment(uint16_t alignment,
@@ -74,7 +75,7 @@ private:
 
     font_manager_t *font_manager_;
     draw_queue_t<ui_element_t> queue_{};
-    std::unordered_set<clickable_t *> clickables_{};
+    std::unordered_set<ref_t<clickable_t>> clickables_{};
     ui_update_fn update_;
 
     mouse_button_down_fn click_thru_;

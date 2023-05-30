@@ -17,21 +17,21 @@ public:
     draw_queue_t();
     draw_queue_t(float front, float back);
 
-    void enqueue(T *shape) const;
-    void dequeue(const T *shape) const;
+    void enqueue(const ref_t<T> &shape) const;
+    void dequeue(const ref_t<T> &shape) const;
 
-    void adjust(T *shape, float z_index) const;
+    void adjust(const ref_t<T> &shape, float z_index) const;
 
-    void bring_to_front(const T *shape);
-    void bring_to_back(const T *shape);
+    void bring_to_front(const ref_t<T> &shape);
+    void bring_to_back(const ref_t<T> &shape);
 
     void clear();
-    const std::vector<T *> &get();
+    const std::vector<ref_t<T>> &get();
 
 private:
     mutable float front_, back_;
 
-    mutable std::vector<T *> shapes_;
+    mutable std::vector<ref_t<T>> shapes_;
 };
 
 template<class T>
@@ -49,11 +49,11 @@ draw_queue_t<T>::draw_queue_t(float front, float back)
 }
 
 template<class T>
-void draw_queue_t<T>::enqueue(T *shape) const
+void draw_queue_t<T>::enqueue(const ref_t<T> &shape) const
 {
     auto it = std::find_if(this->shapes_.begin(),
                            this->shapes_.end(),
-                           [shape](T *curr)
+                           [shape](const ref_t<T> &curr)
                            {
                                return curr->z_index_ >= shape->z_index_;
                            });
@@ -62,7 +62,7 @@ void draw_queue_t<T>::enqueue(T *shape) const
 }
 
 template<class T>
-void draw_queue_t<T>::dequeue(const T *shape) const
+void draw_queue_t<T>::dequeue(const ref_t<T> &shape) const
 {
     auto it = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
 
@@ -72,7 +72,7 @@ void draw_queue_t<T>::dequeue(const T *shape) const
 }
 
 template<class T>
-void draw_queue_t<T>::adjust(T *shape, float z_index) const
+void draw_queue_t<T>::adjust(const ref_t<T> &shape, float z_index) const
 {
     if (shape->z_index_ == z_index) {
         return;
@@ -85,7 +85,7 @@ void draw_queue_t<T>::adjust(T *shape, float z_index) const
     if (it != this->shapes_.end()) {
         auto end = std::find_if(this->shapes_.begin(),
                                 this->shapes_.end(),
-                                [&shape](T *curr)
+                                [&shape](const ref_t<T> &curr)
                                 {
                                     return curr->z_index_ <= shape->z_index_ && curr != shape;
                                 });
@@ -97,7 +97,7 @@ void draw_queue_t<T>::adjust(T *shape, float z_index) const
 }
 
 template<class T>
-void draw_queue_t<T>::bring_to_front(const T *shape)
+void draw_queue_t<T>::bring_to_front(const ref_t<T> &shape)
 {
     auto it = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
 
@@ -109,7 +109,7 @@ void draw_queue_t<T>::bring_to_front(const T *shape)
 }
 
 template<class T>
-void draw_queue_t<T>::bring_to_back(const T *shape)
+void draw_queue_t<T>::bring_to_back(const ref_t<T> &shape)
 {
     auto pivot = std::find(this->shapes_.begin(), this->shapes_.end(), shape);
 
@@ -127,7 +127,7 @@ void draw_queue_t<T>::clear()
 }
 
 template<class T>
-const std::vector<T *> &draw_queue_t<T>::get()
+const std::vector<ref_t<T>> &draw_queue_t<T>::get()
 {
     return this->shapes_;
 }

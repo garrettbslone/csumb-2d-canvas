@@ -61,7 +61,7 @@ canvas_t::canvas_t(const window_spec &spec)
         }
     };
 
-    this->update_ = [&] (const std::vector<drawable_t *> &nodes, const glm::mat4 &view_proj)
+    this->update_ = [&] (const std::vector<ref_t<drawable_t>> &nodes, const glm::mat4 &view_proj)
     {
         for (const auto& n: nodes) {
             n->draw(view_proj);
@@ -165,11 +165,6 @@ void canvas_t::draw_ui_element(const ref_t<ui_element_t> &element)
     this->overlay_->draw_element(element);
 }
 
-void canvas_t::erase_ui_element(ui_element_t *element)
-{
-    this->overlay_->erase(element);
-}
-
 void canvas_t::erase_ui_element(const ref_t<ui_element_t> &element)
 {
     this->overlay_->erase(element);
@@ -268,13 +263,13 @@ void canvas_t::resizable()
 
 void canvas_t::draw_shape(const ref_t<drawable_t>& shape)
 {
-    this->queue_.enqueue(shape.get());
+    this->queue_.enqueue(shape);
 }
 
 void canvas_t::draw_shape_at(const ref_t<drawable_t>& shape, int x, int y)
 {
     shape->translate({x, y});
-    this->queue_.enqueue(shape.get());
+    this->queue_.enqueue(shape);
 }
 
 }

@@ -35,36 +35,29 @@ font_t::font_t(const std::string &font_path, uint32_t width, uint32_t height)
 
 font_t::~font_t()
 {
-    for (auto &c: this->glyph_cache_) {
-        delete c;
-    }
-
+    this->glyph_cache_.fill(nullptr);
     FT_Done_Face(this->face_);
 }
 
-glyph_t font_t::load(char c, glm::vec2 pos, float scale)
+ref_t<glyph_t> font_t::load(char c, glm::vec2 pos, float scale)
 {
-    if (!std::isprint(c)) {
-
-    }
-
     auto i = ascii_cast(c - CHAR_OFFSET);
     auto g = this->glyph_cache_[i];
     if (g != nullptr) {
-        return *g;
+        return g;
     }
 
-    auto glyph = new glyph_t(c, this, pos, scale);
+    auto glyph = new_ref<glyph_t>(c, this, pos, scale);
 
     if (!glyph) {
         throw font_load_ex("failed to load glyph " + std::string(&c) + " from font " + this->name_);
     }
 
     this->glyph_cache_[i] = glyph;
-    return *glyph;
+    return glyph;
 }
 
-void font_t::load(glyph_t *glyph)
+void font_t::load(const ref_t<glyph_t> &glyph)
 {
     if (!glyph) {
         return;
@@ -82,7 +75,6 @@ void font_t::unload(char c)
     auto glyph = this->glyph_cache_[i];
 
     if (glyph != nullptr) {
-        delete glyph;
         this->glyph_cache_[i] = nullptr;
     }
 }

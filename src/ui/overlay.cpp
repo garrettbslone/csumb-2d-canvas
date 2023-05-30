@@ -13,7 +13,7 @@ bool ui_overlay_t::init_ = false;
 void ui_overlay_t::update(const glm::mat4 &view_proj)
 {
     if (this->update_) {
-        this->update_(this->queue_.get(), view_proj);
+        this->update_(instance_->queue_.get(), view_proj);
     }
 }
 
@@ -39,7 +39,7 @@ void ui_overlay_t::click_thru(mouse_button_down_fn cb)
 ref_t<text_t> ui_overlay_t::draw_text(std::string_view text, const ref_t<font_t> &font, glm::vec2 pos, float scale)
 {
     auto t = new_ref<text_t>(text, font.get() ? font : font_t::inkfree(), pos, scale);
-    this->queue_.enqueue(t.get());
+    this->queue_.enqueue(t);
     return t;
 }
 
@@ -49,42 +49,36 @@ ref_t<text_t> ui_overlay_t::draw_text(std::string_view text, const ref_t<font_t>
     t->alignment_ = alignment | align::ANCHOR_EDGE;
     t->reposition(calculate_alignment(t->alignment_, t->end().x, t->end().y));
 
-    this->queue_.enqueue(t.get());
+    this->queue_.enqueue(t);
     return t;
 }
 
 void ui_overlay_t::draw_text(const ref_t<text_t> &text)
 {
-    this->queue_.enqueue(text.get());
+    this->queue_.enqueue(text);
 }
 
 void ui_overlay_t::draw_element(const ref_t<ui_element_t> &element)
 {
-    this->queue_.enqueue(element.get());
+    this->queue_.enqueue(element);
 
-    clickable_t *c = nullptr;
-    if ((c = dynamic_cast<clickable_t *>(element.get())) && this->clickables_.count(c) == 0) {
+    ref_t<clickable_t> c = nullptr;
+    if ((c = std::dynamic_pointer_cast<clickable_t>(element)) && this->clickables_.count(c) == 0) {
         this->clickables_.insert(c);
     }
 }
 
-void ui_overlay_t::erase(ui_element_t *element)
+void ui_overlay_t::erase(const ref_t<ui_element_t> &element)
 {
-    this->queue_.dequeue(element);
-
-    auto *c = dynamic_cast<clickable_t *>(element);
-    if (c) {
+    if (auto c = std::dynamic_pointer_cast<clickable_t>(element)) {
         auto it = this->clickables_.find(c);
 
         if (it != this->clickables_.end()) {
             this->clickables_.erase(it);
         }
     }
-}
 
-void ui_overlay_t::erase(const ref_t<ui_element_t> &element)
-{
-    this->erase(element.get());
+    this->queue_.dequeue(element);
 }
 
 /*
@@ -307,7 +301,7 @@ ref_t<ui_overlay_t> ui_overlay_t::get()
 ui_overlay_t::ui_overlay_t()
 {
     this->font_manager_ = font_manager_t::get();
-    this->update_ = [&] (const std::vector<ui_element_t *> &elements, const glm::mat4 &view_proj)
+    this->update_ = [&] (const std::vector<ref_t<ui_element_t>> &elements, const glm::mat4 &view_proj)
     {
         for (auto &e: elements) {
             e->draw(view_proj);
